@@ -9,7 +9,7 @@
   <body>
   <div class="content">
     <header>
-    <div class="left-section">
+    <div class="left-section"> 
     <a href="index.php">
     <img src="img/logo.png" alt="Logo" class="logo"></a> 
     <nav>

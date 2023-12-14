@@ -28,7 +28,10 @@ function openSocketConnection() {
   endTurnButton = document.getElementById('end-turn');
   endTurnButton.style.display = 'none';
  
-  socket = new WebSocket('ws://localhost:8080/websocket');
+  socket = new WebSocket('ws://192.168.1.101:8080/websocket');
+ // socket = new WebSocket('ws://localhost:8080/websocket');
+
+  
 
   socket.onopen = function (event) {
     if (localStorage.getItem('gameStarted') === 'true') {

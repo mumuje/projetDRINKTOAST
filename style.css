@@ -422,8 +422,17 @@ li a:hover {
   header .left-section, header .center-section, header .right-section {
     width: 100%; /* Chaque section remplit 100% de l'en-tête */
   }
+  header {
+    display: flex;
+    align-items: center;
+    background-color: #2f3640;
+    color: #fff;
+    padding: 18px;
+  }
   header h1 {
     font-size: 25px; /* Ajustez la taille comme vous le souhaitez */
+    margin: 0;
+    white-space: nowrap; /* Ajoutez cette ligne */
   }
   .logo {
     height: 100px; /* Réduit la taille du logo */
