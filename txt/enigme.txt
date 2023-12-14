@@ -1,0 +1,43 @@
+Rapide comme l'éclair, je traverse le ciel sans laisser de trace. On ne peut me saisir, mais ma présence est inoubliable. Que suis-je ? ; Un éclair
+Silencieux dans l'obscurité, je brille de mille feux. On ne peut me toucher, mais je guide les voyageurs. Que suis-je ? ; Une étoile
+Je suis le gardien du temps, toujours en mouvement. On ne peut me rattraper, mais je laisse des souvenirs derrière moi. Que suis-je ? ; Le temps
+Je suis présent dans le silence de la nuit, je disparais avec les premières lueurs du jour. On ne peut me conserver, mais je reviens chaque soir. Que suis-je ? ; L'ombre
+Je suis le messager des saisons, changeant mon apparence avec le temps. On ne peut me contrôler, mais je marque le rythme de la nature. Que suis-je ? ; Le vent
+Je suis toujours devant vous, mais jamais derrière. On ne peut me voir, mais sans moi, tout s'éteint. Que suis-je ? ; L'avenir
+Je suis un pont entre les rivières, une connexion entre les gens. On peut me créer, mais aussi me briser. Que suis-je ? ; Le lien
+Je suis noir et blanc, mais je roule dans les couleurs. On me lit, mais je ne parle pas. Que suis-je ? ; Un journal
+Je suis léger comme une plume, mais même le plus fort ne peut me tenir longtemps. Que suis-je ? ; Le souffle
+Je suis un chemin de papier, avec des histoires à raconter. On me tourne, mais je ne parle pas. Que suis-je ? ; Un livre
+Je suis une barrière qui peut être percée, mais jamais vue. On peut me tenir, mais pas me toucher. Que suis-je ? ; Un secret
+Je suis un lieu où l'on peut pleurer, rire, manger et dormir. On peut me partager, mais jamais me posséder. Que suis-je ? ; Une maison
+Je suis dans l'eau, mais je ne suis pas une goutte. On peut me mettre dans une tasse, mais je ne suis pas une boisson. Que suis-je ? ; Le thé
+Je suis une clé sans serrure, une réponse sans question. On me trouve souvent dans une énigme. Que suis-je ? ; Une évidence
+Je suis une bougie qui ne fond jamais. On peut me manger, mais je ne suis pas de la nourriture. Que suis-je ? ; Une bougie d'anniversaire
+Lors d'une course de vélo, un cycliste double le deuxième ? Il devient... ; deuxieme
+Je commence la nuit et je termine le matin. Qui suis-je ? ; La nuit
+Lors d'un apéro, 28 "Tchin" se font entendre. Combien y a-t-il de personnes présentes ?; 8
+Quel chiffre obtient-on en multipliant tous les chiffres d'un clavier ?; 0
+Quand je suis frais, je suis chaud. Qui suis-je ?; Le pain
+Je transforme une plante en une planète. Qui suis-je ? ; la lettre è
+En avril 1931, une annonce dans le journal indique "Major Smith, héros de la Première Guerre Mondiale" est décédé dans un accident de la route. Où est la faute ? ; En 1931, on ne savait pas qu’il y allait y avoir une Seconde Guerre Mondiale.
+J'ai 192 poule. Poule ne prend pas de "s", pourquoi ? ; Car j’ai 1 – 9 – 2 poule (un œuf de poule).
+Je suis présent quand on se lève, mais je disparais quand on s'assoit. Que suis-je ? ; L'ombre
+Je suis rond comme une pomme, mais personne ne veut de moi. Que suis-je ? ; Un noyau
+On me partage souvent, mais je reste entier. Qui suis-je ? ; Un secret
+Je suis toujours devant vous, mais vous ne pouvez jamais me rattraper. Que suis-je ? ; Le temps
+Je suis plus fort que Dieu, plus malin que le diable, les riches en ont besoin, les pauvres en ont trop. Que suis-je ? ; Rien
+Je suis vivant sans respiration, je peux être froid sans glace. Que suis-je ? ; Le feu
+Je suis dans l'alphabet mais pas dans la parole, je suis dans le dictionnaire mais pas dans l'orthographe. Que suis-je ? ; La lettre "Q"
+Je suis souvent pris à contretemps, mais jamais attrapé. Que suis-je ? ; Un rhume
+Je vole sans ailes, je crie sans bouche. Où que je sois, l'obscurité disparaît. Que suis-je ? ; La lumière
+Je suis blanc quand je suis sale, et noir quand je suis propre. Que suis-je ? ; Un tableau (d'école).
+Je suis tout ce qui reste lorsque tout est parti. Que suis-je ? ; Le silence
+Je suis une boîte qui est souvent ouverte, mais jamais pleine. Que suis-je ? ; Une boîte aux lettres
+Je suis toujours en avance, jamais en retard. Les gens attendent toujours que je passe. Que suis-je ? ; Le futur
+Je suis une chose que tout le monde aime à donner, mais personne n'aime à recevoir. Que suis-je ? ; Un conseil
+Je suis une énigme que tout le monde connaît, mais personne ne résout. Que suis-je ? ; Le temps
+Je suis l'endroit où l'on se rend chaque nuit sans jamais y aller. Que suis-je ? ; Le rêve
+Je suis un mot de cinq lettres, et les gens m'adorent. Enlevez la première lettre, et vous serez aux portes du paradis. Que suis-je ? ; L'amour
+Je suis un instrument de musique qui est également une partie du corps. Que suis-je ? ; La langue
+Je suis un feu qui peut être allumé, mais jamais éteint. Que suis-je ? ; La curiosité
+Je suis une chose que tout le monde aime à dire, mais personne n'aime à écouter. Que suis-je ? ; Un secret 
