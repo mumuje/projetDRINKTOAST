@@ -2817,7 +2817,7 @@ class MyWebSocketServer implements MessageComponentInterface
             ));
         }
     }
-}
+} // boucle fermeture
 
 $server = new \Ratchet\App('localhost', 8080);
 $server->route('/websocket', new MyWebSocketServer);
