@@ -1925,7 +1925,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 $this->pseudos[spl_object_hash($from)] = $pseudo;
                 $this->clients[spl_object_hash($from)] = $from;
                 if (is_array($data) && isset($data['lobbyName']) && isset($data['pseudo'])) {
-                    echo "[" . date('Y-m-d H:i:s') . "]" . "Nouvelle connexion de $pseudo dans le lobby $lobbyName ({$this->resourceIds[spl_object_hash($from)]})\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]" . "\t\tNouvelle connexion de $pseudo dans le lobby $lobbyName ({$this->resourceIds[spl_object_hash($from)]})\n";
                     if (isset($this->lobbies[$lobbyName])) {
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->gameetat = true;
