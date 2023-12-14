@@ -452,7 +452,7 @@ class Game
     }
     public function addPlayer($playerData, $connection)
     {
-        echo "Adding player: " . $playerData['pseudo'] . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Adding player: " . $playerData['pseudo'] . "\n";
         if (!array_key_exists($playerData['pseudo'], $this->clients)) {
             $this->players[] = $playerData;
             $connection->pseudo = $playerData['pseudo'];
@@ -462,7 +462,7 @@ class Game
             }, $this->clients);
             // print_r($simplifiedClients);
         } else {
-            echo "Player " . $playerData['pseudo'] . " is already in the list.\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Player " . $playerData['pseudo'] . " is already in the list.\n";
         }
     }
 
@@ -486,12 +486,12 @@ class Game
         //  $this->discardPile = $gameState['discardPile'];
         $this->gameStarted = $gameState['gameStarted'];
         // $this->lobbyNames = $gameState['lobbyName'];     
-        echo "Players: " . print_r($this->players, true) . "\n";
-        echo "Active Player: " . $this->activePlayer . "\n";
-        // echo "Deck: " . print_r($this->deck, true) . "\n";
-        //echo "Discard Pile: " . print_r($this->discardPile, true) . "\n";
-        echo "Game Started: " . ($this->gameStarted ? "Yes" : "No") . "\n";
-        // echo "Lobby Names: " . print_r($this->lobbyNames, true) . "\n";   
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Players: " . print_r($this->players, true) . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Active Player: " . $this->activePlayer . "\n";
+        // echo "[" . date('Y-m-d H:i:s') . "]"  . "Deck: " . print_r($this->deck, true) . "\n";
+        //echo "[" . date('Y-m-d H:i:s') . "]"  . "Discard Pile: " . print_r($this->discardPile, true) . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Game Started: " . ($this->gameStarted ? "Yes" : "No") . "\n";
+        // echo "[" . date('Y-m-d H:i:s') . "]"  . "Lobby Names: " . print_r($this->lobbyNames, true) . "\n";   
     }
     //public function getPlayers()
     //{
@@ -499,7 +499,7 @@ class Game
     //}
     public function getPlayerConnection($playerPseudo)
     {
-        echo "Getting connection for player: " . $playerPseudo . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Getting connection for player: " . $playerPseudo . "\n";
         foreach ($this->players as $player) {
             if (is_object($player) && property_exists($player, 'pseudo')) {
                 if ($player->pseudo === $playerPseudo) {
@@ -525,14 +525,14 @@ class Game
         $players = $this->distributeCards($players);
         $this->players = $players;
         if (empty($players)) {
-            echo "Erreur : la liste des joueurs est vide\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Erreur : la liste des joueurs est vide\n";
             return;
         }
 
         // Définir le premier joueur actif
         $activePlayerIndex = rand(0, count($players) - 1);
         if (!isset($players[$activePlayerIndex])) {
-            echo "Error: activePlayerIndex does not exist in players array\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: activePlayerIndex does not exist in players array\n";
             return;
         }
         $this->activePlayer = $players[$activePlayerIndex];
@@ -543,16 +543,16 @@ class Game
                 }
             }
         } else {
-            echo "Error: activePlayer is not an object after startParty\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: activePlayer is not an object after startParty\n";
         }
-        echo "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $message = "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
         // $this->saveGameState($players);
         // echo "Instance de jeu dans startParty: " . spl_object_id($this) . "\n";
         return array('players' => $players, 'activePlayerIndex' => $activePlayerIndex);
         if (!is_object($this->activePlayer)) {
-            echo "Error: activePlayer is not an object at the end of startParty\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: activePlayer is not an object at the end of startParty\n";
         }
     }
 
@@ -583,7 +583,7 @@ class Game
 
         // echo "Instance de jeu dans updateActivePlayer: " . spl_object_id($this) . "\n";
         if ($this->activePlayer === null) {
-            echo "Erreur : activePlayer est null\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Erreur : activePlayer est null\n";
             return;
         }
         // Obtenir le hachage d'objet du joueur actif
@@ -612,7 +612,7 @@ class Game
             $this->turnCount++;
             if ($this->turnCount >= 30) {
                 $this->gameStarted = false;
-                echo "La partie est terminée après 30 tours.\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "La partie est terminée après 30 tours.\n";
                 // Here you can add code to end the game
                 usort($this->players, function ($a, $b) {
                     return $b->sipsTaken - $a->sipsTaken;
@@ -644,7 +644,7 @@ class Game
         $this->activePlayer = $this->players[$nextIndex];
 
         // Diffuser le joueur actif mis à jour
-        echo "C'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "C'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
         $message = "C'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
     }
@@ -739,7 +739,7 @@ class Game
             // Vérifier que la carte est dans le deck du joueur
             if ($playerCard['id'] === $cardId) {
                 if ($this->isCardInPlay !== 0 && $this->isCardInPlay2 !== 0 && $this->isCardInPlay3 !== 0 && $this->isCardInPlay4 !== 0) {
-                    echo "Une carte est en jeu, vous ne pouvez pas jouer une autre carte avant la fin de l'action !.";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Une carte est en jeu, vous ne pouvez pas jouer une autre carte avant la fin de l'action !.";
                     return;
                 }
                 // Vérifier si le joueur peut jouer la carte
@@ -764,7 +764,7 @@ class Game
                             $this->playvioletCard($player);
                         }
                     } else {
-                        echo "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues ou une seule carte violette ou multicolore  par tour.";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues ou une seule carte violette ou multicolore  par tour.";
                         return;
                     }
                 } else {
@@ -795,7 +795,7 @@ class Game
                             $this->playvertCard($player);
                         }
                     } else {
-                        echo "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues par tour. ou une seule carte violette ou multicolore  par tour.";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues par tour. ou une seule carte violette ou multicolore  par tour.";
                         return;
                     }
                 }
@@ -837,15 +837,15 @@ class Game
     public function GETBLUESTATE()
     {
         if ($this->isCardInPlay == 1) {
-            echo ("CAS 1 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 1 ");
             $this->playBleuCard($this->blueCardPlayer);
         } else if ($this->isCardInPlay == 2) {
-            echo ("CAS 2 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelected($data);
         } else if ($this->isCardInPlay == 3) {
-            echo ("CAS 3 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 3 ");
 
             $this->playBleuCard($this->blueCardPlayer);
         } else {
@@ -958,7 +958,7 @@ class Game
     {
         $this->stopCountdown(); // Ajoutez cette ligne pour réinitialiser le compte à rebours
         $this->isCardInPlay2 = 1;
-        echo "JAUNE ETAPE 1";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE 1";
         // Étape 1 : Demander au joueur de choisir un autre joueur
         $message = array(
             'type' => 'CHOOSEPLAYERYELLOW',
@@ -972,7 +972,7 @@ class Game
     public function onPlayerSelectedForYellowCard($data)
     {
         $this->isCardInPlay2 = 2;
-        echo "JAUNE ETAPE 2";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE 2";
         // Étape 2 : Poser une question générale au joueur sélectionné et commencer le compte à rebours
         $this->selectedPlayer = $this->findPlayerByPseudo($data->pseudo);
         if ($this->currentQuestion === null) {
@@ -1001,7 +1001,7 @@ class Game
         if ($this->isCardInPlay4 === 2) {
             $this->isCardInPlay4 = 3;
         }
-        echo "JAUNE ETAPE END";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE END";
         // Étape 3 : Arrêter le compte à rebours et envoyer la réponse à tous les joueurs
         if ($this->countdownActive) { // Ajoutez cette ligne
             $this->stopCountdown(); // Vous devez implémenter cette fonction
@@ -1040,7 +1040,7 @@ class Game
             + array_fill(99, 1, 11); // 11 apparaît 1% du temps
 
         $number = $numbers[array_rand($numbers)];
-        echo "JAUNE ETAPE END2";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE END2";
         // Étape 5 : Déterminer si la majorité des joueurs pensent que la réponse est correcte
         $votesFor = $this->countVotesFor(); // Vous devez implémenter cette fonction
         $votesAgainst = $this->countVotesAgainst(); // Vous devez implémenter cette fonction
@@ -1071,7 +1071,7 @@ class Game
     }
     public function getRandomQuestion()
     {
-        echo "JAUNE ETAPE RANDOMQUESTION";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE RANDOMQUESTION";
         // Lire le fichier texte contenant les questions et les réponses
         $file = file_get_contents('txt/questions.txt');
 
@@ -1159,7 +1159,7 @@ class Game
     public function stopCountdown()
     {
         error_log(print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2), true));
-        echo "JAUNE ETAPE COMPTEUR END";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE COMPTEUR END";
         $this->countdownActive = false;
 
         error_log('stopCountdown called');
@@ -1183,7 +1183,7 @@ class Game
 
     public function countVotesFor()
     {
-        echo "JAUNE ETAPE YES";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE YES";
         // Compter le nombre de votes pour la réponse du joueur
         $votesFor = 0;
         foreach ($this->votes as $vote) {
@@ -1199,7 +1199,7 @@ class Game
 
     public function countVotesAgainst()
     {
-        echo "JAUNE ETAPE NO";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE NO";
         // Compter le nombre de votes contre la réponse du joueur
         $votesAgainst = 0;
         foreach ($this->votes as $vote) {
@@ -1215,16 +1215,16 @@ class Game
     public function onVoteReceived($data)
     {
         error_log('onVoteReceived called with ' . print_r($data, true));
-        echo "JAUNE ETAPE VOTE RECU";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE VOTE RECU";
         $vote = $data['vote'];
         $playerPseudo = $data['pseudo'];
         if (isset($this->votesByPlayer[$playerPseudo])) {
-            echo "Le joueur $playerPseudo a déjà voté";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Le joueur $playerPseudo a déjà voté";
             return;
         }
         $this->votes[] = $vote;
         $this->votesByPlayer[$playerPseudo] = $vote;
-        echo ("NB JOUEURS " . $this->numberOfPlayers);
+        echo "[" . date('Y-m-d H:i:s') . "]"  . ("NB JOUEURS " . $this->numberOfPlayers);
         // Si tous les votes ont été reçus, appeler la méthode onAllVotesReceived
         if (count($this->votes) == $this->numberOfPlayers - 1) {
             $this->onAllVotesReceived();
@@ -1233,15 +1233,15 @@ class Game
     public function GETJAUNESTATE()
     {
         if ($this->isCardInPlay2 == 1) {
-            echo ("CAS 1 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 1 ");
             $this->playjauneCard($this->blueCardPlayer);
         } else if ($this->isCardInPlay2 == 2) {
-            echo ("CAS 2 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForYellowCard($data);
         } else if ($this->isCardInPlay2 == 3) {
-            echo ("CAS 3 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
@@ -1256,7 +1256,7 @@ class Game
     {
         $this->stopCountdown(); // Ajoutez cette ligne pour réinitialiser le compte à rebours
         $this->isCardInPlay3 = 1;
-        echo "vert ETAPE 1";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "vert ETAPE 1";
         // Étape 1 : Demander au joueur de choisir un autre joueur
         $message = array(
             'type' => 'CHOOSEPLAYERVERT',
@@ -1269,7 +1269,7 @@ class Game
     public function onPlayerSelectedForvertCard($data)
     {
         $this->isCardInPlay3 = 2;
-        echo "vert ETAPE 2";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "vert ETAPE 2";
         // Étape 2 : Poser une question générale au joueur sélectionné et commencer le compte à rebours
         $this->selectedPlayer = $this->findPlayerByPseudo($data->pseudo);
         if ($this->currentQuestion === null) {
@@ -1292,7 +1292,7 @@ class Game
     }
     public function getRandomEnigme()
     {
-        echo "JAUNE ETAPE RANDOMQUESTION";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE RANDOMQUESTION";
         // Lire le fichier texte contenant les questions et les réponses
         $file = file_get_contents('txt/enigme.txt');
 
@@ -1313,15 +1313,15 @@ class Game
     public function GETvertSTATE()
     {
         if ($this->isCardInPlay3 == 1) {
-            echo ("CAS 1 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 1 ");
             $this->playvertCard($this->blueCardPlayer);
         } else if ($this->isCardInPlay3 == 2) {
-            echo ("CAS 2 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForvertCard($data);
         } else if ($this->isCardInPlay3 == 3) {
-            echo ("CAS 3 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
@@ -1336,7 +1336,7 @@ class Game
     {
         $this->stopCountdown(); // Ajoutez cette ligne pour réinitialiser le compte à rebours
         $this->isCardInPlay4 = 1;
-        echo "red ETAPE 1";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "red ETAPE 1";
         // Étape 1 : Demander au joueur de choisir un autre joueur
         $message = array(
             'type' => 'CHOOSEPLAYERROUGE',
@@ -1351,7 +1351,7 @@ class Game
     public function onPlayerSelectedForROUGECard($data)
     {
         $this->isCardInPlay4 = 2;
-        echo "red ETAPE 2";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "red ETAPE 2";
         // Étape 2 : Poser une question générale au joueur sélectionné et commencer le compte à rebours
         $this->selectedPlayer = $this->findPlayerByPseudo($data->pseudo);
         if ($this->currentQuestion === null) {
@@ -1375,7 +1375,7 @@ class Game
 
     public function getRandomAction()
     {
-        echo "JAUNE ETAPE RANDOMQUESTION";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "JAUNE ETAPE RANDOMQUESTION";
         // Lire le fichier texte contenant les questions et les réponses
         $file = file_get_contents('txt/action.txt');
 
@@ -1394,15 +1394,15 @@ class Game
     public function GETrougeSTATE()
     {
         if ($this->isCardInPlay4 == 1) {
-            echo ("CAS 1 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 1 ");
             $this->playrougeCard($this->blueCardPlayer);
         } else if ($this->isCardInPlay4 == 2) {
-            echo ("CAS 2 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForROUGECard($data);
         } else if ($this->isCardInPlay4 == 3) {
-            echo ("CAS 3 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
@@ -1416,7 +1416,7 @@ class Game
     {
         // $this->stopCountdown(); // Réinitialiser le compte à rebours
         $this->isCardInPlay5 = 1; // Indiquer qu'une carte violette est en jeu
-        echo "VIOLET ETAPE 1";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 1";
         $otherPlayers = $this->getOtherPlayers($player);
         $otherPlayers[] = $player;
         // Étape 1 : Demander au joueur de choisir deux autres joueurs
@@ -1431,7 +1431,7 @@ class Game
 
     public function onPlayersSelectedForVioletCard($selectedPlayers)
     {
-        echo "VIOLET ETAPE 2";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 2";
 
         // Réinitialiser l'indicateur de carte violette en jeu
         $this->isCardInPlay5 = 2;
@@ -1441,9 +1441,9 @@ class Game
         // Générer un mini-jeu aléatoire
         foreach ($selectedPlayers as $player) {
             if (is_object($player)) {
-                echo "Player is an object\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player is an object\n";
             } else {
-                echo "Player is not an object\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player is not an object\n";
             }
         }
 
@@ -1555,7 +1555,7 @@ class Game
         $this->updateMove($pseudo, $move);
         $this->lastPlayerMovePseudo = $pseudo;
         $this->lastPlayerMove = $move;
-        echo "VIOLET ETAPE 3";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 3";
         $this->isCardInPlay5 = 3;
 
 
@@ -1569,11 +1569,11 @@ class Game
 
         // Vérifier si les deux joueurs ont fait un mouvement
         if (count($this->playerMoves) === 2) {
-            // echo "VIOLET ETAPE 3";
+            // echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 3";
             //  $this->isCardInPlay5 = 4;
             // Jouer le tour et obtenir le résultat
             $result = $this->playRound();
-            echo "Résultat du tour : $result\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Résultat du tour : $result\n";
 
             if (get_class($this->miniGame) === 'TicTacToe') {
                 $this->isCardInPlay5 = 4;
@@ -1582,7 +1582,7 @@ class Game
 
             if ($result !== null) {
 
-                echo "Résultat du tour : $result\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "Résultat du tour : $result\n";
 
                 // Réinitialiser les mouvements des joueurs pour le prochain tour
                 $this->playerMoves = [];
@@ -1626,7 +1626,7 @@ class Game
                     $this->selectedPlayer->sipsTaken += $number;
                     $content = $result === 1 ? $this->players[0]->pseudo . " a eu la bonne réponse et " . $this->players[1]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 2 ? $this->players[1]->pseudo . " a eu la bonne réponse et " . $this->players[0]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 0 ? "Il y a eu une égalité !" : null));
 
-                    echo "Le gagnant est : " . ($winner !== null && $winner !== 0 ? $winner->pseudo : "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !") . "\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Le gagnant est : " . ($winner !== null && $winner !== 0 ? $winner->pseudo : "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !") . "\n";
                 }
                 $resultMessage = [
                     'type' => 'gameResult',
@@ -1649,7 +1649,7 @@ class Game
                     $this->isCardInPlay5 = 0;
                     $this->TicTacToeAlready = false;
                 } else if ($result === 0) {
-                    echo "Egalitée";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Egalitée";
                     if (get_class($this->miniGame) === 'TicTacToe') {
                         foreach ($this->selectedPlayers as $player) {
                             $player->sipsTaken += $number;
@@ -1666,7 +1666,7 @@ class Game
                         $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
                     }
                 } else {
-                    echo "erreur carte violette";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "erreur carte violette";
                 }
             }
         }
@@ -1681,19 +1681,19 @@ class Game
                 'move' => $move
             ];
             $result = $this->playRound();
-            echo "Nouveau tour joué, résultat : $result\n";
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "Nouveau tour joué, résultat : $result\n";
         }
     }
     public function GETvioletSTATE()
     {
         if ($this->isCardInPlay5 == 1) {
-            echo ("CAS 1 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 1 ");
             $this->playvioletCard($this->blueCardPlayer);
         } else if ($this->isCardInPlay5 == 2) {
-            echo ("CAS 2 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 2 ");
             $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
         } else if ($this->isCardInPlay5 == 3) {
-            echo ("CAS 3 ");
+            echo "[" . date('Y-m-d H:i:s') . "]"  . ("CAS 3 ");
             $this->handlePlayerMove($this->playdisconnect, $this->lastPlayerMove);
         } else if ($this->isCardInPlay5 == 4) {
 
@@ -1793,7 +1793,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tCreation d'un nouveau lobby: {$lobbyName} par {$pseudo}\n";
 
                 if (isset($this->lobbies[$lobbyName])) {
-                    echo "Un lobby avec ce nom existe déjà.\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Un lobby avec ce nom existe déjà.\n";
                     $from->send(json_encode(
                         array(
                             'type' => 'error',
@@ -1960,7 +1960,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     $from->send(json_encode(array('type' => 'message', 'Hello, client!')));
                 } else {
                     $from->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
-                    echo "TOUTE EST FAUX MDR C LA D";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "TOUTE EST FAUX MDR C LA D";
                 }
 
                 break;
@@ -1968,7 +1968,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 if (isset($data['lobbyName'])) {
                     $lobbyName = trim($data['lobbyName']);
                     if (isset($this->lobbies[$lobbyName])) {
-                        echo "La game à commencé pour le lobby : $lobbyName\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "La game à commencé pour le lobby : $lobbyName\n";
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->gameetat = false;
                         $players = $lobby->game->getPlayers(); // Récupérer la liste des joueurs dans la partie
@@ -1981,7 +1981,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             // Add players to the game
                             foreach ($players as $key => $player) {
                                 foreach ($lobby->game->clients as $pseudo => $client) {
-                                    echo "Client pseudo: $pseudo\n";
+                                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Client pseudo: $pseudo\n";
                                 }
 
 
@@ -1989,7 +1989,7 @@ class MyWebSocketServer implements MessageComponentInterface
                                 $playerObject = new Player($player['pseudo'], false, false);
                                 $playerObject->active = 1; // Add this line
                                 if ($playerObject === NULL) {
-                                    echo "Error: No player object for player: " . $player['pseudo'] . "\n";
+                                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: No player object for player: " . $player['pseudo'] . "\n";
                                     continue;
                                 }
                                 $playerObject->isPlayerTurn = false; // Add this line
@@ -2010,28 +2010,28 @@ class MyWebSocketServer implements MessageComponentInterface
                             $gameStartResult = $lobby->game->startParty($players);
 
                             $activePlayerIndex = $gameStartResult['activePlayerIndex'];
-                            echo "Active player index: $activePlayerIndex\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Active player index: $activePlayerIndex\n";
 
                             if (isset($players[$activePlayerIndex])) {
 
                                 $players[$activePlayerIndex] = (object) $players[$activePlayerIndex];
                             } else {
-                                echo "No player at active player index\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "No player at active player index\n";
                             }
 
                             if (isset($players[$activePlayerIndex]) && is_object($players[$activePlayerIndex])) {
                                 $lobby->game->activePlayer = $players[$activePlayerIndex];
                             } else {
-                                echo "Error: Cannot set activePlayer\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Cannot set activePlayer\n";
                             }
 
                             if (!is_object($lobby->game->activePlayer)) {
-                                echo "Error: activePlayer is not an object after startParty\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: activePlayer is not an object after startParty\n";
                             }
 
                             $gameState = $gameStartResult;
                             $gameState['gameStarted'] = true;
-                            echo "Active player " . $lobby->game->activePlayer->pseudo . " has isPlayerTurn set to " . ($lobby->game->activePlayer->isPlayerTurn ? "true" : "false") . "\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Active player " . $lobby->game->activePlayer->pseudo . " has isPlayerTurn set to " . ($lobby->game->activePlayer->isPlayerTurn ? "true" : "false") . "\n";
                             $gameState['isPlayerTurn'] = $lobby->game->activePlayer->isPlayerTurn;
                             $lobby->game->numberOfPlayers = 0;
 
@@ -2039,7 +2039,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             foreach ($players as $player) {
                                 $lobby->game->numberOfPlayers++;
                                 $gameState['playerId'] = $player->id;
-                                echo "Player ID: " . $gameState['playerId'] . "\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player ID: " . $gameState['playerId'] . "\n";
                                 $gameState['isPlayerTurn'] = $lobby->game->activePlayer->pseudo == $player->pseudo;
                                 $message = json_encode(array('type' => 'gameStateUpdate', 'gameState' => $gameState));
                                 $lobby->game->broadcast2($message, $player);
@@ -2050,7 +2050,7 @@ class MyWebSocketServer implements MessageComponentInterface
 
 
                         } else {
-                            echo "Error: TOUT LES JOUEURS NE SONT PAS LA\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: TOUT LES JOUEURS NE SONT PAS LA\n";
                             $message = array(
                                 'type' => 'NOSTARTPARTY',
                                 'content' => "EN ATTENTE DE TOUT LES JOUEURS."
@@ -2058,7 +2058,7 @@ class MyWebSocketServer implements MessageComponentInterface
                         }
                     }
                 } else {
-                    echo "Error: lobbyName not set in data\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: lobbyName not set in data\n";
                 }
 
                 break;
@@ -2098,7 +2098,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             $lobby->game->broadcast2($message, $player);
                         }
                     } else {
-                        echo "RIEN";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "RIEN";
                     }
                 } else {
                     $activePlayer = $lobby->game->activePlayer;
@@ -2142,9 +2142,9 @@ class MyWebSocketServer implements MessageComponentInterface
                         // $lobby->game->updateActivePlayer();  // Change this line
                         foreach ($players as $player) {
                             if ($player->isPlayerTurn) {
-                                echo "Player " . $player->pseudo . " has isPlayerTurn set to true\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player " . $player->pseudo . " has isPlayerTurn set to true\n";
                             } else {
-                                echo "Player " . $player->pseudo . " has isPlayerTurn set to false\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player " . $player->pseudo . " has isPlayerTurn set to false\n";
                             }
                         }
                         // Récupérer l'état actuel du jeu
@@ -2175,7 +2175,7 @@ class MyWebSocketServer implements MessageComponentInterface
                         }
                     }
                 } else {
-                    echo "Error: lobbyName not set in data\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: lobbyName not set in data\n";
                 }
                 break;
             case 'playCard':
@@ -2215,7 +2215,7 @@ class MyWebSocketServer implements MessageComponentInterface
                                 'isPlayerTurn' => $lobby->game->activePlayer->isPlayerTurn,
 
                             );
-                            echo "Game state updated\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Game state updated\n";
 
                             // Envoyer l'état du jeu à tous les joueurs
                             foreach ($players as $player) {
@@ -2225,13 +2225,13 @@ class MyWebSocketServer implements MessageComponentInterface
                                 $lobby->game->broadcast2($message, $player);
                             }
                         } else {
-                            echo "Error: $pseudo not found in player list\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: $pseudo not found in player list\n";
                         }
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in playCard request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in playCard request\n";
                 }
                 break;
             case 'playBlueCard':
@@ -2258,13 +2258,13 @@ class MyWebSocketServer implements MessageComponentInterface
                                 'numbers' => $numbers
                             ]);
                         } else {
-                            echo "Error: $pseudo not found in player list\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: $pseudo not found in player list\n";
                         }
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in playBlueCard request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in playBlueCard request\n";
                 }
                 break;
             case 'playerSelected':
@@ -2280,10 +2280,10 @@ class MyWebSocketServer implements MessageComponentInterface
                             'pseudo' => $pseudo
                         ]);
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in playerSelected request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in playerSelected request\n";
                 }
                 break;
 
@@ -2302,10 +2302,10 @@ class MyWebSocketServer implements MessageComponentInterface
                             'pseudo' => $pseudo
                         ]);
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in numberChosen request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in numberChosen request\n";
                 }
                 break;
             case 'ANSWER':
@@ -2332,13 +2332,13 @@ class MyWebSocketServer implements MessageComponentInterface
                                 'pseudo' => $pseudo
                             ]);
                         } else {
-                            echo "Error: $pseudo not found in player list\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: $pseudo not found in player list\n";
                         }
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in ANSWER request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in ANSWER request\n";
                 }
                 break;
             case 'VOTE':
@@ -2349,10 +2349,10 @@ class MyWebSocketServer implements MessageComponentInterface
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->onVoteReceived($data);
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in VOTE request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: Missing data in VOTE request\n";
                 }
                 break;
             case 'playerSelected2':
@@ -2397,13 +2397,13 @@ class MyWebSocketServer implements MessageComponentInterface
                                 ]), $player);
                             }
                         } else {
-                            echo "Error: $pseudo not found in player list\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: $pseudo not found in player list\n";
                         }
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in playerSelected2 request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: Missing data in playerSelected2 request\n";
                 }
                 break;
             case 'playersSelectedViolet':
@@ -2414,7 +2414,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     if (isset($this->lobbies[$lobbyName])) {
                         $lobby = $this->lobbies[$lobbyName];
                         $players = $lobby->game->getPlayers();
-                        echo "Players: ";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayers: ";
                         foreach ($players as $player) {
                             echo gettype($player) . "\n";
                         }
@@ -2433,17 +2433,17 @@ class MyWebSocketServer implements MessageComponentInterface
                                 'pseudos' => $pseudos
                             ]), $selectedPlayers);
                         } else {
-                            echo "Error: One or both pseudos not found in player list\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: One or both pseudos not found in player list\n";
                         }
                     } else {
-                        echo "Error: Lobby $lobbyName not found\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: Lobby $lobbyName not found\n";
                     }
                 } else {
-                    echo "Error: Missing data in playersSelectedViolet request\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tError: Missing data in playersSelectedViolet request\n";
                 }
                 break;
             case 'playerMove':
-                echo "playerMove received\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tplayerMove received\n";
                 if (isset($data['pseudo']) && isset($data['lobbyName'])) {
                     $pseudo = $data['pseudo'];
                     $lobbyName = trim($data['lobbyName']);
@@ -2497,7 +2497,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             //  $lobby->game->currentPlayerPURPLE = $lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0] ? $lobby->game->selectedPlayers[1] : $lobby->game->selectedPlayers[0];
 
                             // } else {
-                            //      echo "CE N'EST PAS TON TOUR";
+                            //      echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tCE N'EST PAS TON TOUR";
                             //}
                         } else if (get_class($lobby->game->miniGame) === 'RockPaperScissors') {
                             // Pour PierreFeuilleCiseaux, $move est une seule valeur
@@ -2510,7 +2510,7 @@ class MyWebSocketServer implements MessageComponentInterface
 
                     }
                 } else {
-                    echo "erreur pseudo et lobbyname";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\terreur pseudo et lobbyname";
                 }
                 break;
 
@@ -2571,7 +2571,7 @@ class MyWebSocketServer implements MessageComponentInterface
                                         // Mettre la propriété active du joueur à 0
                                         $player->active = 0;
                                         $lobby->game->playdisconnect = $player->pseudo;
-                                        echo "Player " . $player->pseudo . " is now inactive\n";
+                                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " is now inactive\n";
                                         if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
                                             if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
 
@@ -2601,20 +2601,20 @@ class MyWebSocketServer implements MessageComponentInterface
                                     }
                                 } else {
                                     $conn->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
-                                    echo "Player " . $player->pseudo . " does not exist in the clients array.\n";
+                                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " does not exist in the clients array.\n";
                                 }
                             }
                         }
                     }
                     foreach ($this->lobbies as $lobby) {
-                        echo "Game: " . $lobby->name . "\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tGame: " . $lobby->name . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
                             $players = $lobby->game->getPlayers();
                             foreach ($players as $player) {
-                                echo "Player: " . $player->pseudo . ", Active: " . ($player->active ? "Yes" : "No") . "\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer: " . $player->pseudo . ", Active: " . ($player->active ? "Yes" : "No") . "\n";
                             }
 
-                            echo "FERMETURE OUI OUI";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tFERMETURE OUI OUI";
                             $lobby->game->numberOfPlayers--;
                             error_log('Countdown active3: ' . ($lobby->game->countdownActive ? 'true' : 'false'));
                             if ($lobby->game->countdownActive) {
@@ -2683,7 +2683,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     if (isset($this->clients[spl_object_hash($conn)])) {
                         $pseudo = $this->pseudos[spl_object_hash($conn)];
                     } else {
-                        echo "Pseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
                     }
                     // Trouver le joueur par son pseudo
                     $player = array_filter($lobby->getPlayers(), function ($player) use ($pseudo) {
@@ -2748,7 +2748,7 @@ class MyWebSocketServer implements MessageComponentInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        echo "Erreur: {$e->getMessage()}\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "Erreur: {$e->getMessage()}\n";
         $conn->close();
     }
 
