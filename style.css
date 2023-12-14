@@ -6,7 +6,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centre le contenu horizontalement */
   background-color: #1e272e; /* Couleur de fond foncée */
 }
 
