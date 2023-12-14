@@ -2643,7 +2643,6 @@ class MyWebSocketServer implements MessageComponentInterface
                                 }
                                 if ($allPlayersInactive) {
 
-                                    echo "SUPPRESION DE LA PARTIE";
                                     unset($this->lobbies[$lobby->name]);
                                     $lobby->game->startparty = false;
                                     $lobby->game = null;
@@ -2675,7 +2674,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 if ($lobby->game->gameetat === true) {
                     //  $lobby->nbstartparty--;
                     if ($lobby->nbstartparty === 0) {
-                        echo "SUPPRESION DE LA PARTIE2";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tSUPPRESION DE LA PARTIE2 \n";
                         unset($this->lobbies[$lobby->name]);
                         $lobby->game->startparty = false;
                         $lobby->game = null;
@@ -2708,7 +2707,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 $lobby->nbstartparty--;
                 $lobby->game->nbjoueursSETPSEUOS--;
                 if ($lobby->nbstartparty === 0) {
-                    echo "SUPPRESION DE LA PARTIE2";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tSUPPRESION DE LA PARTIE2 \n";
                     unset($this->lobbies[$lobby->name]);
                     $lobby->game->startparty = false;
                     $lobby->game = null;
@@ -2717,7 +2716,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 if (isset($this->clients[spl_object_hash($conn)])) {
                     $pseudo = $this->pseudos[spl_object_hash($conn)];
                 } else {
-                    echo "Pseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
                 }
                 // Trouver le joueur par son pseudo
                 $player = array_filter($lobby->getPlayers(), function ($player) use ($pseudo) {
