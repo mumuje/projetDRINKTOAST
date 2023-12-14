@@ -13,8 +13,8 @@ class Lobby
     public $pseudos;
     public $nbstartparty = 0;
     public $nbjoueursLOBBY = 0;
-    public $creator;  
-    public $game;  
+    public $creator;
+    public $game;
 
     public $currentPlayerIndex = 0;
 
@@ -28,14 +28,17 @@ class Lobby
         $this->players = new \SplObjectStorage;
         $this->creator = $creator;  // Ajoutez cette ligne
     }
+
     public function setGame(Game $game)
     {  // Add this method
         $this->game = $game;
     }
+
     public function getGame()
     {
         return $this->game;
     }
+
     public function addPlayer(ConnectionInterface $player, $pseudo)
     {
         $this->players->attach($player);
@@ -50,6 +53,7 @@ class Lobby
             )
         ));
     }
+
     public function removePlayer(ConnectionInterface $player)
     {
         $pseudo = $this->pseudos[spl_object_hash($player)];
@@ -92,7 +96,6 @@ class Lobby
     }
     public function getPlayers()
     {
-        // var_dump($this->pseudos); // Ajout de cette ligne pour déboguer
         $players = [];
         foreach ($this->pseudos as $hash => $pseudo) {
             $players[] = [
@@ -106,14 +109,17 @@ class Lobby
 
 
 
-class TicTacToe {
+class TicTacToe
+{
     private $board;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->board = array_fill(0, 3, array_fill(0, 3, null));
     }
 
-    public function makeMove($player, $x, $y) {
+    public function makeMove($player, $x, $y)
+    {
         // Vérifiez si la case est vide et placez le symbole du joueur
         if ($this->board[$x][$y] === null) {
             $this->board[$x][$y] = $player;
@@ -122,7 +128,8 @@ class TicTacToe {
         return false;
     }
 
-    public function checkGameState() {
+    public function checkGameState()
+    {
         // Vérifiez les lignes
         for ($i = 0; $i < 3; $i++) {
             if ($this->board[$i][0] !== null && $this->board[$i][0] === $this->board[$i][1] && $this->board[$i][0] === $this->board[$i][2]) {
@@ -160,14 +167,17 @@ class TicTacToe {
     // Ajoutez ici des méthodes pour vérifier si un joueur a gagné, etc.
 }
 
-class ConnectFour {
+class ConnectFour
+{
     private $board;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->board = array_fill(0, 6, array_fill(0, 7, null));
     }
 
-    public function makeMove($player, $column) {
+    public function makeMove($player, $column)
+    {
         // Vérifiez si la colonne est pleine et placez le symbole du joueur
         for ($row = 5; $row >= 0; $row--) {
             if ($this->board[$row][$column] === null) {
@@ -182,8 +192,10 @@ class ConnectFour {
 }
 
 
-class RockPaperScissors {
-    public function playRound($player1Move, $player2Move) {
+class RockPaperScissors
+{
+    public function playRound($player1Move, $player2Move)
+    {
         // Vérifiez qui a gagné le tour
         if ($player1Move === $player2Move) {
             return 0; // Match nul
@@ -215,7 +227,7 @@ class Player
 
 
     public $currentMove;
-public $hasVoted;
+    public $hasVoted;
 
     public function __construct($pseudo, $isCreator, $isPlayerTurn)
     {
@@ -226,7 +238,6 @@ public $hasVoted;
         $this->isPlayerTurn = $isPlayerTurn;
         $this->sipsTaken = 0;
         $this->hasVoted = false;
-
     }
     public static function resetId()
     {
@@ -234,18 +245,17 @@ public $hasVoted;
     }
 
 
-    public function makeMove($move) {
+    public function makeMove($move)
+    {
         // Vérifier que le mouvement est valide
         if (!in_array($move, ['rock', 'paper', 'scissors'])) {
             throw new Exception("Invalid move: $move");
         }
-    
+
         // Effectuer le mouvement
         $this->currentMove = $move;
     }
 }
-
-
 
 
 class Game
@@ -276,27 +286,27 @@ class Game
     public $playerMoves = [];
 
     public $nbjoueursSETPSEUOS = 0;
-public $votesByPlayer = [];
-public $player1;
-public $player2;
+    public $votesByPlayer = [];
+    public $player1;
+    public $player2;
     private $votes;
     public $isCardInPlay = 0;
     public $isCardInPlay2 = 0;
-   public $TicTacToeAlready = false;
-public $miniGame;
+    public $TicTacToeAlready = false;
+    public $miniGame;
     public $isCardInPlay3 = 0;
 
     public $isCardInPlay4 = 0;
     public $isCardInPlay5 = 0;
-public $selectedPlayers;
-private $lastPlayerMovePseudo;
-private $lastPlayerMove;
+    public $selectedPlayers;
+    private $lastPlayerMovePseudo;
+    private $lastPlayerMove;
     public $countdownPausedAt;
     public $turnCount = 0;
-    protected $player1Pseudo ;
-    protected $player2Pseudo ;
+    protected $player1Pseudo;
+    protected $player2Pseudo;
 
-public $moves;
+    public $moves;
     protected $playerAnswer;
     private $currentQuestion = null;
     public $dropzone = [];
@@ -309,7 +319,6 @@ public $moves;
         $this->players = [];
         $this->clients = [];
         $this->playedCards = [];
-
     }
     public function removePlayer($pseudo)
     {
@@ -383,12 +392,12 @@ public $moves;
     }
     public function broadcast($message)
     {
-        //   var_dump($this->clients);
         foreach ($this->clients as $client) {
             $client->send($message);
         }
     }
-    public function broadcast3($message, $senderPseudo = null) {
+    public function broadcast3($message, $senderPseudo = null)
+    {
         foreach ($this->clients as $client) {
             if ($client->pseudo !== $senderPseudo) {
                 $client->send($message);
@@ -411,12 +420,15 @@ public $moves;
     {
         foreach ($this->clients as $client) {
             $player = $this->getPlayerByConnection($client);
-            if ($player && in_array($player->pseudo, array_map(function($player) { return $player->pseudo; }, $targetPlayers))) {
+            if ($player && in_array($player->pseudo, array_map(function ($player) {
+                return $player->pseudo;
+            }, $targetPlayers))) {
                 $client->send($message);
             }
         }
     }
-    public function broadcastToOtherPlayer($pseudo, $message) {
+    public function broadcastToOtherPlayer($pseudo, $message)
+    {
         foreach ($this->clients as $client) {
             $player = $this->getPlayerByConnection($client);
             if ($player && $player->pseudo !== $pseudo) {
@@ -448,7 +460,7 @@ public $moves;
             $simplifiedClients = array_map(function ($connection) {
                 return $connection->pseudo;
             }, $this->clients);
-            print_r($simplifiedClients);
+            // print_r($simplifiedClients);
         } else {
             echo "Player " . $playerData['pseudo'] . " is already in the list.\n";
         }
@@ -537,7 +549,7 @@ public $moves;
         $message = "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
         // $this->saveGameState($players);
-        echo "Instance de jeu dans startParty: " . spl_object_id($this) . "\n";
+        // echo "Instance de jeu dans startParty: " . spl_object_id($this) . "\n";
         return array('players' => $players, 'activePlayerIndex' => $activePlayerIndex);
         if (!is_object($this->activePlayer)) {
             echo "Error: activePlayer is not an object at the end of startParty\n";
@@ -569,7 +581,7 @@ public $moves;
     public function updateActivePlayer()
     {
 
-        echo "Instance de jeu dans updateActivePlayer: " . spl_object_id($this) . "\n";
+        // echo "Instance de jeu dans updateActivePlayer: " . spl_object_id($this) . "\n";
         if ($this->activePlayer === null) {
             echo "Erreur : activePlayer est null\n";
             return;
@@ -669,9 +681,8 @@ public $moves;
         $player->cards[] = array_pop($this->deck);
         $message = $player->pseudo . " vient de piocher une carte.\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
-       // print_r($player);
+        // print_r($player);
         return $player;
-
     }
     public function getCards()
     {
@@ -822,27 +833,21 @@ public $moves;
         );
 
         $this->broadcast2(json_encode($message), $player);
-
     }
     public function GETBLUESTATE()
     {
         if ($this->isCardInPlay == 1) {
             echo ("CAS 1 ");
             $this->playBleuCard($this->blueCardPlayer);
-
-
         } else if ($this->isCardInPlay == 2) {
             echo ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelected($data);
-
         } else if ($this->isCardInPlay == 3) {
             echo ("CAS 3 ");
 
             $this->playBleuCard($this->blueCardPlayer);
-
-
         } else {
             $this->isCardInPlay = 0;
         }
@@ -914,7 +919,6 @@ public $moves;
                 'type' => 'NUMBERINCORRECT',
                 'content' => "$player->pseudo doit boire $numberOfDrinks gorgées."
             );
-
         }
         $this->isCardInPlay = 0;
         // Envoyer le message à tous les joueurs
@@ -923,16 +927,16 @@ public $moves;
     public function playmulticolorCard($player)
     {
         $numbers = array_fill(0, 150, 1) // 1 apparaît 15% du temps
-        + array_fill(150, 200, 2) // 2 apparaît 20% du temps
-        + array_fill(350, 190, 3) // 3 apparaît 19% du temps
-        + array_fill(540, 150, 4) // 4 apparaît 15% du temps
-        + array_fill(690, 120, 5) // 5 apparaît 12% du temps
-        + array_fill(810, 75, 6) // 6 apparaît 7.5% du temps
-        + array_fill(885, 45, 7) // 7 apparaît 4.5% du temps
-        + array_fill(930, 35, 8) // 8 apparaît 3.5% du temps
-        + array_fill(965, 15, 9) // 9 apparaît 1.5% du temps
-        + array_fill(980, 15, 10) // 10 apparaît 1.5% du temps
-        + array_fill(995, 5, 15); // 15 apparaît 0.5% du temps
+            + array_fill(150, 200, 2) // 2 apparaît 20% du temps
+            + array_fill(350, 190, 3) // 3 apparaît 19% du temps
+            + array_fill(540, 150, 4) // 4 apparaît 15% du temps
+            + array_fill(690, 120, 5) // 5 apparaît 12% du temps
+            + array_fill(810, 75, 6) // 6 apparaît 7.5% du temps
+            + array_fill(885, 45, 7) // 7 apparaît 4.5% du temps
+            + array_fill(930, 35, 8) // 8 apparaît 3.5% du temps
+            + array_fill(965, 15, 9) // 9 apparaît 1.5% du temps
+            + array_fill(980, 15, 10) // 10 apparaît 1.5% du temps
+            + array_fill(995, 5, 15); // 15 apparaît 0.5% du temps
 
         $number = $numbers[array_rand($numbers)];
         $multicolorCardPlayer = $player;
@@ -995,45 +999,45 @@ public $moves;
         $this->isCardInPlay2 = 3;
         $this->isCardInPlay3 = 3;
         if ($this->isCardInPlay4 === 2) {
-        $this->isCardInPlay4 = 3;
+            $this->isCardInPlay4 = 3;
         }
         echo "JAUNE ETAPE END";
         // Étape 3 : Arrêter le compte à rebours et envoyer la réponse à tous les joueurs
         if ($this->countdownActive) { // Ajoutez cette ligne
             $this->stopCountdown(); // Vous devez implémenter cette fonction
         }
-        if ($this->isCardInPlay2 === 3 && $this->isCardInPlay3 === 3 && $this->isCardInPlay4 === 0 ) {
-        $message = array(
-            'type' => 'SHOWANSWER',
-            'playerAnswer' => $data->answer,
-            'correctAnswer' => $this->getCorrectAnswer(), // Vous devez implémenter cette fonction
-            'pseudo' => $this->selectedPlayer->pseudo,
-        );
-        $this->broadcast(json_encode($message));
-    }
+        if ($this->isCardInPlay2 === 3 && $this->isCardInPlay3 === 3 && $this->isCardInPlay4 === 0) {
+            $message = array(
+                'type' => 'SHOWANSWER',
+                'playerAnswer' => $data->answer,
+                'correctAnswer' => $this->getCorrectAnswer(), // Vous devez implémenter cette fonction
+                'pseudo' => $this->selectedPlayer->pseudo,
+            );
+            $this->broadcast(json_encode($message));
+        }
         if ($this->isCardInPlay2 === 3 && $this->isCardInPlay3 === 3) {
             // Étape 4 : Demander à tous les joueurs de voter
-        $message = array(
-            'type' => 'VOTE',
-            'content' => "Veuillez voter si la réponse est correcte.",
-        );
-    }
+            $message = array(
+                'type' => 'VOTE',
+                'content' => "Veuillez voter si la réponse est correcte.",
+            );
+        }
         $this->broadcast(json_encode($message));
     }
     public function onAllVotesReceived()
     {
-        
+
         $numbers = array_fill(0, 15, 1) // 1 apparaît 15% du temps
-        + array_fill(15, 20, 2) // 2 apparaît 20% du temps
-        + array_fill(35, 19, 3) // 3 apparaît 19% du temps
-        + array_fill(54, 15, 4) // 4 apparaît 15% du temps
-        + array_fill(69, 12, 5) // 5 apparaît 12% du temps
-        + array_fill(81, 8, 6) // 6 apparaît 8% du temps
-        + array_fill(89, 4, 7) // 7 apparaît 4% du temps
-        + array_fill(93, 3, 8) // 8 apparaît 3% du temps
-        + array_fill(96, 2, 9) // 9 apparaît 2% du temps
-        + array_fill(98, 1, 10) // 10 apparaît 1% du temps
-        + array_fill(99, 1, 11); // 11 apparaît 1% du temps
+            + array_fill(15, 20, 2) // 2 apparaît 20% du temps
+            + array_fill(35, 19, 3) // 3 apparaît 19% du temps
+            + array_fill(54, 15, 4) // 4 apparaît 15% du temps
+            + array_fill(69, 12, 5) // 5 apparaît 12% du temps
+            + array_fill(81, 8, 6) // 6 apparaît 8% du temps
+            + array_fill(89, 4, 7) // 7 apparaît 4% du temps
+            + array_fill(93, 3, 8) // 8 apparaît 3% du temps
+            + array_fill(96, 2, 9) // 9 apparaît 2% du temps
+            + array_fill(98, 1, 10) // 10 apparaît 1% du temps
+            + array_fill(99, 1, 11); // 11 apparaît 1% du temps
 
         $number = $numbers[array_rand($numbers)];
         echo "JAUNE ETAPE END2";
@@ -1231,21 +1235,16 @@ public $moves;
         if ($this->isCardInPlay2 == 1) {
             echo ("CAS 1 ");
             $this->playjauneCard($this->blueCardPlayer);
-
-
         } else if ($this->isCardInPlay2 == 2) {
             echo ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForYellowCard($data);
-
-
         } else if ($this->isCardInPlay2 == 3) {
             echo ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
-
         } else {
             $this->isCardInPlay2 = 0;
         }
@@ -1316,21 +1315,16 @@ public $moves;
         if ($this->isCardInPlay3 == 1) {
             echo ("CAS 1 ");
             $this->playvertCard($this->blueCardPlayer);
-
-
         } else if ($this->isCardInPlay3 == 2) {
             echo ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForvertCard($data);
-
-
         } else if ($this->isCardInPlay3 == 3) {
             echo ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
-
         } else {
             $this->isCardInPlay3 = 0;
         }
@@ -1396,28 +1390,22 @@ public $moves;
 
         // Stocker la réponse pour une utilisation ultérieure
         return array('action1' => $action1, 'action2' => $action2);
-
     }
     public function GETrougeSTATE()
     {
         if ($this->isCardInPlay4 == 1) {
             echo ("CAS 1 ");
             $this->playrougeCard($this->blueCardPlayer);
-
-
         } else if ($this->isCardInPlay4 == 2) {
             echo ("CAS 2 ");
             $data = new stdClass();
             $data->pseudo = $this->selectedPlayer->pseudo;
             $this->onPlayerSelectedForROUGECard($data);
-
-
         } else if ($this->isCardInPlay4 == 3) {
             echo ("CAS 3 ");
             $data = new stdClass();
             $data->answer = $this->playerAnswer;
             $this->onAnswerReceived($data);
-
         } else {
             $this->isCardInPlay4 = 0;
         }
@@ -1425,319 +1413,308 @@ public $moves;
 
 
     public function playvioletCard($player)
-{
-   // $this->stopCountdown(); // Réinitialiser le compte à rebours
-    $this->isCardInPlay5 = 1; // Indiquer qu'une carte violette est en jeu
-    echo "VIOLET ETAPE 1";
-    $otherPlayers = $this->getOtherPlayers($player);
-    $otherPlayers[] = $player;
-    // Étape 1 : Demander au joueur de choisir deux autres joueurs
-    $message = array(
-        'type' => 'CHOOSEPLAYERSVIOLET',
-        'content' => "Veuillez choisir deux autres joueurs pour la carte violette.",
-        'players' => $otherPlayers
-    );
-    $this->blueCardPlayer = $player;
-    $this->broadcast2(json_encode($message), $player);
-}
+    {
+        // $this->stopCountdown(); // Réinitialiser le compte à rebours
+        $this->isCardInPlay5 = 1; // Indiquer qu'une carte violette est en jeu
+        echo "VIOLET ETAPE 1";
+        $otherPlayers = $this->getOtherPlayers($player);
+        $otherPlayers[] = $player;
+        // Étape 1 : Demander au joueur de choisir deux autres joueurs
+        $message = array(
+            'type' => 'CHOOSEPLAYERSVIOLET',
+            'content' => "Veuillez choisir deux autres joueurs pour la carte violette.",
+            'players' => $otherPlayers
+        );
+        $this->blueCardPlayer = $player;
+        $this->broadcast2(json_encode($message), $player);
+    }
 
-public function onPlayersSelectedForVioletCard($selectedPlayers)
-{
-    echo "VIOLET ETAPE 2";
+    public function onPlayersSelectedForVioletCard($selectedPlayers)
+    {
+        echo "VIOLET ETAPE 2";
 
-    // Réinitialiser l'indicateur de carte violette en jeu
-    $this->isCardInPlay5 = 2;
-    $this->selectedPlayers = array_values($selectedPlayers);
-    $selectedPlayers = array_values($selectedPlayers);
+        // Réinitialiser l'indicateur de carte violette en jeu
+        $this->isCardInPlay5 = 2;
+        $this->selectedPlayers = array_values($selectedPlayers);
+        $selectedPlayers = array_values($selectedPlayers);
 
-    // Générer un mini-jeu aléatoire
-    foreach ($selectedPlayers as $player) {
-        if (is_object($player)) {
-            echo "Player is an object\n";
-        } else {
-            echo "Player is not an object\n";
+        // Générer un mini-jeu aléatoire
+        foreach ($selectedPlayers as $player) {
+            if (is_object($player)) {
+                echo "Player is an object\n";
+            } else {
+                echo "Player is not an object\n";
+            }
+        }
+
+        if ($this->miniGame === null) {
+            $this->miniGame = $this->generateRandomMiniGame();
+        }
+
+        if (get_class($this->miniGame) === 'TicTacToe') {
+            // Assurez-vous que selectedPlayers contient au moins deux joueurs
+            if (count($selectedPlayers) >= 2) {
+                $this->currentPlayerPURPLE = $selectedPlayers[0];
+                $this->player1 = $selectedPlayers[0]; // Joueur 1
+                $this->player2 = $selectedPlayers[1]; // Joueur 2
+                error_log('player1: ' . $this->player1->pseudo);
+                error_log('player2: ' . $this->player2->pseudo);
+                error_log('VIOLETJOUEUR: ' . $this->currentPlayerPURPLE->pseudo);
+                $data = [
+                    'type' => 'miniGameSelected',
+                    'game' => get_class($this->miniGame),
+                    'moves' => $this->moves,
+                    'player1' => $this->player1->pseudo,
+                    'player2' => $this->player2->pseudo,
+                    'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                    'TicTacToeAlready' => $this->TicTacToeAlready,
+                ];
+            } else {
+                // Gérer l'erreur
+            }
+        } else if (get_class($this->miniGame) === 'RockPaperScissors') {
+            $data = [
+                'type' => 'miniGameSelected',
+                'game' => get_class($this->miniGame),
+                'moves' => $this->moves
+            ];
+        }
+        $this->broadcastToMultipleViolet(json_encode($data), $selectedPlayers);
+        foreach ($selectedPlayers as $player) {
+            $player->currentMiniGame = $this->miniGame;
         }
     }
 
-    var_dump($selectedPlayers);
-    if ($this->miniGame === null) {
-    $this->miniGame = $this->generateRandomMiniGame();
-    }
-
- if (get_class($this->miniGame) === 'TicTacToe') {
-    // Assurez-vous que selectedPlayers contient au moins deux joueurs
-    if (count($selectedPlayers) >= 2) {
-        $this->currentPlayerPURPLE = $selectedPlayers[0];
-        $this->player1 = $selectedPlayers[0]; // Joueur 1
-        $this->player2 = $selectedPlayers[1]; // Joueur 2
-        error_log('player1: ' . $this->player1->pseudo);
-error_log('player2: ' . $this->player2->pseudo);
-error_log('VIOLETJOUEUR: ' . $this->currentPlayerPURPLE->pseudo);
-        $data = [
-            'type' => 'miniGameSelected',
-            'game' => get_class($this->miniGame),
-            'moves' => $this->moves,
-            'player1' => $this->player1->pseudo,
-            'player2' => $this->player2->pseudo,
-            'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
-            'TicTacToeAlready' => $this->TicTacToeAlready,
-        ];
-    } else {
-        // Gérer l'erreur
-    }
-
-   
-} else if (get_class($this->miniGame) === 'RockPaperScissors') {
-    $data = [
-        'type' => 'miniGameSelected',
-        'game' => get_class($this->miniGame),
-        'moves' => $this->moves
-    ];
-}
-    $this->broadcastToMultipleViolet(json_encode($data), $selectedPlayers);
-    foreach ($selectedPlayers as $player) {
-        $player->currentMiniGame = $this->miniGame;
-    }
-}
-
-public function generateRandomMiniGame() {
-    $randomNumber = rand(1, 3);
-    switch ($randomNumber) {
-        case 1:
-           // return new TicTacToe();
-          /* $this->minigames = new RockPaperScissors();
+    public function generateRandomMiniGame()
+    {
+        $randomNumber = rand(1, 3);
+        switch ($randomNumber) {
+            case 1:
+                // return new TicTacToe();
+                /* $this->minigames = new RockPaperScissors();
            $this->moves = ['rock', 'paper', 'scissors'];
            return $this->minigames;*/
-           $this->minigames = new TicTacToe();
-           $this->moves = [
-               [0, 0], [0, 1], [0, 2],
-               [1, 0], [1, 1], [1, 2],
-               [2, 0], [2, 1], [2, 2]
-           ];            return $this->minigames;
+                $this->minigames = new TicTacToe();
+                $this->moves = [
+                    [0, 0], [0, 1], [0, 2],
+                    [1, 0], [1, 1], [1, 2],
+                    [2, 0], [2, 1], [2, 2]
+                ];
+                return $this->minigames;
 
 
-        case 2:
-            //return new ConnectFour();
-            $this->minigames = new TicTacToe();
-            $this->moves = [
-                [0, 0], [0, 1], [0, 2],
-                [1, 0], [1, 1], [1, 2],
-                [2, 0], [2, 1], [2, 2]
-            ];            return $this->minigames;
+            case 2:
+                //return new ConnectFour();
+                $this->minigames = new TicTacToe();
+                $this->moves = [
+                    [0, 0], [0, 1], [0, 2],
+                    [1, 0], [1, 1], [1, 2],
+                    [2, 0], [2, 1], [2, 2]
+                ];
+                return $this->minigames;
 
 
-        case 3:
-            $this->minigames = new RockPaperScissors();
-            $this->moves = ['rock', 'paper', 'scissors'];
-            return $this->minigames;
-
+            case 3:
+                $this->minigames = new RockPaperScissors();
+                $this->moves = ['rock', 'paper', 'scissors'];
+                return $this->minigames;
+        }
     }
-}
 
-public function updateMove($pseudo, $move) {
-    $this->playerMoves[$pseudo] = $move;
-
-}
-
-public function playRound() {
-    // Jouer le tour et obtenir le résultat
-    $this->player1Pseudo = $this->players[0]->pseudo;
-    $this->player2Pseudo = $this->players[1]->pseudo;
-    if (get_class($this->miniGame) === 'TicTacToe') {
-        // Pour le Morpion, jouer un tour pour chaque joueur
-        $this->minigames->makeMove($this->player1Pseudo, $this->playerMoves[$this->player1Pseudo][0], $this->playerMoves[$this->player1Pseudo][1]);
-        $this->minigames->makeMove($this->player2Pseudo, $this->playerMoves[$this->player2Pseudo][0], $this->playerMoves[$this->player2Pseudo][1]);
-        // Vérifier si un des joueurs a gagné
-        $result = $this->minigames->checkGameState();
-    } else {
-    $result = $this->minigames->playRound($this->playerMoves[$this->player1Pseudo], $this->playerMoves[$this->player2Pseudo]);
+    public function updateMove($pseudo, $move)
+    {
+        $this->playerMoves[$pseudo] = $move;
     }
-    return $result;
-}
 
-public function handlePlayerMove($pseudo, $move) {
+    public function playRound()
+    {
+        // Jouer le tour et obtenir le résultat
+        $this->player1Pseudo = $this->players[0]->pseudo;
+        $this->player2Pseudo = $this->players[1]->pseudo;
+        if (get_class($this->miniGame) === 'TicTacToe') {
+            // Pour le Morpion, jouer un tour pour chaque joueur
+            $this->minigames->makeMove($this->player1Pseudo, $this->playerMoves[$this->player1Pseudo][0], $this->playerMoves[$this->player1Pseudo][1]);
+            $this->minigames->makeMove($this->player2Pseudo, $this->playerMoves[$this->player2Pseudo][0], $this->playerMoves[$this->player2Pseudo][1]);
+            // Vérifier si un des joueurs a gagné
+            $result = $this->minigames->checkGameState();
+        } else {
+            $result = $this->minigames->playRound($this->playerMoves[$this->player1Pseudo], $this->playerMoves[$this->player2Pseudo]);
+        }
+        return $result;
+    }
 
-  /*  if (get_class($this->miniGame) === 'TicTacToe') {
+    public function handlePlayerMove($pseudo, $move)
+    {
+
+        /*  if (get_class($this->miniGame) === 'TicTacToe') {
         // Pour le Morpion, $move doit être une paire de coordonnées
         $move = explode(',', $move); // Convertir la chaîne de caractères en tableau
         $move = array_map('intval', $move); // Convertir les éléments du tableau en entiers
     }*/
-    
-    $this->updateMove($pseudo, $move);
-    $this->lastPlayerMovePseudo = $pseudo;
-    $this->lastPlayerMove = $move;
-    echo "VIOLET ETAPE 3";
-    $this->isCardInPlay5 = 3;
-  
 
-    $moveMessage = [
-        'type' => 'playerMove',
-        'pseudo' => $pseudo,
-        'game' => get_class($this->miniGame),
-        'move' => $move
-    ];
-    $this->broadcast(json_encode($moveMessage));
+        $this->updateMove($pseudo, $move);
+        $this->lastPlayerMovePseudo = $pseudo;
+        $this->lastPlayerMove = $move;
+        echo "VIOLET ETAPE 3";
+        $this->isCardInPlay5 = 3;
 
-    // Vérifier si les deux joueurs ont fait un mouvement
-    if (count($this->playerMoves) === 2) {
-       // echo "VIOLET ETAPE 3";
-      //  $this->isCardInPlay5 = 4;
-        // Jouer le tour et obtenir le résultat
-        $result = $this->playRound();
-        echo "Résultat du tour : $result\n";
 
-        if (get_class($this->miniGame) === 'TicTacToe') {
-            $this->isCardInPlay5 = 4;
-        $this->checkGameResult($pseudo, $move, $result);
-
-        }
-      
-        if ($result !== null) {
-
-            echo "Résultat du tour : $result\n";
-
-        // Réinitialiser les mouvements des joueurs pour le prochain tour
-        $this->playerMoves = [];
-        $numbers = array_fill(0, 15, 1) // 1 apparaît 15% du temps
-        + array_fill(15, 20, 2) // 2 apparaît 20% du temps
-        + array_fill(35, 19, 3) // 3 apparaît 19% du temps
-        + array_fill(54, 15, 4) // 4 apparaît 15% du temps
-        + array_fill(69, 12, 5) // 5 apparaît 12% du temps
-        + array_fill(81, 8, 6) // 6 apparaît 8% du temps
-        + array_fill(89, 4, 7) // 7 apparaît 4% du temps
-        + array_fill(93, 3, 8) // 8 apparaît 3% du temps
-        + array_fill(96, 2, 9) // 9 apparaît 2% du temps
-        + array_fill(98, 1, 10) // 10 apparaît 1% du temps
-        + array_fill(99, 1, 11); // 11 apparaît 1% du temps
-
-    $number = $numbers[array_rand($numbers)];
-        // Préparer le message de résultat
-        if (get_class($this->miniGame) === 'TicTacToe') {
-            $winnerPseudo = $result;
-            $winner = null;
-
-            foreach ($this->players as $player) {
-                if ($player->pseudo === $winnerPseudo) {
-                    $winner = $player;
-                    break;
-                }
-            } 
-            if ($winner !== null && $winner !== 0) {
-                $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
-                $this->selectedPlayer = $loser;
-                $this->selectedPlayer->sipsTaken += $number;
-                $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !";
-
-            }  
-            if ($winner === 0) {
-                 $content = "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !";
-            }           
-
-        } else if (get_class($this->miniGame) === 'RockPaperScissors') {
-            $winner = $result === 1 ? $this->players[0] : ($result === 2 ? $this->players[1] : ($result === 0 ? 0 : null));
-        $loser = $result === 1 ? $this->players[1] : ($result === 2 ? $this->players[0] : ($result === 0 ? 0 : null));
-        $this->selectedPlayer = $loser;
-        $this->selectedPlayer->sipsTaken += $number;
-        $content = $result === 1 ? $this->players[0]->pseudo . " a eu la bonne réponse et " . $this->players[1]->pseudo . " doit boire " . $number . " gorgée(s) !" : 
-        ($result === 2 ? $this->players[1]->pseudo . " a eu la bonne réponse et " . $this->players[0]->pseudo . " doit boire " . $number . " gorgée(s) !" :
-        ($result === 0 ? "Il y a eu une égalité !" : null));
-      
-        echo "Le gagnant est : " . ($winner !== null && $winner !== 0 ? $winner->pseudo : "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !") . "\n";
-    }
-        $resultMessage = [
-            'type' => 'gameResult',
-            'game' => get_class($this->miniGame),
-            'moves' => $this->moves,
-            'result' => $result,
-            'winner' => $winner,
-            'content' => $content
-                ];
-
-        // Envoyer le résultat aux joueurs
-        $this->broadcast(json_encode($resultMessage));
-        if ($result !== 0) {
-            $this->selectedPlayer = null;
-            $this->moves = [];
-            $this->miniGame = null;
-            $this->blueCardPlayer = null;
-            $loser = null;
-            $winner = null;
-            $this->isCardInPlay5 = 0;
-            $this->TicTacToeAlready = false;
-        } else if ($result === 0) {
-           echo"Egalitée";
-           if (get_class($this->miniGame) === 'TicTacToe') {
-            foreach ($this->selectedPlayers as $player) {
-                $player->sipsTaken += $number;
-            }
-             $this->selectedPlayer = null;
-            $this->moves = [];
-            $this->miniGame = null;
-            $this->blueCardPlayer = null;
-            $loser = null;
-            $winner = null;
-            $this->isCardInPlay5 = 0;
-            $this->TicTacToeAlready = false;
-           } else if (get_class($this->miniGame) === 'RockPaperScissors') {
-           $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
-           }
-        } else {
-            echo"erreur carte violette";
-        }
-    }
-    }
-}
-public function checkGameResult($pseudo, $move, $result) {
-    if (get_class($this->miniGame) === 'TicTacToe' && $result === null) {
         $moveMessage = [
             'type' => 'playerMove',
             'pseudo' => $pseudo,
             'game' => get_class($this->miniGame),
             'move' => $move
         ];
-        $result = $this->playRound();
-        echo "Nouveau tour joué, résultat : $result\n";
+        $this->broadcast(json_encode($moveMessage));
+
+        // Vérifier si les deux joueurs ont fait un mouvement
+        if (count($this->playerMoves) === 2) {
+            // echo "VIOLET ETAPE 3";
+            //  $this->isCardInPlay5 = 4;
+            // Jouer le tour et obtenir le résultat
+            $result = $this->playRound();
+            echo "Résultat du tour : $result\n";
+
+            if (get_class($this->miniGame) === 'TicTacToe') {
+                $this->isCardInPlay5 = 4;
+                $this->checkGameResult($pseudo, $move, $result);
+            }
+
+            if ($result !== null) {
+
+                echo "Résultat du tour : $result\n";
+
+                // Réinitialiser les mouvements des joueurs pour le prochain tour
+                $this->playerMoves = [];
+                $numbers = array_fill(0, 15, 1) // 1 apparaît 15% du temps
+                    + array_fill(15, 20, 2) // 2 apparaît 20% du temps
+                    + array_fill(35, 19, 3) // 3 apparaît 19% du temps
+                    + array_fill(54, 15, 4) // 4 apparaît 15% du temps
+                    + array_fill(69, 12, 5) // 5 apparaît 12% du temps
+                    + array_fill(81, 8, 6) // 6 apparaît 8% du temps
+                    + array_fill(89, 4, 7) // 7 apparaît 4% du temps
+                    + array_fill(93, 3, 8) // 8 apparaît 3% du temps
+                    + array_fill(96, 2, 9) // 9 apparaît 2% du temps
+                    + array_fill(98, 1, 10) // 10 apparaît 1% du temps
+                    + array_fill(99, 1, 11); // 11 apparaît 1% du temps
+
+                $number = $numbers[array_rand($numbers)];
+                // Préparer le message de résultat
+                if (get_class($this->miniGame) === 'TicTacToe') {
+                    $winnerPseudo = $result;
+                    $winner = null;
+
+                    foreach ($this->players as $player) {
+                        if ($player->pseudo === $winnerPseudo) {
+                            $winner = $player;
+                            break;
+                        }
+                    }
+                    if ($winner !== null && $winner !== 0) {
+                        $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
+                        $this->selectedPlayer = $loser;
+                        $this->selectedPlayer->sipsTaken += $number;
+                        $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !";
+                    }
+                    if ($winner === 0) {
+                        $content = "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !";
+                    }
+                } else if (get_class($this->miniGame) === 'RockPaperScissors') {
+                    $winner = $result === 1 ? $this->players[0] : ($result === 2 ? $this->players[1] : ($result === 0 ? 0 : null));
+                    $loser = $result === 1 ? $this->players[1] : ($result === 2 ? $this->players[0] : ($result === 0 ? 0 : null));
+                    $this->selectedPlayer = $loser;
+                    $this->selectedPlayer->sipsTaken += $number;
+                    $content = $result === 1 ? $this->players[0]->pseudo . " a eu la bonne réponse et " . $this->players[1]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 2 ? $this->players[1]->pseudo . " a eu la bonne réponse et " . $this->players[0]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 0 ? "Il y a eu une égalité !" : null));
+
+                    echo "Le gagnant est : " . ($winner !== null && $winner !== 0 ? $winner->pseudo : "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !") . "\n";
+                }
+                $resultMessage = [
+                    'type' => 'gameResult',
+                    'game' => get_class($this->miniGame),
+                    'moves' => $this->moves,
+                    'result' => $result,
+                    'winner' => $winner,
+                    'content' => $content
+                ];
+
+                // Envoyer le résultat aux joueurs
+                $this->broadcast(json_encode($resultMessage));
+                if ($result !== 0) {
+                    $this->selectedPlayer = null;
+                    $this->moves = [];
+                    $this->miniGame = null;
+                    $this->blueCardPlayer = null;
+                    $loser = null;
+                    $winner = null;
+                    $this->isCardInPlay5 = 0;
+                    $this->TicTacToeAlready = false;
+                } else if ($result === 0) {
+                    echo "Egalitée";
+                    if (get_class($this->miniGame) === 'TicTacToe') {
+                        foreach ($this->selectedPlayers as $player) {
+                            $player->sipsTaken += $number;
+                        }
+                        $this->selectedPlayer = null;
+                        $this->moves = [];
+                        $this->miniGame = null;
+                        $this->blueCardPlayer = null;
+                        $loser = null;
+                        $winner = null;
+                        $this->isCardInPlay5 = 0;
+                        $this->TicTacToeAlready = false;
+                    } else if (get_class($this->miniGame) === 'RockPaperScissors') {
+                        $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
+                    }
+                } else {
+                    echo "erreur carte violette";
+                }
+            }
+        }
     }
-}
-public function GETvioletSTATE()
-{
-    if ($this->isCardInPlay5 == 1) {
-        echo ("CAS 1 ");
-        $this->playvioletCard($this->blueCardPlayer);
-
-
-    } else if ($this->isCardInPlay5 == 2) {
-        echo ("CAS 2 ");
-        $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
-
-    } else if ($this->isCardInPlay5 == 3) {
-        echo ("CAS 3 ");
-        $this->handlePlayerMove($this->playdisconnect, $this->lastPlayerMove);
-
-
-    } else if ($this->isCardInPlay5 == 4){
-
-        $data = [
-            'type' => 'miniGameSelected',
-            'game' => get_class($this->miniGame),
-            'moves' => $this->moves,
-            'player1' => $this->player1->pseudo,
-            'player2' => $this->player2->pseudo,
-            'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
-            'TicTacToeAlready' => $this->TicTacToeAlready
-        ];
-        $this->broadcastToMultipleViolet(json_encode($data), $this->selectedPlayers);
-
-    } else if ($this->isCardInPlay5 == 5){
-
-    } else {
-        $this->isCardInPlay5 = 0;
-
+    public function checkGameResult($pseudo, $move, $result)
+    {
+        if (get_class($this->miniGame) === 'TicTacToe' && $result === null) {
+            $moveMessage = [
+                'type' => 'playerMove',
+                'pseudo' => $pseudo,
+                'game' => get_class($this->miniGame),
+                'move' => $move
+            ];
+            $result = $this->playRound();
+            echo "Nouveau tour joué, résultat : $result\n";
+        }
     }
-}
+    public function GETvioletSTATE()
+    {
+        if ($this->isCardInPlay5 == 1) {
+            echo ("CAS 1 ");
+            $this->playvioletCard($this->blueCardPlayer);
+        } else if ($this->isCardInPlay5 == 2) {
+            echo ("CAS 2 ");
+            $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
+        } else if ($this->isCardInPlay5 == 3) {
+            echo ("CAS 3 ");
+            $this->handlePlayerMove($this->playdisconnect, $this->lastPlayerMove);
+        } else if ($this->isCardInPlay5 == 4) {
+
+            $data = [
+                'type' => 'miniGameSelected',
+                'game' => get_class($this->miniGame),
+                'moves' => $this->moves,
+                'player1' => $this->player1->pseudo,
+                'player2' => $this->player2->pseudo,
+                'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                'TicTacToeAlready' => $this->TicTacToeAlready
+            ];
+            $this->broadcastToMultipleViolet(json_encode($data), $this->selectedPlayers);
+        } else if ($this->isCardInPlay5 == 5) {
+        } else {
+            $this->isCardInPlay5 = 0;
+        }
+    }
 
 
-/*public function handlePlayerDisconnect($pseudo) {
+    /*public function handlePlayerDisconnect($pseudo) {
     $this->isCardInPlay5 = 5;
     // Vérifier si isCardInPlay5 est vrai
     if ($this->isCardInPlay5) {
@@ -1747,21 +1724,19 @@ public function GETvioletSTATE()
     }
 }*/
 
-public function makeAutomaticMove() {
-    // Générer un mouvement automatique
-    // Vous pouvez remplacer cette logique par votre propre logique pour générer un mouvement
-    $moves = ['rock', 'paper', 'scissors'];
-    return $moves[array_rand($moves)];
-}
+    public function makeAutomaticMove()
+    {
+        // Générer un mouvement automatique
+        // Vous pouvez remplacer cette logique par votre propre logique pour générer un mouvement
+        $moves = ['rock', 'paper', 'scissors'];
+        return $moves[array_rand($moves)];
+    }
     // METHODE SUPPLEMENTAIRE A ADD AU JEU
 }
+
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
-use Ratchet\Session\SessionProvider;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Ratchet\WebSocket\WsServer;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 
 
@@ -1784,8 +1759,11 @@ class MyWebSocketServer implements MessageComponentInterface
         $this->lobbies = array();
         $this->pseudos = array();
         $this->clientStates = array();
-
         $this->resourceIds = array();
+
+        echo "------------------------------------------------------------------------------------\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré\n";
+        echo "------------------------------------------------------------------------------------\n";
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -1798,21 +1776,22 @@ class MyWebSocketServer implements MessageComponentInterface
         }
         $this->clients[spl_object_hash($conn)] = $conn;
         $this->resourceIds[spl_object_hash($conn)] = spl_object_hash($conn);
-        echo "Nouvelle connexion\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tNouvelle connexion\n";
+        echo "------------------------------------------------------------------------------------\n";
         // $this->broadcastLobbyList();
+
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
         $data = json_decode($msg, true);
-        echo "Received message: ";
-        var_dump($data);
         switch ($data['type']) {
             case 'createLobby':
-                echo "Creation d'un nouveau lobby: {$data['lobbyName']}\n";
                 $pseudo = $data['pseudo'];
                 $lobbyName = $data['lobbyName'];
                 $lobbyPassword = $data['password'];
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tCreation d'un nouveau lobby: {$lobbyName} par {$pseudo}\n";
+
                 if (isset($this->lobbies[$lobbyName])) {
                     echo "Un lobby avec ce nom existe déjà.\n";
                     $from->send(json_encode(
@@ -1826,8 +1805,8 @@ class MyWebSocketServer implements MessageComponentInterface
                 $lobby = new Lobby($lobbyName, $lobbyPassword, spl_object_hash($from));
                 $lobby->addPlayer($from, $pseudo);
                 $this->lobbies[$lobbyName] = $lobby;
-                echo "lobby ajouter au tableau du serveur\n";
-                $from->send(json_encode(
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tLobby {$data['lobbyName']} ajouté à la salle des serveurs\n";
+                        $from->send(json_encode(
                     array(
                         'type' => 'lobbyCreated',
                         'pseudo' => $pseudo,
@@ -1842,6 +1821,8 @@ class MyWebSocketServer implements MessageComponentInterface
                 $lobbyName = $data['lobbyName'];
                 $lobbyPassword = $data['password'];
                 $pseudo = $data['pseudo'];
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\t{$pseudo} a rejoint le lobby {$lobbyName}\n";
+
                 if (isset($this->lobbies[$lobbyName])) {
                     $lobby = $this->lobbies[$lobbyName];
                     if ($lobby->checkPassword($lobbyPassword)) {
@@ -1890,7 +1871,6 @@ class MyWebSocketServer implements MessageComponentInterface
                 break;
             case 'startGame':
                 $lobbyName = trim($data['lobbyName']);
-                echo ("nom du lobbytacapte $lobbyName\n");
                 if (isset($this->lobbies[$lobbyName])) {
 
                     $this->entredeux = true;
@@ -1898,7 +1878,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     $players = $lobby->getPlayers(); // Récupérer la liste des joueurs dans le lobby
                     $this->numPlayers = count($players);
                     $lobby->nbjoueursLOBBY = count($players);
-                    echo ("nb joueurs : " . $this->numPlayers . "\n");
+
                     // Envoyer un message à tous les joueurs dans le lobby pour démarrer le jeu
                     $lobby->gameStarted = true;
                     $lobby->broadcast(json_encode(array('type' => 'startGame', 'gameStarted' => $lobby->gameStarted)));
@@ -1909,6 +1889,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     }
 
                     $lobby->game->startGame();  // Change this line
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tDébut de la partie de {$lobbyName} avec {$lobby->nbjoueursLOBBY} joueurs\n";
 
                 }
                 break;
@@ -1943,18 +1924,20 @@ class MyWebSocketServer implements MessageComponentInterface
                 $pseudo = $data['pseudo'];
                 $this->pseudos[spl_object_hash($from)] = $pseudo;
                 $this->clients[spl_object_hash($from)] = $from;
-                // var_dump($data);
                 if (is_array($data) && isset($data['lobbyName']) && isset($data['pseudo'])) {
-                    echo "Nouvelle connexion de $pseudo dans le lobby $lobbyName ({$this->resourceIds[spl_object_hash($from)]})\n";
-                    echo "LobbyName: $lobbyName\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]" . "Nouvelle connexion de $pseudo dans le lobby $lobbyName ({$this->resourceIds[spl_object_hash($from)]})\n";
                     if (isset($this->lobbies[$lobbyName])) {
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->gameetat = true;
                         $lobby->nbstartparty++;
                         $lobby->game->nbjoueursSETPSEUOS++;
 
-                        echo ("COUCOU :" . $lobby->game->nbjoueursSETPSEUOS);
-                        echo ("COUCOU2 :" . $lobby->nbjoueursLOBBY);
+                        echo "------------------------------------------------------------------------------------\n";
+                        echo ("COUCOU :" . $lobby->game->nbjoueursSETPSEUOS . "\n");
+                        echo ("COUCOU2 :" . $lobby->nbjoueursLOBBY . "\n");
+                        echo "------------------------------------------------------------------------------------\n";
+
+                        
                         if ($lobby->game->startparty === true && $this->entredeux === false) {
                             $from->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
                         }
@@ -1968,7 +1951,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             $pseudos = array_map(function ($player) {
                                 return ($player['pseudo']);
                             }, $playerList);
-                            echo "Joueurs dans le lobby $lobbyName : " . implode(', ', $pseudos) . "\n";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tJoueurs dans le lobby $lobbyName : " . implode(', ', $pseudos) . "\n";
 
 
                             $playerList = $lobby->getPlayers();
@@ -1977,7 +1960,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     $from->send(json_encode(array('type' => 'message', 'Hello, client!')));
                 } else {
                     $from->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
-                    echo "TOUTE EST FAUX MDR";
+                    echo "TOUTE EST FAUX MDR C LA D";
                 }
 
                 break;
@@ -1989,7 +1972,6 @@ class MyWebSocketServer implements MessageComponentInterface
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->gameetat = false;
                         $players = $lobby->game->getPlayers(); // Récupérer la liste des joueurs dans la partie
-                        //   var_dump($players); // Afficher la liste des joueurs
                         if ($lobby->game->nbjoueursSETPSEUOS === $lobby->nbjoueursLOBBY) {
 
 
@@ -2010,15 +1992,11 @@ class MyWebSocketServer implements MessageComponentInterface
                                     echo "Error: No player object for player: " . $player['pseudo'] . "\n";
                                     continue;
                                 }
-                                var_dump($playerObject);
-                                var_dump(property_exists($playerObject, 'isPlayerTurn'));
                                 $playerObject->isPlayerTurn = false; // Add this line
 
 
                                 // Replace the array entry with the Player object
                                 $players[$key] = $playerObject;
-
-
                             }
                             // Appeler la méthode startParty pour initialiser l'état du jeu
                             foreach ($players as $player) {
@@ -2078,7 +2056,6 @@ class MyWebSocketServer implements MessageComponentInterface
                                 'content' => "EN ATTENTE DE TOUT LES JOUEURS."
                             );
                         }
-
                     }
                 } else {
                     echo "Error: lobbyName not set in data\n";
@@ -2091,8 +2068,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 $lobby = $this->lobbies[$lobbyName];
                 // Piocher une carte pour le joueur actif
                 $players = $lobby->game->getPlayers(); // Récupérer la liste des joueurs dans la partie
-                var_dump($players); // Afficher la liste des joueurs
-                if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0)  {
+                if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
                     $lobby->game->updateActivePlayer();  // Change this line
                     // Continue to update the active player until an active player is found
                     while (!$lobby->game->activePlayer->active) {
@@ -2112,7 +2088,6 @@ class MyWebSocketServer implements MessageComponentInterface
                     );
                     $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
                     $gameState['isPlayerTurn'] = $lobby->game->activePlayer->isPlayerTurn;
-                    var_dump($gameState);
                     if ($lobby->game->gameStarted === true) {
 
                         foreach ($players as $player) {
@@ -2149,7 +2124,6 @@ class MyWebSocketServer implements MessageComponentInterface
                         $lobby->game->startparty = true;
                         $players = $lobby->game->getPlayers(); // Récupérer la liste des joueurs dans la partie
                         $lobby->game->numberOfPlayers++;
-                        var_dump($players); // Afficher la liste des joueurs
                         // Vérifier si le joueur est déjà dans la partie
                         $playerExists = array_filter($players, function ($player) use ($pseudo) {
                             return $player->pseudo === $pseudo;
@@ -2191,7 +2165,6 @@ class MyWebSocketServer implements MessageComponentInterface
                         );
                         $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
                         $gameState['isPlayerTurn'] = $lobby->game->activePlayer->isPlayerTurn;
-                        var_dump($gameState);
 
                         // Envoyer l'état du jeu au client
                         foreach ($players as $player) {
@@ -2413,18 +2386,16 @@ class MyWebSocketServer implements MessageComponentInterface
                                 ]);
                             }
                             if ($lobby->game->isCardInPlay2 === 1 && $lobby->game->isCardInPlay3 === 1) {
-                            $lobby->game->broadcast2(json_encode([
-                                'type' => 'playerSelectedResponse',
-                                'pseudo' => $pseudo
-                            ]), $player);
-                        } else if ($lobby->game->isCardInPlay4 === 1)
-                        {
-                            $lobby->game->broadcast2(json_encode([
-                                'type' => 'playerSelectedResponseRED',
-                                'pseudo' => $pseudo
-                            ]), $player);
-                        }
-
+                                $lobby->game->broadcast2(json_encode([
+                                    'type' => 'playerSelectedResponse',
+                                    'pseudo' => $pseudo
+                                ]), $player);
+                            } else if ($lobby->game->isCardInPlay4 === 1) {
+                                $lobby->game->broadcast2(json_encode([
+                                    'type' => 'playerSelectedResponseRED',
+                                    'pseudo' => $pseudo
+                                ]), $player);
+                            }
                         } else {
                             echo "Error: $pseudo not found in player list\n";
                         }
@@ -2435,134 +2406,125 @@ class MyWebSocketServer implements MessageComponentInterface
                     echo "Error: Missing data in playerSelected2 request\n";
                 }
                 break;
-                case 'playersSelectedViolet':
-                    if (isset($data['pseudos']) && count($data['pseudos']) == 2 && isset($data['lobbyName'])) {
-                        $pseudos = $data['pseudos'];
-                        $lobbyName = trim($data['lobbyName']);
-                
-                        if (isset($this->lobbies[$lobbyName])) {
-                            $lobby = $this->lobbies[$lobbyName];
-                            $players = $lobby->game->getPlayers();
-                            echo "Players: ";
-                            foreach ($players as $player) {
-                                echo gettype($player) . "\n";
-                            }                            
-                            // Trouver les joueurs qui ont été sélectionnés
-                            $selectedPlayers = array_filter($players, function ($player) use ($pseudos) {
-                                return is_object($player) && property_exists($player, 'pseudo') && in_array($player->pseudo, $pseudos);
-                            });
-                
-                            if (count($selectedPlayers) == 2) {
-                                // Appeler une méthode différente sur l'objet game
-                                $lobby->game->onPlayersSelectedForVioletCard($selectedPlayers);
-                
-                                // Utiliser broadcastToMultiple au lieu de broadcast2
-                                $lobby->game->broadcastToMultipleViolet(json_encode([
-                                    'type' => 'playersSelectedResponseViolet',
-                                    'pseudos' => $pseudos
-                                ]), $selectedPlayers);
-                            } 
-                            else {
-                                echo "Error: One or both pseudos not found in player list\n";
-                            }
+            case 'playersSelectedViolet':
+                if (isset($data['pseudos']) && count($data['pseudos']) == 2 && isset($data['lobbyName'])) {
+                    $pseudos = $data['pseudos'];
+                    $lobbyName = trim($data['lobbyName']);
+
+                    if (isset($this->lobbies[$lobbyName])) {
+                        $lobby = $this->lobbies[$lobbyName];
+                        $players = $lobby->game->getPlayers();
+                        echo "Players: ";
+                        foreach ($players as $player) {
+                            echo gettype($player) . "\n";
+                        }
+                        // Trouver les joueurs qui ont été sélectionnés
+                        $selectedPlayers = array_filter($players, function ($player) use ($pseudos) {
+                            return is_object($player) && property_exists($player, 'pseudo') && in_array($player->pseudo, $pseudos);
+                        });
+
+                        if (count($selectedPlayers) == 2) {
+                            // Appeler une méthode différente sur l'objet game
+                            $lobby->game->onPlayersSelectedForVioletCard($selectedPlayers);
+
+                            // Utiliser broadcastToMultiple au lieu de broadcast2
+                            $lobby->game->broadcastToMultipleViolet(json_encode([
+                                'type' => 'playersSelectedResponseViolet',
+                                'pseudos' => $pseudos
+                            ]), $selectedPlayers);
                         } else {
-                            echo "Error: Lobby $lobbyName not found\n";
+                            echo "Error: One or both pseudos not found in player list\n";
                         }
                     } else {
-                        echo "Error: Missing data in playersSelectedViolet request\n";
+                        echo "Error: Lobby $lobbyName not found\n";
                     }
-                    break;
-                    case 'playerMove':
-                        echo "playerMove received\n";
-                        if (isset($data['pseudo']) && isset($data['lobbyName'])) {
-                            $pseudo = $data['pseudo'];
-                            $lobbyName = trim($data['lobbyName']);
-                            $game = $data['game'];
-                            if (isset($this->lobbies[$lobbyName])) {
-                                $lobby = $this->lobbies[$lobbyName];
-                                $players = $lobby->game->getPlayers();
-                                // Un joueur a fait un mouvement
-                                $move = $data['move'];
-                    
-
-
-                                  // Vérifier le type de jeu et traiter le mouvement en conséquence
-            if (get_class($lobby->game->miniGame) === 'TicTacToe') {
-              //  if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0]) {
-                // Pour le Morpion, $move doit être une paire de coordonnées
-                if (is_string($move)) {
-                    $move = explode(',', $move); // Convertir la chaîne de caractères en tableau
-                    $move = array_map('intval', $move); // Convertir les éléments du tableau en entiers
+                } else {
+                    echo "Error: Missing data in playersSelectedViolet request\n";
                 }
-                $lobby->game->handlePlayerMove($pseudo, $move);
-                error_log("Handled player move for TicTacToe");
+                break;
+            case 'playerMove':
+                echo "playerMove received\n";
+                if (isset($data['pseudo']) && isset($data['lobbyName'])) {
+                    $pseudo = $data['pseudo'];
+                    $lobbyName = trim($data['lobbyName']);
+                    $game = $data['game'];
+                    if (isset($this->lobbies[$lobbyName])) {
+                        $lobby = $this->lobbies[$lobbyName];
+                        $players = $lobby->game->getPlayers();
+                        // Un joueur a fait un mouvement
+                        $move = $data['move'];
 
-                if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0]) {
-                    $lobby->game->currentPlayerPURPLE = $lobby->game->player2;
-                    error_log('player1dfgd: ' . $lobby->game->player1->pseudo);
-                    error_log('player2dfgdf: ' . $lobby->game->player2->pseudo);
-                    error_log('VIOLETJOUEURgfd: ' . $lobby->game->currentPlayerPURPLE->pseudo);
-                } else if ( $lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[1])
-                {
-                    $lobby->game->currentPlayerPURPLE = $lobby->game->player1;
-                    error_log('player1dfgd2: ' . $lobby->game->player1->pseudo);
-                    error_log('player2dfgdf2: ' . $lobby->game->player2->pseudo);
-                    error_log('VIOLETJOUEURgfd2: ' . $lobby->game->currentPlayerPURPLE->pseudo);
-                }
-                    if ($lobby->game->isCardInPlay5 !== 0)
-                    {
-                $lobby->game->TicTacToeAlready = true;
-                $data = [
-                    'type' => 'miniGameSelected',
-                    'game' => get_class($lobby->game->miniGame),
-                    'moves' => $lobby->game->moves,
-                    'player1' => $lobby->game->player1->pseudo,
-                    'player2' => $lobby->game->player2->pseudo,
-                    'VIOLETJOUEUR' => $lobby->game->currentPlayerPURPLE->pseudo,
-                    'TicTacToeAlready' => $lobby->game->TicTacToeAlready
-                ];
-                $lobby->game->broadcastToMultipleViolet(json_encode($data), $lobby->game->selectedPlayers);
 
-                    } else if ($lobby->game->isCardInPlay5 === 0) {
-                        $lobby->game->TicTacToeAlready = false;
-                    }
-                
-              //  $lobby->game->currentPlayerPURPLE = $lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0] ? $lobby->game->selectedPlayers[1] : $lobby->game->selectedPlayers[0];
-               
-           // } else {
-              //      echo "CE N'EST PAS TON TOUR";
-             //}
-            } else if (get_class($lobby->game->miniGame) === 'RockPaperScissors') {
-                // Pour PierreFeuilleCiseaux, $move est une seule valeur
-                // Assurez-vous que $move est un entier
-              //  $move = intval($move);
-                $lobby->game->handlePlayerMove($pseudo, $move);
-                error_log("Handled player move for RockPaperScissors");
 
-            }
-                                // Mettre à jour le mouvement du joueur
-                               
+                        // Vérifier le type de jeu et traiter le mouvement en conséquence
+                        if (get_class($lobby->game->miniGame) === 'TicTacToe') {
+                            //  if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0]) {
+                            // Pour le Morpion, $move doit être une paire de coordonnées
+                            if (is_string($move)) {
+                                $move = explode(',', $move); // Convertir la chaîne de caractères en tableau
+                                $move = array_map('intval', $move); // Convertir les éléments du tableau en entiers
                             }
-                        }  else {
-                            echo "erreur pseudo et lobbyname";
+                            $lobby->game->handlePlayerMove($pseudo, $move);
+                            error_log("Handled player move for TicTacToe");
+
+                            if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0]) {
+                                $lobby->game->currentPlayerPURPLE = $lobby->game->player2;
+                                error_log('player1dfgd: ' . $lobby->game->player1->pseudo);
+                                error_log('player2dfgdf: ' . $lobby->game->player2->pseudo);
+                                error_log('VIOLETJOUEURgfd: ' . $lobby->game->currentPlayerPURPLE->pseudo);
+                            } else if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[1]) {
+                                $lobby->game->currentPlayerPURPLE = $lobby->game->player1;
+                                error_log('player1dfgd2: ' . $lobby->game->player1->pseudo);
+                                error_log('player2dfgdf2: ' . $lobby->game->player2->pseudo);
+                                error_log('VIOLETJOUEURgfd2: ' . $lobby->game->currentPlayerPURPLE->pseudo);
+                            }
+                            if ($lobby->game->isCardInPlay5 !== 0) {
+                                $lobby->game->TicTacToeAlready = true;
+                                $data = [
+                                    'type' => 'miniGameSelected',
+                                    'game' => get_class($lobby->game->miniGame),
+                                    'moves' => $lobby->game->moves,
+                                    'player1' => $lobby->game->player1->pseudo,
+                                    'player2' => $lobby->game->player2->pseudo,
+                                    'VIOLETJOUEUR' => $lobby->game->currentPlayerPURPLE->pseudo,
+                                    'TicTacToeAlready' => $lobby->game->TicTacToeAlready
+                                ];
+                                $lobby->game->broadcastToMultipleViolet(json_encode($data), $lobby->game->selectedPlayers);
+                            } else if ($lobby->game->isCardInPlay5 === 0) {
+                                $lobby->game->TicTacToeAlready = false;
+                            }
+
+                            //  $lobby->game->currentPlayerPURPLE = $lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0] ? $lobby->game->selectedPlayers[1] : $lobby->game->selectedPlayers[0];
+
+                            // } else {
+                            //      echo "CE N'EST PAS TON TOUR";
+                            //}
+                        } else if (get_class($lobby->game->miniGame) === 'RockPaperScissors') {
+                            // Pour PierreFeuilleCiseaux, $move est une seule valeur
+                            // Assurez-vous que $move est un entier
+                            //  $move = intval($move);
+                            $lobby->game->handlePlayerMove($pseudo, $move);
+                            error_log("Handled player move for RockPaperScissors");
                         }
-                        break;
-                        
-            
+                        // Mettre à jour le mouvement du joueur
+
+                    }
+                } else {
+                    echo "erreur pseudo et lobbyname";
+                }
+                break;
 
 
 
-            // case 'RESET' :
-            //   $this->lobbies[$messageData['lobbyName']]->game->reset();
-            // break;
+
+
+                // case 'RESET' :
+                //   $this->lobbies[$messageData['lobbyName']]->game->reset();
+                // break;
 
 
         }
     }
-
-
-
-
 
     public function onClose(ConnectionInterface $conn)
     {
@@ -2582,10 +2544,13 @@ class MyWebSocketServer implements MessageComponentInterface
                         'playerCount' => count($lobby->players)
                     )
                 ));
-                echo "etat de la party gamesstarted : " . ($lobby->getGame() ? $lobby->getGame()->isGameStarted() : 'false') . "\n";
+                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tEtat de la party gamesstarted : " . ($lobby->getGame() ? $lobby->getGame()->isGameStarted() : 'false') . "\n";
+
+
+
                 if (count($lobby->players) == 0 && ($lobby->getGame() === null || $lobby->getGame()->isGameStarted() == false)) {
-                    echo "PARTY SUPPRIMER";
                     unset($this->lobbies[$lobby->name]);
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPARTY SUPPRIME \n";
                 }
                 // $this->clientStates[spl_object_hash($conn)]['lastLobby'] = $lobby->name;
                 $this->broadcastLobbyList();
@@ -2599,119 +2564,111 @@ class MyWebSocketServer implements MessageComponentInterface
                     $lobby->game->playdisconnect = null;
                     foreach ($this->lobbies as $lobby) {
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
-                        $players = $lobby->game->getPlayers();
-                        foreach ($players as $player) {
-                            if (isset($lobby->game->clients[$player->pseudo])) {
-                                if ($lobby->game->clients[$player->pseudo] === $conn) { // Utilisez $this->clients pour obtenir la connexion
-                                    // Mettre la propriété active du joueur à 0
-                                    $player->active = 0;
-                                    $lobby->game->playdisconnect = $player->pseudo;
-                                    echo "Player " . $player->pseudo . " is now inactive\n";
-                                    if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
-                                        if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
+                            $players = $lobby->game->getPlayers();
+                            foreach ($players as $player) {
+                                if (isset($lobby->game->clients[$player->pseudo])) {
+                                    if ($lobby->game->clients[$player->pseudo] === $conn) { // Utilisez $this->clients pour obtenir la connexion
+                                        // Mettre la propriété active du joueur à 0
+                                        $player->active = 0;
+                                        $lobby->game->playdisconnect = $player->pseudo;
+                                        echo "Player " . $player->pseudo . " is now inactive\n";
+                                        if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
+                                            if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
 
-                                            $lobby->game->updateActivePlayer();
-                                            $lobby->game->activePlayer->cardsPlayedThisTurn = 0;
-                                            $lobby->game->isCardInPlay = 0;
-                                            $lobby->game->isCardInPlay2 = 0;
-                                            $lobby->game->isCardInPlay3 = 0;
-                                            $lobby->game->isCardInPlay4 = 0;
-                                            // Envoyer l'état du jeu mis à jour au client
-                                            $gameState = array('players' => $players, 'currentPlayerIndex' => $lobby->currentPlayerIndex, 'dropzone' => $lobby->game->getDropzone());
-                                            $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
-                                            $gameState['isPlayerTurn'] = $lobby->game->activePlayer->isPlayerTurn;
-                                            var_dump($gameState);
+                                                $lobby->game->updateActivePlayer();
+                                                $lobby->game->activePlayer->cardsPlayedThisTurn = 0;
+                                                $lobby->game->isCardInPlay = 0;
+                                                $lobby->game->isCardInPlay2 = 0;
+                                                $lobby->game->isCardInPlay3 = 0;
+                                                $lobby->game->isCardInPlay4 = 0;
+                                                // Envoyer l'état du jeu mis à jour au client
+                                                $gameState = array('players' => $players, 'currentPlayerIndex' => $lobby->currentPlayerIndex, 'dropzone' => $lobby->game->getDropzone());
+                                                $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
+                                                $gameState['isPlayerTurn'] = $lobby->game->activePlayer->isPlayerTurn;
 
-                                            foreach ($players as $player) {
-                                                $gameState['playerId'] = $player->id;
-                                                $gameState['isPlayerTurn'] = $lobby->game->activePlayer->pseudo == $player->pseudo;
-                                                $message = json_encode(array('type' => 'gameStateUpdate', 'gameState' => $gameState));
-                                                $lobby->game->broadcast2($message, $player);
+                                                foreach ($players as $player) {
+                                                    $gameState['playerId'] = $player->id;
+                                                    $gameState['isPlayerTurn'] = $lobby->game->activePlayer->pseudo == $player->pseudo;
+                                                    $message = json_encode(array('type' => 'gameStateUpdate', 'gameState' => $gameState));
+                                                    $lobby->game->broadcast2($message, $player);
+                                                }
                                             }
                                         }
+
+                                        // Continue to update the active player until an active player is found
+
+                                        break 2;
                                     }
-
-                                    // Continue to update the active player until an active player is found
-
-                                    break 2;
+                                } else {
+                                    $conn->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
+                                    echo "Player " . $player->pseudo . " does not exist in the clients array.\n";
                                 }
-                            } else {
-                                $conn->send(json_encode(array('type' => 'redirect', 'url' => 'index.php')));
-                                echo "Player " . $player->pseudo . " does not exist in the clients array.\n";
-
                             }
                         }
-                    }
                     }
                     foreach ($this->lobbies as $lobby) {
                         echo "Game: " . $lobby->name . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
-                        $players = $lobby->game->getPlayers();
-                        foreach ($players as $player) {
-                            echo "Player: " . $player->pseudo . ", Active: " . ($player->active ? "Yes" : "No") . "\n";
-                        }
-
-                        echo "FERMETURE OUI OUI";
-                        $lobby->game->numberOfPlayers--;
-                        error_log('Countdown active3: ' . ($lobby->game->countdownActive ? 'true' : 'false'));
-                        if ($lobby->game->countdownActive) {
-                            $elapsedTime = time() - $lobby->game->countdownStart;
-                            $lobby->game->countdownRemaining = $lobby->game->countdownDuration - $elapsedTime;
-                            $lobby->game->countdownPausedAt = time();
-                            $lobby->game->countdownActive = false;
-                        }
-                        if ($lobby->game->startparty === true) {
-                            $allPlayersInactive = true;
-                            if ($lobby->game->isCardInPlay5 === 2 || $lobby->game->isCardInPlay5 === 3) {
-                                //  $lobby->game->handlePlayerDisconnect($pseudo);
-                                if (get_class($lobby->game->miniGame) === 'RockPaperScissors') {
-                                  $lobby->game->autoMove = $lobby->game->makeAutomaticMove();
-                                  // $lobby->game->handlePlayerMove($lobby->game->playdisconnect, $lobby->game->autoMove);
-                                   $lobby->game->isCardInPlay5 = 3;
-                                } else if (get_class($lobby->game->miniGame) === 'TicTacToe')
-                                { 
-                                    $lobby->game->isCardInPlay5 = 4;
-
-                                }
-                              }
-                            foreach ($lobby->game->getPlayers() as $player) {
-                                if ($player->active != 0) {
-                                    $allPlayersInactive = false;
-                                    break;
-                                }
+                            $players = $lobby->game->getPlayers();
+                            foreach ($players as $player) {
+                                echo "Player: " . $player->pseudo . ", Active: " . ($player->active ? "Yes" : "No") . "\n";
                             }
-                            if ($allPlayersInactive) {
 
-                                echo "SUPPRESION DE LA PARTIE";
-                                unset($this->lobbies[$lobby->name]);
-                                $lobby->game->startparty = false;
-                                $lobby->game = null;
-                                // Supprimez la partie ici
-                                foreach ($this->clients as $client) {
-                                    $client->send(json_encode([
-                                        'type' => 'lobbyList',
-                                        'lobbies' => array_values($this->lobbies)
-                                    ]));
-                                }
-
-                            } else {
-
+                            echo "FERMETURE OUI OUI";
+                            $lobby->game->numberOfPlayers--;
+                            error_log('Countdown active3: ' . ($lobby->game->countdownActive ? 'true' : 'false'));
+                            if ($lobby->game->countdownActive) {
+                                $elapsedTime = time() - $lobby->game->countdownStart;
+                                $lobby->game->countdownRemaining = $lobby->game->countdownDuration - $elapsedTime;
+                                $lobby->game->countdownPausedAt = time();
+                                $lobby->game->countdownActive = false;
                             }
-                            if (isset($lobby->game) && isset($lobby->game->activePlayer) && isset($lobby->game->activePlayer->pseudo)) {
-                                if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
-                                    if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 == 0) {
-                                        while (!$lobby->game->activePlayer->active) {
-                                            $lobby->game->updateActivePlayer();
+                            if ($lobby->game->startparty === true) {
+                                $allPlayersInactive = true;
+                                if ($lobby->game->isCardInPlay5 === 2 || $lobby->game->isCardInPlay5 === 3) {
+                                    //  $lobby->game->handlePlayerDisconnect($pseudo);
+                                    if (get_class($lobby->game->miniGame) === 'RockPaperScissors') {
+                                        $lobby->game->autoMove = $lobby->game->makeAutomaticMove();
+                                        // $lobby->game->handlePlayerMove($lobby->game->playdisconnect, $lobby->game->autoMove);
+                                        $lobby->game->isCardInPlay5 = 3;
+                                    } else if (get_class($lobby->game->miniGame) === 'TicTacToe') {
+                                        $lobby->game->isCardInPlay5 = 4;
+                                    }
+                                }
+                                foreach ($lobby->game->getPlayers() as $player) {
+                                    if ($player->active != 0) {
+                                        $allPlayersInactive = false;
+                                        break;
+                                    }
+                                }
+                                if ($allPlayersInactive) {
+
+                                    echo "SUPPRESION DE LA PARTIE";
+                                    unset($this->lobbies[$lobby->name]);
+                                    $lobby->game->startparty = false;
+                                    $lobby->game = null;
+                                    // Supprimez la partie ici
+                                    foreach ($this->clients as $client) {
+                                        $client->send(json_encode([
+                                            'type' => 'lobbyList',
+                                            'lobbies' => array_values($this->lobbies)
+                                        ]));
+                                    }
+                                } else {
+                                }
+                                if (isset($lobby->game) && isset($lobby->game->activePlayer) && isset($lobby->game->activePlayer->pseudo)) {
+                                    if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
+                                        if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 == 0) {
+                                            while (!$lobby->game->activePlayer->active) {
+                                                $lobby->game->updateActivePlayer();
+                                            }
                                         }
                                     }
-                                } 
+                                }
                             }
-                            
                         }
                     }
-                    }
                 }
-
             }
             if (isset($lobby->game) && $lobby->game->gameetat === true) {
 
@@ -2736,8 +2693,6 @@ class MyWebSocketServer implements MessageComponentInterface
                     // Si le joueur est trouvé, supprimer le joueur par son pseudo
                     if (!empty($player) && $lobby->game !== null) {
                         $lobby->game->removePlayer($pseudo);
-
-
                     }
                     foreach ($this->clients as $client) {
                         $client->send(json_encode([
@@ -2771,8 +2726,6 @@ class MyWebSocketServer implements MessageComponentInterface
                 // Si le joueur est trouvé, supprimer le joueur par son pseudo
                 if (!empty($player) && $lobby->game !== null) {
                     $lobby->game->removePlayer($pseudo);
-
-
                 }
                 foreach ($this->clients as $client) {
                     $client->send(json_encode([
@@ -2785,19 +2738,14 @@ class MyWebSocketServer implements MessageComponentInterface
 
         unset($this->clients[spl_object_hash($conn)]);
         unset($this->pseudos[spl_object_hash($conn)]);  // Supprimez le pseudo de $this->pseudos
-        echo "Connexion fermée! ({$this->resourceIds[spl_object_hash($conn)]})\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tDeconnexion : ({$pseudo} {$this->resourceIds[spl_object_hash($conn)]})\n";
+
+
+
+
         unset($this->resourceIds[spl_object_hash($conn)]);
         $this->broadcastLobbyList();
     }
-
-
-
-
-
-
-
-
-
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
@@ -2840,4 +2788,3 @@ $server = IoServer::factory(
 //$server = new \Ratchet\App('localhost', 8080);
 
 $server->run();
-?>
