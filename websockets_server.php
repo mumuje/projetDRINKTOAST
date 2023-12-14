@@ -1626,9 +1626,12 @@ public function handlePlayerMove($pseudo, $move) {
                 $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
                 $this->selectedPlayer = $loser;
                 $this->selectedPlayer->sipsTaken += $number;
+                $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !";
 
-            }            
-            $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !";
+            }  
+            if ($winner === 0) {
+                 $content = "Pas de gagnant tout le monde bois ". $number . " gorgée(s) !";
+            }           
 
         } else if (get_class($this->miniGame) === 'RockPaperScissors') {
             $winner = $result === 1 ? $this->players[0] : ($result === 2 ? $this->players[1] : ($result === 0 ? 0 : null));
@@ -1787,6 +1790,12 @@ class MyWebSocketServer implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
+        $path = $conn->httpRequest->getUri()->getPath();
+        if ($path == '/websocket') {
+            // Traitez la connexion comme une connexion WebSocket
+        } else {
+            // Ignorez la connexion ou envoyez une réponse d'erreur
+        }
         $this->clients[spl_object_hash($conn)] = $conn;
         $this->resourceIds[spl_object_hash($conn)] = spl_object_hash($conn);
         echo "Nouvelle connexion\n";
@@ -2819,7 +2828,16 @@ class MyWebSocketServer implements MessageComponentInterface
     }
 }
 
-$server = new \Ratchet\App('localhost', 8080);
-$server->route('/websocket', new MyWebSocketServer);
+$server = IoServer::factory(
+    new HttpServer(
+        new WsServer(
+            new MyWebSocketServer()
+        )
+    ),
+    8080,
+    '0.0.0.0'
+);
+//$server = new \Ratchet\App('localhost', 8080);
+
 $server->run();
 ?>
