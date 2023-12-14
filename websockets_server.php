@@ -2793,7 +2793,7 @@ class MyWebSocketServer implements MessageComponentInterface
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
         echo "Erreur: {$e->getMessage()}\n";
-        $conn->close();
+        $conn->close(); // clsoe
     }
 
     protected function broadcastLobbyList()
