@@ -9,7 +9,7 @@
 </head>
 
 <body>
-
+  <!-- coucou  -->
   <div id="game-board">
     <div id="game-area">
       <div id="dropzone"></div>
