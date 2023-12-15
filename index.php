@@ -58,12 +58,12 @@
     <p><strong>CONCEPT DU JEU :</strong></p>
     <p>6 cartes différentes</p>
     <ul>
-    <li>Carte Bleue ->Mode de jeu Devine le nombre</li>
-    <li>Carte Jaune ->Question général sinon X gorgée</li>
-    <li>Carte Rouge ->Action physique sinon X gorgée</li>
-    <li>Carte Verte ->Énigme</li>
-    <li>Carte RARE Multicolore ->Tout le monde X gorgée</li>
-    <li>Carte RARE Violet->2 joueurs dans un mini jeu (1v1)</li>
+    <li>Carte Bleue -> Devine le nombre</li>
+      <li>Carte Jaune -> Question général sinon X gorgée(s)</li>
+      <li>Carte Rouge -> Action physique sinon X gorgée(s)</li>
+      <li>Carte Verte -> Énigme sinon X gorgée(s)</li>
+      <li>Carte RARE Multicolore -> Tout le monde prend X gorgée(s)</li>
+      <li>Carte RARE Violette -> 2 joueurs dans un mini jeu (1v1)</li>
   </ul>
     <!-- Ajoutez plus de règles ici -->
   </div>
