@@ -27,6 +27,11 @@ class Lobby
         $this->password = $password;
         $this->players = new \SplObjectStorage;
         $this->creator = $creator;  // Ajoutez cette ligne
+        $this->players;
+        $this->nbstartparty = 0;
+        $this->nbjoueursLOBBY = 0;
+        $this->currentPlayerIndex = 0;
+
     }
 
     public function setGame(Game $game)
@@ -305,11 +310,13 @@ class Game
     public $turnCount = 0;
     protected $player1Pseudo;
     protected $player2Pseudo;
-
+    public $gameId;
     public $moves;
     protected $playerAnswer;
     private $currentQuestion = null;
     public $dropzone = [];
+
+    public $playerDisconnected;
 
 
     public function __construct($lobbyName)
@@ -319,6 +326,50 @@ class Game
         $this->players = [];
         $this->clients = [];
         $this->playedCards = [];
+        $this->numberOfPlayers = 0;
+        $this->gameStarted = false;
+        $this->playerDisconnected = false;
+        $this->dropzone = [];
+        $this->gameId = 0;
+        $this->gameetat = false;
+        $this->currentQuestion;
+        $this->playerAnswer;
+        $this->moves;
+        $this->player2Pseudo = null;
+        $this->player1Pseudo =  null;
+        $this->turnCount = 0;
+        $this->countdownPausedAt = 0;
+        $this->lastPlayerMove = null;
+        $this->selectedPlayers = [];
+        $this->isCardInPlay = 0;
+        $this->isCardInPlay2 = 0;
+         $this->TicTacToeAlready = false;
+        $this->miniGame;
+        $this->isCardInPlay3 = 0;
+        $this->isCardInPlay4 = 0;
+        $this->isCardInPlay5 = 0;
+        $this->nbjoueursSETPSEUOS = 0;
+        $this->votesByPlayer = [];
+        $this->player1;
+        $this->player2;
+        $this->votes;
+        $this->currentPlayerPURPLE;
+        $this->deck;
+        $this->playdisconnect = false;
+        $this->selectedPlayer;
+        $this->activePlayer = null;
+        $this->gameetat = false;
+        $this->game = null;
+        $this->autoMove = null;
+        $this->minigames;
+        $this->countdownActive = false;
+        $this->blueCardPlayer;
+        $this->currentAnswer = null;
+        $this->countdownStart = null;
+        $this->countdownDuration = null;
+        $this->startparty = false;
+        $this->playerMoves = [];
+
     }
     public function removePlayer($pseudo)
     {
@@ -518,6 +569,7 @@ class Game
         Player::resetId();
         $this->startparty = true;
         $this->gameStarted = true;
+        $this->gameId = spl_object_id($this);
         // Créer un nouveau deck de cartes
         $this->deck = $this->createDeck();
 
@@ -555,7 +607,7 @@ class Game
         $message = "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
         // $this->saveGameState($players);
-        // echo "Instance de jeu dans startParty: " . spl_object_id($this) . "\n";
+         echo "Instance de jeu dans startParty: " . spl_object_id($this) . "\n";
         return array('players' => $players, 'activePlayerIndex' => $activePlayerIndex);
         if (!is_object($this->activePlayer)) {
             echo "------------------------------------------------------------------------------------\n";
@@ -1105,12 +1157,13 @@ class Game
     }
     public function startCountdown($seconds)
     {
+        $gameId = spl_object_id($this);
         // Lire l'état du compte à rebours à partir d'un fichier
-        $countdownState = json_decode(file_get_contents('txt/countdownState.txt'), true);
-        if ($countdownState) {
-            $this->countdownActive = $countdownState['active'];
-            $this->countdownStart = $countdownState['start'];
-            $this->countdownDuration = $countdownState['duration'];
+        $countdownStates = json_decode(file_get_contents('txt/countdownState.txt'), true);
+        if ($countdownStates[$gameId]) {
+            $this->countdownActive = $countdownStates[$gameId]['active'];
+            $this->countdownStart = $countdownStates[$gameId]['start'];
+            $this->countdownDuration = $countdownStates[$gameId]['duration'];
         }
 
         // Si un compte à rebours est déjà en cours, calculez le temps restant
@@ -1135,16 +1188,17 @@ class Game
         }
 
         // Enregistrer l'état du compte à rebours dans un fichier
-        $countdownState = array(
+        $countdownStates[$gameId] = array(
             'active' => $this->countdownActive,
             'start' => $this->countdownStart,
             'duration' => $this->countdownDuration,
         );
-        file_put_contents('txt/countdownState.txt', json_encode($countdownState));
+        file_put_contents('txt/countdownState.txt', json_encode($countdownStates));
 
         // Envoyer un message de compte à rebours aux clients
         $message = array(
             'type' => 'COUNTDOWN',
+            'gameId' => $gameId,
             'start' => $this->countdownStart,
             'duration' => $this->countdownDuration,
         );
@@ -1227,7 +1281,8 @@ class Game
         return $votesAgainst;
     }
     public function onVoteReceived($data)
-    {
+    {        echo "[" . date('Y-m-d H:i:s') . "]"  . ("\t\tNB JOUEURS " . $this->numberOfPlayers . "\n");
+
         error_log('onVoteReceived called with ' . print_r($data, true));
         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tETAPE VOTE RECU\n";
         $vote = $data['vote'];
@@ -2142,7 +2197,9 @@ class MyWebSocketServer implements MessageComponentInterface
                         $lobby = $this->lobbies[$lobbyName];
                         $lobby->game->startparty = true;
                         $players = $lobby->game->getPlayers(); // Récupérer la liste des joueurs dans la partie
+                        echo "avant ajout d'un joueur dans le lobby " . $lobby->name . ", nombre de joueurs : " .  $lobby->game->numberOfPlayers . "\n";
                         $lobby->game->numberOfPlayers++;
+                        echo "ajout d'un joueur dans le lobby " . $lobby->name . ", nombre de joueurs : " .  $lobby->game->numberOfPlayers . "\n";
                         // Vérifier si le joueur est déjà dans la partie
                         $playerExists = array_filter($players, function ($player) use ($pseudo) {
                             return $player->pseudo === $pseudo;
@@ -2580,17 +2637,30 @@ class MyWebSocketServer implements MessageComponentInterface
             $gameStarted = $lobby->getGame() ? $lobby->getGame()->isGameStarted() : false;
             if (is_object($lobby->game) && $lobby->game->startparty) {
                 if ($lobby->game->startparty) {
+
+           
+                    
                     $lobby->game->playdisconnect = null;
                     foreach ($this->lobbies as $lobby) {
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
                             $players = $lobby->game->getPlayers();
                             foreach ($players as $player) {
                                 if (isset($lobby->game->clients[$player->pseudo])) {
-                                    if ($lobby->game->clients[$player->pseudo] === $conn) { // Utilisez $this->clients pour obtenir la connexion
+                                    if (isset($lobby->game->clients[$player->pseudo]) && $lobby->game->clients[$player->pseudo] === $conn) {
+                                        $lobby->game->playerDisconnected = $player;
                                         // Mettre la propriété active du joueur à 0
-                                        $player->active = 0;
-                                        $lobby->game->playdisconnect = $player->pseudo;
-                                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " is now inactive\n";
+                                        if ($player !== null) {
+                                            $isActive = $player->active;
+                                        }
+                                        if ($lobby->game->playerDisconnected !== null && $lobby->game->playerDisconnected->active != 0) {
+                                            $lobby->game->playerDisconnected->active = 0;
+                                            $lobby->game->playdisconnect = $lobby->game->playerDisconnected->pseudo;
+                                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $lobby->game->playerDisconnected->pseudo . " is now inactive\n";
+                                            echo "avant suppresion d'un joueur dans le lobby " . $lobby->name . ", nombre de joueurs : " .  $lobby->game->numberOfPlayers . "\n";
+                                            $lobby->game->numberOfPlayers--;
+                                            echo "apres suppresion d'un joueur dans le lobby " . $lobby->name . ", nombre de joueurs : " .  $lobby->game->numberOfPlayers . "\n";
+                                            // ... Reste du code ...
+                                        }
                                         if ($lobby->game->activePlayer->pseudo === $player->pseudo) {
                                             if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
 
@@ -2625,6 +2695,10 @@ class MyWebSocketServer implements MessageComponentInterface
                             }
                         }
                     }
+                   
+
+
+
                     foreach ($this->lobbies as $lobby) {
                         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tGame: " . $lobby->name . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
@@ -2634,7 +2708,6 @@ class MyWebSocketServer implements MessageComponentInterface
                             }
 
                             echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tFERMETURE OUI OUI\n";
-                            $lobby->game->numberOfPlayers--;
                             error_log('Countdown active3: ' . ($lobby->game->countdownActive ? 'true' : 'false'));
                             if ($lobby->game->countdownActive) {
                                 $elapsedTime = time() - $lobby->game->countdownStart;
@@ -2699,7 +2772,7 @@ class MyWebSocketServer implements MessageComponentInterface
                         $lobby->game = null;
                     }
 
-                    if (isset($this->clients[spl_object_hash($conn)])) {
+                    if (isset($this->clients[spl_object_hash($conn)]) && isset($this->pseudos[spl_object_hash($conn)])) {
                         $pseudo = $this->pseudos[spl_object_hash($conn)];
                     } else {
                         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
@@ -2721,6 +2794,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 }
             }
         }
+     
         if (isset($lobby->game) && $lobby->game->gameetat === true) {
             if ($lobby->game->gameetat === true) {
                 $lobby->nbstartparty--;
