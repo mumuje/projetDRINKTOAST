@@ -58,6 +58,7 @@ const handleClick = (event) => {
 };
 //pseudo du joueur 
 window.onload = function() {
+  document.getElementById('contact').style.display = 'none';
     var gameStarted = false;
   var gameState = {};
   localStorage.setItem('gameStarted', gameStarted);
@@ -72,6 +73,22 @@ window.onload = function() {
     pseudoInput.disabled = true;
     pseudoButton.textContent = 'Changer le pseudo';
   }
+
+
+  document.getElementById('contactButton').addEventListener('click', (event) => {
+    event.preventDefault();
+
+    document.getElementById('lobby-creation').style.display = 'none';
+
+    document.getElementById('pseudo-form').style.display = 'none';
+
+    document.getElementById('contactButton').style.display = 'none';
+    document.getElementById('contact').style.display = 'block';
+
+
+
+  });
+
 
   document.getElementById('pseudo-form').addEventListener('submit', (event) => {
     event.preventDefault();
@@ -154,6 +171,8 @@ if (lobbyList) {
           
           // Affichez les informations sur le lobby
           document.getElementById('lobby-info').style.display = 'block';
+          document.getElementById('contactButton').style.display = 'none';
+          document.getElementById('contact').style.display = 'none';
 
           // Mettez à jour le nom du lobby affiché
           if (lobby.requiresPassword) {
@@ -191,7 +210,9 @@ if (lobbyList) {
         // Cachez le formulaire de création de lobby$pseudo$ps$pseudo
         document.getElementById('lobby-creation').style.display = 'none';
 
-  
+        document.getElementById('contactButton').style.display = 'none';
+        document.getElementById('contact').style.display = 'none';
+
         // Affichez les informations sur le lobby
         document.getElementById('lobby-info').style.display = 'block'; 
     
@@ -214,6 +235,10 @@ if (lobbyList) {
     
       // Affichez les informations sur le lobby
       document.getElementById('lobby-info').style.display = 'block';
+
+      document.getElementById('contactButton').style.display = 'none';
+      document.getElementById('contact').style.display = 'none';
+
     
       // Mettez à jour le nom du lobby affiché
       if (requiresPassword) {
@@ -332,6 +357,11 @@ if (lobbyList) {
       document.getElementById('lobby-info').style.display = 'none';
 
       document.getElementById('lobby-name-display').textContent = '';
+
+      document.getElementById('contactButton').style.display = 'block';
+      document.getElementById('contact').style.display = 'none';
+
+
       alert(data.message);
 
 
@@ -358,6 +388,10 @@ if (lobbyList) {
       document.getElementById('lobby-info').style.display = 'none';
 
       document.getElementById('lobby-name-display').textContent = '';
+
+      document.getElementById('contactButton').style.display = 'block';
+      document.getElementById('contact').style.display = 'none';
+
       alert(data.message);
      } // else if
       });
@@ -409,3 +443,9 @@ function updateLobbyList(lobbies) {
     lobbyList.appendChild(listItem);
   }
 }
+
+function updateCounter() {
+  var remaining = 1000 - document.getElementById('message').value.length;
+  document.getElementById('counter').textContent = remaining + ' caractères restants';
+}
+updateCounter(); 

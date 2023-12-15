@@ -1,3 +1,17 @@
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $pseudo = $_POST['pseudo'];
+    $message = $_POST['message'];
+
+    // Formatage du message
+    $formattedMessage = "Pseudo: " . $pseudo . "\nMessage: " . $message . "\n\n";
+
+    // Écriture du message dans le fichier
+    file_put_contents('messages.txt', $formattedMessage, FILE_APPEND);
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -14,7 +28,7 @@
     <img src="img/logo.png" alt="Logo" class="logo"></a> 
     <nav>
         <ul>
-        <!--  <li><a href="index.php">Accueil</a></li>-->
+<li><button id="contactButton">Contact</button></li>
         </ul>
       </nav>
 </div>
@@ -30,6 +44,18 @@
     <button type="submit">Enregistrer le pseudo!</button>
     
 </form>
+
+<div id ="contact">
+<form method="post">
+    <label for="pseudo">Pseudo :</label>
+    <input type="text" id="pseudo" name="pseudo" required>
+    <label for="message">Message :</label>
+    <textarea id="message" name="message" rows="4" cols="50" maxlength="1000" required oninput="updateCounter()"></textarea>
+    <div id="counter" style="text-align: right;"></div>
+    <button type="submit">Envoyer</button>
+</form>
+</div>
+
       <div id="lobby-creation">
         <h2>Créer un nouveau lobby</h2>
         <form id="create-lobby-form" method="post">
