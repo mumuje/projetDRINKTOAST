@@ -18,6 +18,7 @@ const correctAnswerElement = document.getElementById('correctAnswerDisplay');
 
 function openSocketConnection() {
   if (socket && socket.readyState === WebSocket.OPEN) {
+    console.log('Connection already opened fermeture ws');
     socket.close();
   }
   pseudo = localStorage.getItem('pseudo');
@@ -27,7 +28,7 @@ function openSocketConnection() {
   startPartyButton = document.getElementById('startparty');
   endTurnButton = document.getElementById('end-turn');
   endTurnButton.style.display = 'none';
- 
+  console.log('ouverture ws');
   socket = new WebSocket('ws://192.168.1.101:8080/websocket');
  // socket = new WebSocket('ws://localhost:8080/websocket');
 

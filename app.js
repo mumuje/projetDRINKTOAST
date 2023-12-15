@@ -1,7 +1,10 @@
 
 var gameStarted3 = false;
-
-const socket = new WebSocket('ws://192.168.1.101:8080/websocket');
+let socket;
+if(socket && socket.readyState === WebSocket.OPEN) {
+  socket.close();
+}
+socket = new WebSocket('ws://192.168.1.101:8080/websocket');
 //const socket = new WebSocket('ws://localhost:8080/websocket');
 
 socket.addEventListener('open', (event) => {
@@ -343,9 +346,7 @@ if (lobbyList) {
       gameStarted3 = data.gameStarted;
       console.log(gameStarted3);
       const lobbyName = document.getElementById('lobby-name-display').textContent;
-      window.location.href = `game.php?lobby=${encodeURIComponent(lobbyName)}`; 
-      ws.close();
-  
+      window.location.href = `game.php?lobby=${encodeURIComponent(lobbyName)}`;   
   }
      
      

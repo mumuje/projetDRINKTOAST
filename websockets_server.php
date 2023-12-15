@@ -551,7 +551,7 @@ class Game
             echo "Error: activePlayer is not an object after startParty\n";
             echo "------------------------------------------------------------------------------------\n";
         }
-        echo "[" . date('Y-m-d H:i:s') . "]"  . "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tLe premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $message = "Le premier joueur est " . $players[$activePlayerIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
         // $this->saveGameState($players);
@@ -654,7 +654,7 @@ class Game
         $this->activePlayer = $this->players[$nextIndex];
 
         // Diffuser le joueur actif mis à jour
-        echo "[" . date('Y-m-d H:i:s') . "]"  . "C'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tC'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
         $message = "C'est maintenant le tour de " . $this->players[$nextIndex]->pseudo . "\n";
         $this->broadcast(json_encode(array('type' => 'message', 'content' => $message)));
     }
@@ -1807,7 +1807,7 @@ class MyWebSocketServer implements MessageComponentInterface
                 echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tCreation d'un nouveau lobby: {$lobbyName} par {$pseudo}\n";
 
                 if (isset($this->lobbies[$lobbyName])) {
-                    echo "[" . date('Y-m-d H:i:s') . "]"  . "Un lobby avec ce nom existe déjà.\n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tUn lobby avec ce nom existe déjà.\n";
                     $from->send(json_encode(
                         array(
                             'type' => 'error',
@@ -2156,9 +2156,9 @@ class MyWebSocketServer implements MessageComponentInterface
                         // $lobby->game->updateActivePlayer();  // Change this line
                         foreach ($players as $player) {
                             if ($player->isPlayerTurn) {
-                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player " . $player->pseudo . " has isPlayerTurn set to true\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " has isPlayerTurn set to true\n";
                             } else {
-                                echo "[" . date('Y-m-d H:i:s') . "]"  . "Player " . $player->pseudo . " has isPlayerTurn set to false\n";
+                                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " has isPlayerTurn set to false\n";
                             }
                         }
                         // Récupérer l'état actuel du jeu
@@ -2628,7 +2628,7 @@ class MyWebSocketServer implements MessageComponentInterface
                                 echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer: " . $player->pseudo . ", Active: " . ($player->active ? "Yes" : "No") . "\n";
                             }
 
-                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tFERMETURE OUI OUI";
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tFERMETURE OUI OUI\n";
                             $lobby->game->numberOfPlayers--;
                             error_log('Countdown active3: ' . ($lobby->game->countdownActive ? 'true' : 'false'));
                             if ($lobby->game->countdownActive) {
