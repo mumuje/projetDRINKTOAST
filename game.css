@@ -633,12 +633,13 @@ table {
 .game-button-RockPaperScissors {
   top: 60% !important; 
   left: 60% !important;
-z-index: 1000 !important;
+  z-index: 1000 !important;
 }
 #moveSelection {
   position: relative;
   top: 40%;
-  left : 40%
+  left : 40%;
+  z-index: 1000 !important;
 }
 @media (max-width: 960px) {
 
