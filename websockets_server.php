@@ -2638,7 +2638,7 @@ class MyWebSocketServer implements MessageComponentInterface
 
             }
         }
-            $gameStarted = $lobby->getGame() ? $lobby->getGame()->isGameStarted() : false;
+          //  $gameStarted = $lobby->getGame() ? $lobby->getGame()->isGameStarted() : false;
             if (is_object($lobby->game) && $lobby->game->startparty) {
                 if ($lobby->game->startparty) {
                     echo " " . date('Y-m-d H:i:s') . " GAME STARTED " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
