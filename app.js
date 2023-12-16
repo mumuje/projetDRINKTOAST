@@ -4,8 +4,8 @@ let socket;
 if(socket && socket.readyState === WebSocket.OPEN) {
   socket.close();
 }
-socket = new WebSocket('ws://192.168.1.101:8080/websocket');
-//const socket = new WebSocket('ws://localhost:8080/websocket');
+//socket = new WebSocket('ws://192.168.1.101:8080/websocket');
+socket = new WebSocket('ws://109.122.198.14:8080/websocket');
 
 socket.addEventListener('open', (event) => {
   console.log('Connexion WebSocket ouverte');
