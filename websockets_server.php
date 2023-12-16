@@ -826,7 +826,12 @@ class Game
                             $this->playvioletCard($player);
                         }
                     } else {
-                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues ou une seule carte violette ou multicolore  par tour.";
+                        echo "[" . date('Y-m-d H:i:s') . "]"  . "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues, ou une seule carte violette ou multicolore par tour.";
+                        $message = array(
+                            'type' => 'ERROR2CARTESJOUE',
+                            'content' => "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues, ou une seule carte violette ou multicolore par tour.",
+                        );
+                        $this->broadcast2(json_encode($message), $player);
                         return;
                     }
                 } else {
@@ -858,6 +863,11 @@ class Game
                         }
                     } else {
                         echo "[" . date('Y-m-d H:i:s') . "]"  . "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues par tour. ou une seule carte violette ou multicolore  par tour.";
+                        $message = array(
+                            'type' => 'ERROR2CARTESJOUE',
+                            'content' => "Vous ne pouvez jouer que deux cartes vertes, rouges, jaunes ou bleues, ou une seule carte violette ou multicolore par tour.",
+                        );
+                        $this->broadcast2(json_encode($message), $player);
                         return;
                     }
                 }
@@ -1045,7 +1055,7 @@ class Game
         }
         $message = array(
             'type' => 'ASKQUESTION',
-            'content' => $this->currentQuestion,
+            'content' => 'Pour ' . $this->selectedPlayer->pseudo . ' : ' . $this->currentQuestion,
             'pseudo' => $this->selectedPlayer->pseudo,
         );
         $this->broadcast(json_encode($message));
@@ -1346,7 +1356,7 @@ class Game
         }
         $message = array(
             'type' => 'ASKQUESTION',
-            'content' => $this->currentQuestion,
+            'content' => 'Pour ' . $this->selectedPlayer->pseudo . ' : ' . $this->currentQuestion,
             'pseudo' => $this->selectedPlayer->pseudo,
         );
         $this->broadcast(json_encode($message));
@@ -1428,7 +1438,7 @@ class Game
         }
         $message = array(
             'type' => 'ASKAction',
-            'content' => $this->currentQuestion,
+            'content' => 'Pour ' . $this->selectedPlayer->pseudo . ' : ' . $this->currentQuestion['action1'] . ', ' . $this->currentQuestion['action2'],
             'pseudo' => $this->selectedPlayer->pseudo,
         );
         $this->broadcast(json_encode($message));
@@ -1537,6 +1547,7 @@ class Game
                     'player2' => $this->player2->pseudo,
                     'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
                     'TicTacToeAlready' => $this->TicTacToeAlready,
+                    'content' => "C'est le tour de : " . $this->currentPlayerPURPLE->pseudo,
                 ];
             } else {
                 // Gérer l'erreur
@@ -1778,7 +1789,8 @@ class Game
                 'player1' => $this->player1->pseudo,
                 'player2' => $this->player2->pseudo,
                 'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
-                'TicTacToeAlready' => $this->TicTacToeAlready
+                'TicTacToeAlready' => $this->TicTacToeAlready,
+                'content' => "C'est le tour de : " . $this->currentPlayerPURPLE->pseudo,
             ];
             $this->broadcastToMultipleViolet(json_encode($data), $this->selectedPlayers);
         } else if ($this->isCardInPlay5 == 5) {
@@ -1836,7 +1848,7 @@ class MyWebSocketServer implements MessageComponentInterface
         $this->resourceIds = array();
 
         echo "------------------------------------------------------------------------------------\n";
-        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré V1.03\n";
         echo "------------------------------------------------------------------------------------\n";
     }
 
@@ -2566,7 +2578,9 @@ class MyWebSocketServer implements MessageComponentInterface
                                     'player1' => $lobby->game->player1->pseudo,
                                     'player2' => $lobby->game->player2->pseudo,
                                     'VIOLETJOUEUR' => $lobby->game->currentPlayerPURPLE->pseudo,
-                                    'TicTacToeAlready' => $lobby->game->TicTacToeAlready
+                                    'TicTacToeAlready' => $lobby->game->TicTacToeAlready,
+                                    'content' => "C'est le tour de : " . $lobby->game->currentPlayerPURPLE->pseudo,
+
                                 ];
                                 $lobby->game->broadcastToMultipleViolet(json_encode($data), $lobby->game->selectedPlayers);
                             } else if ($lobby->game->isCardInPlay5 === 0) {

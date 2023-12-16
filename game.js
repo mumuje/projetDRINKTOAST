@@ -93,8 +93,9 @@ function openSocketConnection() {
       // Afficher la question
       showQuestion(data.content, data.pseudo);
    } else if (data.type === 'ASKAction') {
-    dropzone.style.visibility = 'hidden';
 
+    dropzone.style.visibility = 'hidden';
+      showMessage(data.pseudo, 3000);
     showAction(data.content, data.pseudo);
 
 
@@ -204,6 +205,8 @@ document.body.appendChild(container);
 
 
   if (currentGame === 'TicTacToe') {
+    showMessage(data.content, 3000);  
+    dropzone.style.visibility = 'hidden';
   //  console.log('Received data:', data);
    // console.log ("player1 " + data.player1 + " player2 " + data.player2 + " CURRENTJOUEUR " + data.VIOLETJOUEUR);
     player1 = data.player1; 
@@ -440,7 +443,13 @@ localStorage.setItem('tableState', JSON.stringify(tableState));
 }
 dropzone.style.visibility = 'visible';
 
-} // else if
+} else if (data.type === 'ERROR2CARTESJOUE') 
+{
+  showMessage(data.content, 2000);  
+} //else if (data.type === ')
+//{
+
+//}
  
   });
 
