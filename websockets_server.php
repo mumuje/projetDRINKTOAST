@@ -2772,6 +2772,7 @@ class MyWebSocketServer implements MessageComponentInterface
         if (isset($lobby->game) && $lobby->game->gameetat === true && $lobby->game->startparty === false) {
             echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
             $lobby->nbstartparty--;
+            $lobby->game->nbjoueursSETPSEUOS--;
             if ($lobby->nbstartparty === 0) {
                 echo "[" . date('Y-m-d H:i:s') . "]" . "\t\tSUPPRESION DE LA PARTIE2 \n";
                 unset($this->lobbies[$lobby->name]);
