@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="right-image"></div>
     <form id="pseudo-form" method="post">
     <label for="pseudo">Pseudo :</label>
-    <input type="text" id="pseudo" name="pseudo" required>
-    <button type="submit">Enregistrer le pseudo!</button>
+    <input type="text" id="pseudo" name="pseudo" required maxlength="15">
+        <button type="submit">Enregistrer le pseudo!</button>
     
 </form>
 
@@ -60,8 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Créer un nouveau lobby</h2>
         <form id="create-lobby-form" method="post">
     <label for="lobby-name">Nom du lobby :</label>
-    <input type="text" id="lobby-name" name="lobby-name" required autocomplete="off">
-        <label for="lobby-password">Mot de passe du lobby (laisser vide pour un lobby public) :</label>
+    <input type="text" id="lobby-name" name="lobby-name" required autocomplete="off" maxlength="20">
+            <label for="lobby-password">Mot de passe du lobby (laisser vide pour un lobby public) :</label>
     <input type="password" id="lobby-password" name="lobby-password">
     <button type="submit">Créer le lobby</button>
 </form>

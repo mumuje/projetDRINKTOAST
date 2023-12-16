@@ -2002,9 +2002,9 @@ class MyWebSocketServer implements MessageComponentInterface
                     echo "[" . date('Y-m-d H:i:s') . "]" . "\t\tNouvelle connexion de $pseudo dans le lobby $lobbyName ({$this->resourceIds[spl_object_hash($from)]})\n";
                     if (isset($this->lobbies[$lobbyName])) {
                         $lobby = $this->lobbies[$lobbyName];
-                        $lobby->game->gameetat = true;
                         $lobby->nbstartparty++;
                         $lobby->game->nbjoueursSETPSEUOS++;
+                      
 
                         echo "------------------------------------------------------------------------------------\n";
                         echo ("COUCOU :" . $lobby->game->nbjoueursSETPSEUOS . "\n");
@@ -2020,6 +2020,9 @@ class MyWebSocketServer implements MessageComponentInterface
                         } else {
                             $playerData = ['pseudo' => $pseudo];
                             $lobby->game->addPlayer($playerData, $from);
+                            if (count($lobby->getPlayers()) == $lobby->game->nbjoueursSETPSEUOS) {
+                                $lobby->game->gameetat = true;
+                            }
 
                             $playerList = $lobby->getPlayers();
                             $pseudos = array_map(function ($player) {
@@ -2634,14 +2637,18 @@ class MyWebSocketServer implements MessageComponentInterface
 
 
             }
+        }
             $gameStarted = $lobby->getGame() ? $lobby->getGame()->isGameStarted() : false;
             if (is_object($lobby->game) && $lobby->game->startparty) {
                 if ($lobby->game->startparty) {
+                    echo " " . date('Y-m-d H:i:s') . " GAME STARTED " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
 
            
                     
                     $lobby->game->playdisconnect = null;
                     foreach ($this->lobbies as $lobby) {
+                        if (is_object($lobby->game) && $lobby->game->startparty) {
+                            echo " " . date('Y-m-d H:i:s') . " GAME STARTED " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
                             $players = $lobby->game->getPlayers();
                             foreach ($players as $player) {
@@ -2695,7 +2702,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             }
                         }
                     }
-                   
+                }
 
 
 
@@ -2761,52 +2768,50 @@ class MyWebSocketServer implements MessageComponentInterface
                     }
                 }
             }
-            if (isset($lobby->game) && $lobby->game->gameetat === true) {
+            echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
+        if (isset($lobby->game) && $lobby->game->gameetat === true && $lobby->game->startparty === false) {
+            echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
+            $lobby->nbstartparty--;
+            if ($lobby->nbstartparty === 0) {
+                echo "[" . date('Y-m-d H:i:s') . "]" . "\t\tSUPPRESION DE LA PARTIE2 \n";
+                unset($this->lobbies[$lobby->name]);
+                $lobby->game = null;
+            }
 
-                if ($lobby->game->gameetat === true) {
-                    //  $lobby->nbstartparty--;
-                    if ($lobby->nbstartparty === 0) {
-                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tSUPPRESION DE LA PARTIE2 \n";
-                        unset($this->lobbies[$lobby->name]);
-                        $lobby->game->startparty = false;
-                        $lobby->game = null;
-                    }
-
-                    if (isset($this->clients[spl_object_hash($conn)]) && isset($this->pseudos[spl_object_hash($conn)])) {
-                        $pseudo = $this->pseudos[spl_object_hash($conn)];
-                    } else {
-                        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
-                    }
-                    // Trouver le joueur par son pseudo
-                    $player = array_filter($lobby->getPlayers(), function ($player) use ($pseudo) {
-                        return $player['pseudo'] === $pseudo;
-                    });
-                    // Si le joueur est trouvé, supprimer le joueur par son pseudo
-                    if (!empty($player) && $lobby->game !== null) {
-                        $lobby->game->removePlayer($pseudo);
-                    }
-                    foreach ($this->clients as $client) {
-                        $client->send(json_encode([
-                            'type' => 'lobbyList',
-                            'lobbies' => array_values($this->lobbies)
-                        ]));
-                    }
-                }
+            if (isset($this->clients[spl_object_hash($conn)]) && isset($this->pseudos[spl_object_hash($conn)])) {
+                $pseudo = $this->pseudos[spl_object_hash($conn)];
+            } else {
+                echo "[" . date('Y-m-d H:i:s') . "]" . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
+            }
+            // Trouver le joueur par son pseudo
+            $player = array_filter($lobby->getPlayers(), function ($player) use ($pseudo) {
+                return $player['pseudo'] === $pseudo;
+            });
+            // Si le joueur est trouvé, supprimer le joueur par son pseudo
+            if (!empty($player) && $lobby->game !== null) {
+                $lobby->game->removePlayer($pseudo);
+            }
+            foreach ($this->clients as $client) {
+                $client->send(json_encode([
+                    'type' => 'lobbyList',
+                    'lobbies' => array_values($this->lobbies)
+                ]));
             }
         }
+        
      
-        if (isset($lobby->game) && $lobby->game->gameetat === true) {
-            if ($lobby->game->gameetat === true) {
+    /*    if (isset($lobby->game) && $lobby->game->gameetat === true && $lobby->game->startparty === false) {
+            if ($lobby->game->gameetat === true && $lobby->game->startparty === false) {
                 $lobby->nbstartparty--;
                 $lobby->game->nbjoueursSETPSEUOS--;
                 if ($lobby->nbstartparty === 0) {
-                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tSUPPRESION DE LA PARTIE2 \n";
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tSUPPRESION DE LA PARTIE3 \n";
                     unset($this->lobbies[$lobby->name]);
                     $lobby->game->startparty = false;
                     $lobby->game = null;
                 }
 
-                if (isset($this->clients[spl_object_hash($conn)])) {
+                if (isset($this->clients[spl_object_hash($conn)]) && isset($this->pseudos[spl_object_hash($conn)])) {
                     $pseudo = $this->pseudos[spl_object_hash($conn)];
                 } else {
                     echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPseudo non défini pour la connexion " . spl_object_hash($conn) . "\n";
@@ -2826,7 +2831,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     ]));
                 }
             }
-        }
+        }*/
 
         unset($this->clients[spl_object_hash($conn)]);
         unset($this->pseudos[spl_object_hash($conn)]);  // Supprimez le pseudo de $this->pseudos
