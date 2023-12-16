@@ -2768,7 +2768,7 @@ class MyWebSocketServer implements MessageComponentInterface
                     }
                 }
             }
-            echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
+           // echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
         if (isset($lobby->game) && $lobby->game->gameetat === true && $lobby->game->startparty === false) {
             echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
             $lobby->nbstartparty--;
