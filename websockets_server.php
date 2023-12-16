@@ -2668,7 +2668,7 @@ class MyWebSocketServer implements MessageComponentInterface
                                             echo "apres suppresion d'un joueur dans le lobby " . $lobby->name . ", nombre de joueurs : " .  $lobby->game->numberOfPlayers . "\n";
                                             // ... Reste du code ...
                                         }
-                                        if (isset($lobby->game->activePlayer, $player->pseudo) && $lobby->game->activePlayer->pseudo === $player->pseudo) {
+                                        if (isset($lobby, $lobby->game, $lobby->game->activePlayer, $player->pseudo) && $lobby->game->activePlayer->pseudo === $player->pseudo) {
                                             if ($lobby->game->isCardInPlay === 0 && $lobby->game->isCardInPlay2 === 0 && $lobby->game->isCardInPlay3 === 0 && $lobby->game->isCardInPlay4 === 0 && $lobby->game->isCardInPlay5 === 0) {
 
                                                 $lobby->game->updateActivePlayer();
