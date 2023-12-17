@@ -324,6 +324,46 @@ if (currentGame === 'RockPaperScissors') {
       moveSelection.appendChild(button);
   });
 }
+
+if (currentGame === 'GuessTheNumber')
+{
+  dropzone.style.visibility = 'hidden';
+  player1 = data.player1; 
+  player2 = data.player2; 
+  currentPlayerPURPLE = data.VIOLETJOUEUR;
+  while (moveSelection.firstChild) {
+    moveSelection.removeChild(moveSelection.firstChild);
+}
+
+if (pseudo === currentPlayerPURPLE) {
+  showMessage(data.content, 3000);  
+  // Créez un champ de saisie pour le choix du joueur
+  for (var i = data.range.start; i <= data.range.end; i++) {
+    var button = document.createElement('button');
+    button.textContent = i.toString();
+
+    button.addEventListener('click', function() {
+        var move = this.textContent;
+        socket.send(JSON.stringify({ type: 'playerMove', move: move, pseudo: pseudo, lobbyName: lobbyName, game: currentGame }));
+        button.style.display = 'none';
+    });
+
+    moveSelection.appendChild(button);
+}
+} /*else {
+  // Le joueur qui doit deviner le nombre est l'autre joueur
+  // Ajoutez un bouton pour chaque nombre possible
+  for (var i = data.range.start; i <= data.range.end; i++) {
+      var button = document.createElement('button');
+      button.textContent = i;
+      button.addEventListener('click', function() {
+          var move = this.textContent;
+          socket.send(JSON.stringify({ type: 'playerMove', move: move, pseudo: pseudo, lobbyName: lobbyName, game: currentGame }));
+      });
+      moveSelection.appendChild(button);
+  }
+}*/
+}
 } 
 
 
@@ -389,8 +429,74 @@ localStorage.setItem('tableState', JSON.stringify(tableState));
   if (playerMoveElement) {
       playerMoveElement.textContent = data.move;
   }
+} 
+
+
+
+
+
+
+
+
+
+
+
+else if (currentGame === 'GuessTheNumber')
+{
+  var moveSelection = document.getElementById('moveSelection');
+  while (moveSelection.firstChild) {
+    moveSelection.removeChild(moveSelection.firstChild);
 }
+  console.log('Entered GuessTheNumber block');  // Log
+  currentPlayerPURPLE = data.VIOLETJOUEUR;
+  player1 = data.player1; 
+  player2 = data.player2; 
+  if (pseudo !== currentPlayerPURPLE && (pseudo === player1 || pseudo === player2)) {
+    // showMessage(data.content, 3000);  
+    console.log('Entered GuessTheNumber if block CREATION BUTTON');  // Log
+    var playerMoveElement = document.getElementById(data.pseudo + 'Move');
+    if (playerMoveElement) {
+        playerMoveElement.textContent = data.move;
+    }
+
+    // Gérer l'affichage des boutons
+    for (var i = data.range.start; i <= data.range.end; i++) {
+      var button = document.createElement('button');
+      button.textContent = i.toString();   
+            if (pseudo === currentPlayerPURPLE) {
+                // Si le joueur 1 est le joueur actuel, cacher ses boutons et afficher ceux du joueur 2
+                button.style.display = 'none';
+            } else  {
+                // Si le joueur 2 est le joueur actuel, cacher ses boutons et afficher ceux du joueur 1
+                button.style.display = 'block';
+                button.addEventListener('click', function() {
+                  var move = this.textContent;
+
+                  socket.send(JSON.stringify({ type: 'playerMove', move: move, pseudo: pseudo, lobbyName: lobbyName, game: currentGame }));
+              });
+          
+              moveSelection.appendChild(button);
+            }
+        
+    }
+  } 
+}
+
 //console.log(data.pseudo + " a choisi : " + data.move);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
  else if (data.type ==='gameResult') {
@@ -439,6 +545,21 @@ localStorage.setItem('tableState', JSON.stringify(tableState));
  // moveSelection.removeChild(moveSelection.firstChild);
   showMessage(data.content, 3000);  
   localStorage.removeItem('tableState');
+
+} else if (currentGame === 'GuessTheNumber')
+{
+     // Afficher le résultat du jeu
+     console.log("Le résultat du jeu est : " + data.result);
+     console.log("Le gagnant est : " + data.winner.pseudo);
+ 
+     // Mettre à jour l'interface utilisateur pour montrer le résultat du jeu
+     showMessage(data.content, 3000);
+ 
+     // Supprimer le mouvement du joueur de l'interface utilisateur
+     var playerMoveElement = document.getElementById(data.pseudo + 'Move');
+     if (playerMoveElement) {
+         playerMoveElement.textContent = '';
+     }
 
 }
 dropzone.style.visibility = 'visible';

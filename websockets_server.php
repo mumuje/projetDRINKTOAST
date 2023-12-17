@@ -172,29 +172,56 @@ class TicTacToe
     // Ajoutez ici des méthodes pour vérifier si un joueur a gagné, etc.
 }
 
-class ConnectFour
+
+
+class GuessTheNumber
 {
-    private $board;
+    private $rangeStart;
+    private $rangeEnd;
+    private $drinks;
+    private $chooser;
 
     public function __construct()
     {
-        $this->board = array_fill(0, 6, array_fill(0, 7, null));
+        $this->rangeStart = 1;
+        $this->rangeEnd = 10;
+        $this->drinks = 1;
+        $this->chooser = 'player1';
     }
 
-    public function makeMove($player, $column)
+    public function playRound($chooserPseudo, $choice, $guesserPseudo, $guess)
     {
-        // Vérifiez si la colonne est pleine et placez le symbole du joueur
-        for ($row = 5; $row >= 0; $row--) {
-            if ($this->board[$row][$column] === null) {
-                $this->board[$row][$column] = $player;
-                return true;
+      //  echo "GuesserPseudo: $guesserPseudo\n";
+       // echo "\n\tBefore: choice = $choice, guess = $guess, rangeEnd = $this->rangeEnd\n";
+        if ($choice === $guess) {
+         //   echo ("AU LE WINNER DE FOU LA :" . $guesserPseudo . "\n");
+            return $guesserPseudo;
+        } else {
+            if ($choice !== $guess) {
+                $this->rangeEnd -= 2;
+                if ($this->rangeEnd < 2) {
+                    $this->rangeEnd = 2;
+                }
+                $this->drinks += 2;
             }
+          //  echo "\n\tBefore: choice = $choice, guess = $guess, rangeEnd = $this->rangeEnd\n";
+           // $this->chooser = $this->chooser === 'player1' ? 'player2' : 'player1'; // Inverse les rôles
+            return null; // Le jeu n'est pas terminé
         }
-        return false;
+
     }
 
-    // Ajoutez ici des méthodes pour vérifier si un joueur a gagné, etc.
+    public function getRange()
+    {
+        return array('start' => $this->rangeStart, 'end' => $this->rangeEnd);
+    }
+
+    public function setChooser($chooser)
+{
+    $this->chooser = $chooser;
 }
+}
+
 
 
 class RockPaperScissors
@@ -268,6 +295,7 @@ class Game
 
     public $currentPlayerPURPLE;
     private $lobbyName;
+    public $sippurple;
     private $players;
     public $gameStarted = false; // Add this line
     private $deck;
@@ -317,6 +345,8 @@ class Game
     public $dropzone = [];
 
     public $playerDisconnected;
+
+    public $nbmove = 0;
 
 
     public function __construct($lobbyName)
@@ -369,6 +399,8 @@ class Game
         $this->countdownDuration = null;
         $this->startparty = false;
         $this->playerMoves = [];
+        $this->sippurple = 1;
+        $this->nbmove = 0;
 
     }
     public function removePlayer($pseudo)
@@ -769,7 +801,7 @@ class Game
         }
 
         // Add red cards
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $cards[] = array('id' => 'card-' . $cardId++, 'color' => 'rouge', 'image' => 'img/rouge.png');
         }
 
@@ -784,7 +816,7 @@ class Game
         }
 
         // Add violet cards
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $cards[] = array('id' => 'card-' . $cardId++, 'color' => 'violette', 'image' => 'img/violette.png');
         }
 
@@ -1055,7 +1087,7 @@ class Game
         }
         $message = array(
             'type' => 'ASKQUESTION',
-            'content' => 'Pour ' . $this->selectedPlayer->pseudo . ' : ' . $this->currentQuestion,
+            'content' => $this->currentQuestion,
             'pseudo' => $this->selectedPlayer->pseudo,
         );
         $this->broadcast(json_encode($message));
@@ -1438,7 +1470,7 @@ class Game
         }
         $message = array(
             'type' => 'ASKAction',
-            'content' => 'Pour ' . $this->selectedPlayer->pseudo . ' : ' . $this->currentQuestion['action1'] . ', ' . $this->currentQuestion['action2'],
+            'content' => $this->currentQuestion,
             'pseudo' => $this->selectedPlayer->pseudo,
         );
         $this->broadcast(json_encode($message));
@@ -1558,6 +1590,24 @@ class Game
                 'game' => get_class($this->miniGame),
                 'moves' => $this->moves
             ];
+        } else if (get_class($this->miniGame) === 'GuessTheNumber') {
+            $range = $this->miniGame->getRange();
+            $this->currentPlayerPURPLE = $selectedPlayers[0];
+            $this->miniGame->setChooser($this->currentPlayerPURPLE);
+            $this->player1 = $selectedPlayers[0]; // Joueur 1
+            $this->player2 = $selectedPlayers[1]; // Joueur 2
+            $data = [
+                'type' => 'miniGameSelected',
+                'game' => get_class($this->miniGame),
+                'moves' => $this->moves,
+                'player1' => $this->player1->pseudo,
+                'player2' => $this->player2->pseudo,
+                'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                'TicTacToeAlready' => $this->TicTacToeAlready,
+                'content' => "C'est le tour de : " . $this->currentPlayerPURPLE->pseudo,
+                'range' => $range,
+            ];
+
         }
         $this->broadcastToMultipleViolet(json_encode($data), $selectedPlayers);
         foreach ($selectedPlayers as $player) {
@@ -1567,7 +1617,7 @@ class Game
 
     public function generateRandomMiniGame()
     {
-        $randomNumber = rand(1, 3);
+        $randomNumber = rand(1, 1);
         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tVIOLET GENRATE RANDOM MINIGAME WITH" . $randomNumber .  "\n";
         switch ($randomNumber) {
             case 1:
@@ -1575,12 +1625,8 @@ class Game
                 /* $this->minigames = new RockPaperScissors();
            $this->moves = ['rock', 'paper', 'scissors'];
            return $this->minigames;*/
-                $this->minigames = new TicTacToe();
-                $this->moves = [
-                    [0, 0], [0, 1], [0, 2],
-                    [1, 0], [1, 1], [1, 2],
-                    [2, 0], [2, 1], [2, 2]
-                ];
+                $this->minigames = new GuessTheNumber();
+                $this->moves = range(1, 10); // Les mouvements possibles sont les nombres de 1 à 10
                 return $this->minigames;
 
 
@@ -1618,10 +1664,18 @@ class Game
             $this->minigames->makeMove($this->player2Pseudo, $this->playerMoves[$this->player2Pseudo][0], $this->playerMoves[$this->player2Pseudo][1]);
             // Vérifier si un des joueurs a gagné
             $result = $this->minigames->checkGameState();
-        } else {
+        } else  if (get_class($this->miniGame) === 'RockPaperScissors') {
             $result = $this->minigames->playRound($this->playerMoves[$this->player1Pseudo], $this->playerMoves[$this->player2Pseudo]);
+        } else if (get_class($this->miniGame) === 'GuessTheNumber') {
+            $chooser = $this->currentPlayerPURPLE->pseudo;
+          //  echo "LE GRAND CURRENTPLAYERPURPLE: " . $chooser . "\n";
+            $guesser = $this->player1Pseudo === $this->currentPlayerPURPLE->pseudo ? $this->player2Pseudo : $this->player1Pseudo;
+            $this->minigames->setChooser($chooser);
+            $result = $this->minigames->playRound($this->player1Pseudo, $this->playerMoves[$this->player1Pseudo], $guesser, $this->playerMoves[$this->player2Pseudo]);
+            //echo "LE RESULTAT DE FOU :" . $result . "\n";
+            
         }
-        return $result;
+            return $result;
     }
 
     public function handlePlayerMove($pseudo, $move)
@@ -1646,22 +1700,93 @@ class Game
             'game' => get_class($this->miniGame),
             'move' => $move
         ];
+        if (get_class($this->miniGame) === 'GuessTheNumber') {
+            $range = $this->miniGame->getRange();
+
+            $moveMessage = [
+                'type' => 'playerMove',
+                'pseudo' => $pseudo,
+                'game' => get_class($this->miniGame),
+                'move' => $move,
+                 'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                 'player1' => $this->player1->pseudo,
+                 'player2' => $this->player2->pseudo,
+                 'range' => $range,
+                ];
+        }
         $this->broadcast(json_encode($moveMessage));
 
+
+
+
+  
+
+
+
+        if (get_class($this->miniGame) === 'GuessTheNumber' && $this->nbmove == 2) {
+            echo "ROUND JOUER";
+            $result = $this->playRound();
+
+
+
+            if (get_class($this->miniGame) === 'GuessTheNumber') {
+                if ($result === null)
+                {
+                  //  echo "CONTINUE DE GUESSTHENUMBER" . $result . $this->lastPlayerMove .  "\n";
+                    $this->sippurple += 2;
+                $this->isCardInPlay5 = 4;
+                $this->checkGameResult($pseudo, $move, $result);
+                $this->lastPlayerMove = null;
+                //echo "CONTINUE DE GUESSTHENUMBER2" . $result . $this->lastPlayerMove .  "\n";
+                } else if ($result !== null) {
+                   // echo "FIN DE GUESSTHENUMBER" . $result . "\n";
+                    $winnerPseudo = $result;
+                    $winner = $result;
+                    $number = $this->sippurple;
+                    $content = $winner . " A trouvé la bonne réponse l'autre joueur doit boire " . $number . " gorgée(s) !";
+                    $resultMessage = [
+                        'type' => 'gameResult',
+                        'game' => get_class($this->miniGame),
+                        'moves' => $this->moves,
+                        'result' => $result,
+                        'winner' => $winner,
+                        'content' => $content
+                    ];
+                    $this->broadcast(json_encode($resultMessage));
+
+                    $this->selectedPlayer = null;
+                    $this->moves = [];
+                    $this->blueCardPlayer = null;
+                    $loser = null;
+                    $winner = null;
+                    $this->isCardInPlay5 = 0;
+                    $this->TicTacToeAlready = false;
+                    $this->sippurple = 1; 
+                }
+            }
+
+
+            }
+
+
         // Vérifier si les deux joueurs ont fait un mouvement
-        if (count($this->playerMoves) === 2) {
+        if (count($this->playerMoves) === 2 && get_class($this->miniGame) !== 'GuessTheNumber') {
             // echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 3";
             //  $this->isCardInPlay5 = 4;
             // Jouer le tour et obtenir le résultat
+            if (get_class($this->miniGame) !== 'GuessTheNumber') {
             $result = $this->playRound();
+           
             echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tRésultat du tour : $result\n";
 
             if (get_class($this->miniGame) === 'TicTacToe') {
                 $this->isCardInPlay5 = 4;
                 $this->checkGameResult($pseudo, $move, $result);
             }
-
-            if ($result !== null) {
+        }
+           
+           
+            if ($result !== null && get_class($this->miniGame) !== 'GuessTheNumber') {
 
                 echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tRésultat du tour : $result\n";
 
@@ -1754,6 +1879,9 @@ class Game
                     echo "[" . date('Y-m-d H:i:s') . "]"  . "erreur carte violette";
                 }
             }
+            if (get_class($this->miniGame) === 'TicTacToe' && $result  !== null) {
+            $this->miniGame = null;
+            }
         }
     }
     public function checkGameResult($pseudo, $move, $result)
@@ -1768,6 +1896,25 @@ class Game
             $result = $this->playRound();
             echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tNouveau tour joué, résultat : $result\n";
         }
+
+        if (get_class($this->miniGame) === 'GuessTheNumber' && $result !== null) {
+            $range = $this->miniGame->getRange();
+            $moveMessage = [
+                'type' => 'playerMove',
+                'pseudo' => $pseudo,
+                'game' => get_class($this->miniGame),
+                'move' => $move,
+                'result' => $result,
+                'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                'player1' => $this->player1->pseudo,
+                'player2' => $this->player2->pseudo,
+                'range' => $range,
+                
+            ];
+            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tNouveau tour joué, résultat : " . print_r($result, true) . "\n";
+        }
+    
+
     }
     public function GETvioletSTATE()
     {
@@ -1848,7 +1995,7 @@ class MyWebSocketServer implements MessageComponentInterface
         $this->resourceIds = array();
 
         echo "------------------------------------------------------------------------------------\n";
-        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré V1.03\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré V1.10\n";
         echo "------------------------------------------------------------------------------------\n";
     }
 
@@ -2598,7 +2745,45 @@ class MyWebSocketServer implements MessageComponentInterface
                             //  $move = intval($move);
                             $lobby->game->handlePlayerMove($pseudo, $move);
                             error_log("Handled player move for RockPaperScissors");
-                        }
+
+                        } else if (get_class($lobby->game->miniGame) === 'GuessTheNumber') {
+                            $lobby->game->nbmove++;
+
+                            $lobby->game->handlePlayerMove($pseudo, $move);
+
+                            if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[0] && $lobby->game->nbmove === 2) {
+                                $lobby->game->currentPlayerPURPLE = $lobby->game->player2;
+
+                            } else if ($lobby->game->currentPlayerPURPLE === $lobby->game->selectedPlayers[1] && $lobby->game->nbmove === 2) {
+                                $lobby->game->currentPlayerPURPLE = $lobby->game->player1;
+ 
+                            }
+
+                            if ($lobby->game->isCardInPlay5 !== 0 && $lobby->game->nbmove === 2) {
+                                $range = $lobby->game->miniGame->getRange();
+                                $lobby->game->TicTacToeAlready = true;
+                                $data = [
+                                    'type' => 'miniGameSelected',
+                                    'game' => get_class($lobby->game->miniGame),
+                                    'moves' => $lobby->game->moves,
+                                    'player1' => $lobby->game->player1->pseudo,
+                                    'player2' => $lobby->game->player2->pseudo,
+                                    'VIOLETJOUEUR' => $lobby->game->currentPlayerPURPLE->pseudo,
+                                    'TicTacToeAlready' => $lobby->game->TicTacToeAlready,
+                                    'content' => "C'est le tour de : " . $lobby->game->currentPlayerPURPLE->pseudo,
+                                    'range' => $range,
+
+                                ];
+                                echo 'Range: ';
+                                print_r($range);
+                                $lobby->game->broadcastToMultipleViolet(json_encode($data), $lobby->game->selectedPlayers);
+                                $lobby->game->nbmove = 0;
+                            } else if ($lobby->game->isCardInPlay5 === 0) {
+                                $lobby->game->TicTacToeAlready = false;
+                            }
+
+
+                        }                            
                         // Mettre à jour le mouvement du joueur
 
                     }
