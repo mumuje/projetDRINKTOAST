@@ -81,7 +81,7 @@
     </ul>
     <!-- Ajoutez plus de règles ici -->
   </div>
-  <script src="game.js"></script>
+  <script src="js/game.js"></script>
 </body>
 
 </html>
