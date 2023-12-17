@@ -1712,6 +1712,7 @@ class Game
                  'player1' => $this->player1->pseudo,
                  'player2' => $this->player2->pseudo,
                  'range' => $range,
+                 'content' => "Trouve le bon numéro!",
                 ];
         }
         $this->broadcast(json_encode($moveMessage));
@@ -1909,6 +1910,7 @@ class Game
                 'player1' => $this->player1->pseudo,
                 'player2' => $this->player2->pseudo,
                 'range' => $range,
+                'content' => "Trouve le bon numéro!",
                 
             ];
             echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tNouveau tour joué, résultat : " . print_r($result, true) . "\n";
@@ -1995,7 +1997,7 @@ class MyWebSocketServer implements MessageComponentInterface
         $this->resourceIds = array();
 
         echo "------------------------------------------------------------------------------------\n";
-        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré V1.10\n";
+        echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tServeur WebSocket démarré V1.00\n";
         echo "------------------------------------------------------------------------------------\n";
     }
 

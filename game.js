@@ -550,7 +550,7 @@ else if (currentGame === 'GuessTheNumber')
 {
      // Afficher le résultat du jeu
      console.log("Le résultat du jeu est : " + data.result);
-     console.log("Le gagnant est : " + data.winner.pseudo);
+    // console.log("Le gagnant est : " + data.winner.pseudo);
  
      // Mettre à jour l'interface utilisateur pour montrer le résultat du jeu
      showMessage(data.content, 3000);
