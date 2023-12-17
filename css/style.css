@@ -1,0 +1,49 @@
+/*******************************************************************************************************/
+/*Main*/
+
+body {
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #ffffff; /* Couleur de fond foncée */
+}
+
+
+/*******************************************************************************************************/
+/*Nav*/
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+nav li:last-child {
+  margin-right: 0;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+/*******************************************************************************************************/
+/*Image*/
+
+.left-image {
+  left: 40px;
+  background-image: url('img/test.png');
+}
+
+.right-image {
+  right: 40px;
+  background-image: url('img/test2.png');
+}
