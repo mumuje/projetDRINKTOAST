@@ -1,5 +1,15 @@
+
+/*************************************************************************/
+// Initialisation des variables
+let currentLobby = null;
+let playersInCurrentLobby = new Set();
+let playerList = document.getElementById("player-list");
+let Creator = false;
 var gameStarted3 = false;
 let socket;
+
+/*************************************************************************/
+// =Connexion websocket
 if (socket && socket.readyState === WebSocket.OPEN) {
   socket.close();
 }
@@ -17,7 +27,6 @@ socket.addEventListener("message", (event) => {
   if (data.type === "lobbyList") {
     updateLobbyList(data.lobbies);
   }
-  // Handle other message types...
 });
 
 socket.addEventListener("close", (event) => {
@@ -27,23 +36,21 @@ socket.addEventListener("close", (event) => {
 socket.addEventListener("error", (event) => {
   console.error("Erreur de connexion WebSocket:", event);
 });
-let currentLobby = null;
-let playersInCurrentLobby = new Set();
-let playerList = document.getElementById("player-list");
-let Creator = false;
 
+
+/*************************************************************************/
 // Créer un nouveau lobby
-document
-  .getElementById("create-lobby-form")
+document.getElementById("create-lobby-form")
   .addEventListener("submit", (event) => {
-    event.preventDefault();
-    const lobbyName = document.getElementById("lobby-name").value;
-    const lobbyPassword = document.getElementById("lobby-password").value;
-    const pseudo = localStorage.getItem("pseudo");
-    if (!pseudo) {
-      alert("Vous devez entrer un pseudo avant de créer un lobby.");
-      return;
+    event.preventDefault(); // Empêche le rechargement de la page lors de la soumission du formulaire
+    const lobbyName = document.getElementById("lobby-name").value; // Récupère le nom du lobby
+    const lobbyPassword = document.getElementById("lobby-password").value; // Récupère le mot de passe du lobby
+    const pseudo = localStorage.getItem("pseudo"); // Récupère le pseudo de l'utilisateur
+    if (!pseudo) { // Vérifie si le pseudo existe
+      alert("Vous devez entrer un pseudo avant de créer un lobby."); // Affiche une alerte si le pseudo n'existe pas
+      return; // Termine la fonction
     }
+    // Envoie un message au serveur pour créer un nouveau lobby
     socket.send(
       JSON.stringify({
         type: "createLobby",
@@ -52,16 +59,18 @@ document
         password: lobbyPassword,
       })
     );
-    console.log("Lobby créé : " + lobbyName + ", Pseudo : " + pseudo);
-    console.log("coucou" + lobbyName);
-    document.getElementById("pseudo-form").style.display = "none";
+    console.log("Lobby créé : " + lobbyName + ", Pseudo : " + pseudo); // Affiche un message dans la console
+    console.log("coucou" + lobbyName); // Affiche un autre message dans la console
+    document.getElementById("pseudo-form").style.display = "none"; // Cache le formulaire de pseudo
   });
 
+// Une fonction qui empêche l'action par défaut lors d'un clic
 const handleClick = (event) => {
   event.preventDefault();
 };
 
-//pseudo du joueur
+/*************************************************************************/
+// création du pseudo du joueur
 window.onload = function () {
   var gameStarted = false;
   var gameState = {};
@@ -103,23 +112,29 @@ window.onload = function () {
   });
 };
 
-// Rejoindre un lobby existant
+
+
+/*************************************************************************/
+//TOUTES LES REPONSES DU SERVEUR 
 const lobbyList = document.getElementById("lobby-list");
 if (lobbyList) {
   socket.addEventListener("message", (event) => {
     console.log("Message reçu du serveur WebSocket:", event.data);
     const data = JSON.parse(event.data);
+
+    /***********************************************/
+    // MESSAGE LOBBYLIST DU SERVEUR
     if (data.type === "lobbyList") {
       const lobbies = data.lobbies;
       lobbyList.innerHTML = "";
       lobbies.forEach((lobby) => {
-        const gameStarted2 = lobby.gameStarted; // Ajoutez cette ligne
+        const gameStarted2 = lobby.gameStarted;
 
         const listItem = document.createElement("li");
         const link = document.createElement("a");
         link.href = `#`;
         link.dataset.lobbyName = lobby.name; // Ajoute un attribut de données personnalisé avec le nom du lobby
-        link.textContent = `${lobby.name} (${lobby.playerCount}/8 joueurs)`; // Si lobby.players est un nombre
+        link.textContent = `${lobby.name} (${lobby.playerCount}/8 joueurs)`; 
         if (gameStarted2) {
           link.classList.add("disabled");
           link.href = "#";
@@ -127,13 +142,12 @@ if (lobbyList) {
         } else {
           link.addEventListener("click", (event) => handleClick(event, lobby));
         }
-        //let password = '';
         if (lobby.requiresPassword) {
           const img = document.createElement("img");
-          img.src = "img/cadena.png"; // Mettez le chemin correct si le fichier n'est pas dans le même répertoire
+          img.src = "img/cadena.png"; 
           img.alt = "Cadenas";
-          img.style.width = "20px"; // Définir la largeur de l'image
-          img.style.height = "20px"; // Définir la hauteur de l'image
+          img.style.width = "20px"; 
+          img.style.height = "20px"; 
 
           link.appendChild(img);
         }
@@ -194,12 +208,15 @@ if (lobbyList) {
         lobbyList.appendChild(listItem);
         console.log(lobby);
       });
-    } else if (data.type === "lobbyCreated") {
+    } 
+        /***********************************************/
+        // MESSAGE LOBBYCREATED DU SERVEUR
+    else if (data.type === "lobbyCreated") {
       const lobbyName = data.lobbyName;
       const listItem = document.createElement("li");
       const link = document.createElement("a");
-      const requiresPassword = data.requiresPassword; // Assume that the server sends this information
-      const pseudo = data.pseudo; // Assume that the server sends the pseudo of the lobby creator
+      const requiresPassword = data.requiresPassword; 
+      const pseudo = data.pseudo;
 
       link.href = `#`;
       link.textContent = `${lobbyName} (1 joueur)`;
@@ -237,7 +254,10 @@ if (lobbyList) {
       } else {
         document.getElementById("lobby-name-display").textContent = lobbyName;
       }
-    } else if (data.type === "lobbyJoined") {
+    } 
+      /***********************************************/
+      // MESSAGE LOBBYJOINED DU SERVEUR
+    else if (data.type === "lobbyJoined") {
       console.log("Joined lobby");
       currentLobby = data.lobbyName;
       const playerList = document.getElementById("player-list");
@@ -251,7 +271,7 @@ if (lobbyList) {
             Creator = true;
             listItem.classList.add("creator");
             const crownImage = document.createElement("img");
-            crownImage.src = "img/createur.png"; // Remplacez par le chemin de votre image de couronne
+            crownImage.src = "img/createur.png"; 
             crownImage.alt = "Crown";
             crownImage.classList.add("crown-icon");
             listItem.appendChild(crownImage);
@@ -261,7 +281,10 @@ if (lobbyList) {
           playerList.appendChild(listItem);
         });
       }
-    } else if (data.type === "lobbyUpdated") {
+    } 
+          /***********************************************/
+          // MESSAGE LOBBYUPDATED DU SERVEUR
+    else if (data.type === "lobbyUpdated") {
       console.log("lobb updated");
       const lobbyName = data.lobbyName;
       const playerCount =
@@ -283,7 +306,7 @@ if (lobbyList) {
           Creator = true;
           listItem.classList.add("creator");
           const crownImage = document.createElement("img");
-          crownImage.src = "img/createur.png"; // Remplacez par le chemin de votre image de couronne
+          crownImage.src = "img/createur.png"; 
           crownImage.alt = "Crown";
           crownImage.classList.add("crown-icon");
           listItem.appendChild(crownImage);
@@ -307,7 +330,10 @@ if (lobbyList) {
       const lobbyLink = document.querySelector(
         `a[data-lobby-name="${data.lobbyName}"]`
       );
-    } else if (data.type === "playerLeft") {
+    } 
+        /***********************************************/
+        // MESSAGE PLAYERLEFT DU SERVEUR
+    else if (data.type === "playerLeft") {
       const pseudo = data.pseudo;
       const playerList = document.getElementById("player-list");
       const playerListItem = Array.from(playerList.children).find(
@@ -321,7 +347,7 @@ if (lobbyList) {
             // Attribuer le rôle de créateur au prochain joueur
             nextPlayer.classList.add("creator");
             const crownImage = document.createElement("img");
-            crownImage.src = "img/createur.png"; // Remplacez par le chemin de votre image de couronne
+            crownImage.src = "img/createur.png"; 
             crownImage.alt = "Crown";
             crownImage.classList.add("crown-icon");
             nextPlayer.appendChild(crownImage);
@@ -330,16 +356,15 @@ if (lobbyList) {
         }
         playerList.removeChild(playerListItem);
 
-        updatePlayerCount(); // Ajoutez cette ligne
+        updatePlayerCount();
       }
       const lobbyLink = document.querySelector(
         `a[data-lobby-name="${data.lobbyName}"]`
       );
-      // if (lobbyLink) {
-      // Mettez à jour le texte du lien avec le nouveau nombre de joueurs
-      // lobbyLink.textContent = `${data.lobbyName} (${data.playerCount}/82 joueurs)`;
-      // }
-    } else if (data.type === "joinLobbyFailed") {
+    } 
+        /***********************************************/
+        // MESSAGE joinLobbyFailed DU SERVEUR
+    else if (data.type === "joinLobbyFailed") {
       document.getElementById("pseudo-form").style.display = "block";
 
       document.getElementById("lobby-creation").style.display = "block";
@@ -349,13 +374,10 @@ if (lobbyList) {
       document.getElementById("lobby-name-display").textContent = "";
 
       alert(data.message);
-    } else if (data.type === "startGame") {
-      /*const currentLobby = localStorage.getItem('currentLobby');
-      if (lobbyName !== data.lobbyName) {
-          console.log('Received startGame message for a different lobby');
-          return;
-      }*/
-
+    } 
+        /***********************************************/
+        // MESSAGE joinLobbyFailed DU SERVEUR
+    else if (data.type === "startGame") {
       gameStarted3 = data.gameStarted;
       console.log(gameStarted3);
       const lobbyName =
@@ -376,6 +398,13 @@ if (lobbyList) {
   });
 }
 
+
+
+
+
+
+/*************************************************************************/
+// Permet de lancer la game
 function startGame() {
   const playerCount = document.getElementById("player-list").children.length;
   const errorMessageElement = document.getElementById("error-message");
@@ -385,7 +414,7 @@ function startGame() {
         "Erreur : au moins deux joueurs dans le lobby pour commencer le jeu.";
       return;
     }
-    errorMessageElement.textContent = ""; // Clear any previous error message
+    errorMessageElement.textContent = ""; 
     console.log("création de la partie!");
     const lobbyName = document.getElementById("lobby-name-display").textContent;
     socket.send(JSON.stringify({ type: "startGame", lobbyName }));
@@ -395,7 +424,8 @@ function startGame() {
       "Erreur : Seul le créateur de la partie peut lancer la partie.";
   }
 }
-
+/*************************************************************************/
+// Permet de mettre a jour le nombre de joueurs dans le lobby
 function updatePlayerCount() {
   const lobbyName = document.getElementById("lobby-name-display").textContent;
   const lobbyElement = Array.from(
@@ -404,11 +434,14 @@ function updatePlayerCount() {
   const playerCountElement = document.getElementById("player-count");
   const playerCount = document.getElementById("player-list").children.length;
   playerCountElement.textContent = `Joueurs: ${playerCount}/8`;
-  // if (lobbyElement) {
-  // lobbyElement.textContent = `${lobbyName} (${playerCount}/8 joueurs)`;
-  //}
 }
 
+
+
+
+
+/*************************************************************************/
+// Permet de mettre à jour la liste des lobbies
 function updateLobbyList(lobbies) {
   const lobbyList = document.getElementById("lobby-list");
   lobbyList.innerHTML = ""; // Clear the lobby list
