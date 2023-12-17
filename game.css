@@ -7,7 +7,7 @@
   width: 100vw;
 }
 body {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   overflow: hidden;
   zoom: 1;
   -moz-transform: scale(1); /* For Mozilla Firefox */
@@ -15,8 +15,6 @@ body {
   -ms-transform: scale(1); /* For IE 9 */
   -o-transform: scale(1); /* For Opera */
   transform: scale(1);
- 
-
 }
 
 #game-area {
@@ -42,22 +40,22 @@ body {
   z-index: 10;
   padding: 10px 20px;
   color: #fff;
-  background-color: #007BFF;
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
-  box-shadow: 0 10px #0069D9;
+  box-shadow: 0 10px #0069d9;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 #startparty:hover {
   transform: translate(-50%, -45%);
-  box-shadow: 0 5px #0069D9;
+  box-shadow: 0 5px #0069d9;
 }
 #startparty:active {
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 #0069D9;
+  box-shadow: 0 0 #0069d9;
 }
 #current-player {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -95,11 +93,10 @@ body {
 }
 
 .player-pseudo {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   color: red;
   font-size: 20px;
   font-weight: bold; /* Make the text bold */
-
 }
 .player3-cards {
   position: absolute;
@@ -107,7 +104,6 @@ body {
   left: 10%;
   transform: translateX(-50%) rotate(90deg);
   z-index: 3;
-
 }
 
 .player2-cards {
@@ -129,9 +125,9 @@ body {
   transform: translateX(-50%) rotate(270deg);
   position: absolute;
   top: 42%;
-  left: 90% ;
+  left: 90%;
   z-index: 3;
-} 
+}
 
 .player5-cards {
   position: absolute;
@@ -171,7 +167,6 @@ body {
   transition: transform 0.5s; /* This will animate the transform property */
   transform: rotateY(0deg); /* Initial rotation */
   margin: 0 -30px; /* Adjust as needed */
-
 }
 .player-cards img:hover {
   transform: rotateY(180deg); /* Rotation when mouse is over */
@@ -209,21 +204,21 @@ body {
   height: 58vh;
   transform: translate(-50%, -50%);
   text-align: center;
-  background-image: url('img/end.png');
+  background-image: url("img/end.png");
   background-size: cover;
-      display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   .end-message {
     font-size: 1.2em;
     color: #333;
     text-align: center;
     margin-top: 140px;
   }
-  
+
   .home-button {
-    background-color: #4CAF50; /* Green */
+    background-color: #4caf50; /* Green */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -246,9 +241,7 @@ body {
     transform: translateY(0);
     box-shadow: 0 0 #0fb92c;
   }
-
 }
-
 
 #dropzone {
   position: absolute;
@@ -257,9 +250,14 @@ body {
   width: 300px; /* Adjust as needed */
   height: 300px; /* Adjust as needed */
   transform: translate(-50%, -50%);
- /* border: 2px solid #000;  Adjust as needed */
+  /* border: 2px solid #000;  Adjust as needed */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for a 3D effect */
-  background-color: rgba(255, 255, 255, 0.3); /* Optional: Add a semi-transparent background */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.3
+  ); /* Optional: Add a semi-transparent background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -307,7 +305,7 @@ body {
   border: 3px solid rgb(131, 127, 119);
   background-color: #f3efef;
   z-index: 0;
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   color: rgb(143, 140, 135);
   border-radius: 20px;
   width: 22%; /* Make the element smaller */
@@ -336,7 +334,7 @@ body {
 #game-rules ul li {
   text-align: left; /* Aligns the text to the left */
   padding-left: 1em; /* Adds some padding to the left of each list item */
-  text-indent: -.7em; /* Indents the text of each list item */
+  text-indent: -0.7em; /* Indents the text of each list item */
 }
 #game-rules ul li:before {
   content: "• "; /* Adds a bullet point before each list item */
@@ -370,7 +368,7 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Ombre du texte */
   font-size: 15px; /* Taille de la police */
   font-weight: bold; /* Gras */
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
 }
 .numberCheckbox {
   z-index: 1000; /* Une valeur plus élevée que tout autre z-index dans votre CSS */
@@ -447,10 +445,10 @@ body {
 }
 
 #action1Element {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   color: white;
-  background-color: #8B4513;
-  border: 2px solid #DAA520;
+  background-color: #8b4513;
+  border: 2px solid #daa520;
   width: 30%;
   height: auto;
   padding: 20px;
@@ -462,15 +460,15 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
   overflow-y: auto;
 }
 
 #action2Element {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   color: white;
-  background-color: #8B4513;
-  border: 2px solid #DAA520;
+  background-color: #8b4513;
+  border: 2px solid #daa520;
   width: 30%;
   height: auto;
   padding: 20px;
@@ -482,15 +480,12 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
   overflow-y: auto;
 }
 
-
-
-
 button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -503,21 +498,21 @@ button {
 }
 
 #submitAnswer {
-  background-color: #008CBA; /* Blue */
+  background-color: #008cba; /* Blue */
 }
 
 #voteCorrectButtonDisplay {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
 }
 
 #voteFalseButtonDisplay {
   background-color: #f44336; /* Red */
 }
 #JAUNECardDialog {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   color: white; /* Keep the color as white */
-  background-color: #8B4513; /* Keep the brown background color */
-  border: 2px solid #DAA520; /* Keep the golden border */
+  background-color: #8b4513; /* Keep the brown background color */
+  border: 2px solid #daa520; /* Keep the golden border */
   width: 70%; /* Adjust the width to allow more content */
   height: auto; /* Set the height to auto to allow the dialog to expand based on content */
   padding: 20px; /* Add some padding around the content */
@@ -529,8 +524,8 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75); /* Keep the shadow for a 3D effect */
-  font-family: 'Courier New', Courier, monospace; /* Keep the typewriter-style font */
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75); /* Keep the shadow for a 3D effect */
+  font-family: "Courier New", Courier, monospace; /* Keep the typewriter-style font */
   overflow-y: auto; /* Add a scrollbar if the content is too long */
 }
 
@@ -550,11 +545,10 @@ button {
   z-index: 1000;
 }
 
-
 #countdownDisplay {
   color: white; /* Change the color to white */
-  background-color: #8B4513; /* Set a brown background color */
-  border: 2px solid #DAA520; /* Add a golden border */
+  background-color: #8b4513; /* Set a brown background color */
+  border: 2px solid #daa520; /* Add a golden border */
   border-radius: 50%; /* Make the countdown display circular */
   width: 80px; /* Set a specific width */
   height: 80px; /* Set a specific height */
@@ -567,8 +561,8 @@ button {
   left: 70%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75); /* Add a shadow for a 3D effect */
-  font-family: 'Courier New', Courier, monospace; /* Use a typewriter-style font */
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75); /* Add a shadow for a 3D effect */
+  font-family: "Courier New", Courier, monospace; /* Use a typewriter-style font */
 }
 #playerAnswerDisplay,
 #correctAnswerDisplay,
@@ -581,17 +575,17 @@ button {
   z-index: 100;
 }
 #voteFalseButtonDisplay {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   top: 60%;
   left: 40%;
 }
 #voteCorrectButtonDisplay {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   top: 60%;
   left: 60%;
 }
 #correctAnswerDisplay {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   top: 50%;
   left: 50%;
   font-size: 1.5em; /* Augmenter la taille de la police */
@@ -602,7 +596,7 @@ button {
   background-color: #f9f9f9; /* Changer la couleur de fond */
 }
 #playerAnswerDisplay {
-  font-family: 'Chilanka', cursive;
+  font-family: "Chilanka", cursive;
   top: 40%;
   left: 50%;
   font-size: 1.5em; /* Augmenter la taille de la police */
@@ -631,54 +625,52 @@ table {
   left: 46%;
 }
 .game-button-RockPaperScissors {
-  top: 60% !important; 
+  top: 60% !important;
   left: 60% !important;
   z-index: 1000 !important;
 }
 #moveSelection {
   position: relative;
   top: 40%;
-  left : 40%;
+  left: 40%;
   z-index: 1000 !important;
 }
 @media (max-width: 960px) {
+  #body {
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .sips-taken {
+    position: fixed;
+    top: 0;
+    right: 0px;
+    width: 100px; /* Adjust this value to change the width */
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-size: 0.7em;
+    display: block;
+    margin-bottom: 15px; /* Add this line */
+    text-align: center;
+  }
 
-
- #body {
-  overflow: auto;
-  overflow-x: hidden;
- }
- .sips-taken {
-  position: fixed;
-  top: 0;
-  right: 0px;
-  width: 100px; /* Adjust this value to change the width */
-  padding: 10px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 5px;
-  font-size: 0.7em;
-  display: block;
-  margin-bottom: 15px; /* Add this line */
-  text-align: center;
-}
-
- #turn-count {
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  font-size: 16px;
-  color: #000;
-  background-color: #f0f0f0; /* Gris clair */
-  color: #333; /* Couleur de texte pour le fond gris clair */
-  border-radius: 50%; /* Pour rendre le div circulaire */
-  width: 50px; /* Ajustez en fonction de vos besoins */
-  height: 50px; /* Ajustez en fonction de vos besoins */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  #turn-count {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 16px;
+    color: #000;
+    background-color: #f0f0f0; /* Gris clair */
+    color: #333; /* Couleur de texte pour le fond gris clair */
+    border-radius: 50%; /* Pour rendre le div circulaire */
+    width: 50px; /* Ajustez en fonction de vos besoins */
+    height: 50px; /* Ajustez en fonction de vos besoins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   #game-board {
     display: flex;
     height: auto;
@@ -692,9 +684,14 @@ table {
     width: 200px; /* Adjust as needed */
     height: 200px; /* Adjust as needed */
     transform: translate(-50%, -50%);
-   /* border: 2px solid #000;  Adjust as needed */
+    /* border: 2px solid #000;  Adjust as needed */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add a shadow for a 3D effect */
-    background-color: rgba(255, 255, 255, 0.3); /* Optional: Add a semi-transparent background */
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.3
+    ); /* Optional: Add a semi-transparent background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -705,14 +702,7 @@ table {
     position: static;
     transform: none;
     background-size: cover;
-
-
-    
   }
-
-  
-
-
 
   .player2-cards img,
   .player3-cards img,
@@ -721,15 +711,15 @@ table {
   .player6-cards img,
   .player7-cards img,
   .player8-cards img {
-      width: 60px;
-      height: 80px;
-      margin: 0 -20px; /* Adjust as needed */
+    width: 60px;
+    height: 80px;
+    margin: 0 -20px; /* Adjust as needed */
   }
   .player1-cards img {
     width: 100px;
     height: 140px;
     margin: 0 -25px; /* Adjust as needed */
-}
+  }
 
   .card-selected {
     transform: scale(1.1); /* Adjust as needed */
@@ -746,13 +736,12 @@ table {
   }
   #rules-image {
     display: none;
-
   }
   #action1Element {
-    font-family: 'Chilanka', cursive;
+    font-family: "Chilanka", cursive;
     color: white;
-    background-color: #8B4513;
-    border: 2px solid #DAA520;
+    background-color: #8b4513;
+    border: 2px solid #daa520;
     width: 80%;
     height: auto;
     padding: 20px;
@@ -764,15 +753,15 @@ table {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
     overflow-y: auto;
   }
-  
+
   #action2Element {
-    font-family: 'Chilanka', cursive;
+    font-family: "Chilanka", cursive;
     color: white;
-    background-color: #8B4513;
-    border: 2px solid #DAA520;
+    background-color: #8b4513;
+    border: 2px solid #daa520;
     width: 80%;
     height: auto;
     padding: 20px;
@@ -784,26 +773,23 @@ table {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
     overflow-y: auto;
   }
 }
 
-
 @media (max-width: 960px) and (orientation: portrait) {
   body {
     margin: 0;
-  font-family: 'Chilanka', cursive;
-  overflow: auto;
-  overflow-x: hidden;
-  -moz-transform: scale(1); /* For Mozilla Firefox */
-  -webkit-transform: scale(1); /* For Safari and Chrome */
-  -ms-transform: scale(1); /* For IE 9 */
-  -o-transform: scale(1); /* For Opera */
-  transform: scale(1);
- 
-
-}
+    font-family: "Chilanka", cursive;
+    overflow: auto;
+    overflow-x: hidden;
+    -moz-transform: scale(1); /* For Mozilla Firefox */
+    -webkit-transform: scale(1); /* For Safari and Chrome */
+    -ms-transform: scale(1); /* For IE 9 */
+    -o-transform: scale(1); /* For Opera */
+    transform: scale(1);
+  }
 
   .player-cards img:hover {
     transform: rotateY(0deg); /* Rotation when mouse is over */
@@ -825,7 +811,6 @@ table {
     right: 5%;
     width: 120px;
     height: 140px;
-    
   }
 
   .player4-cards {
@@ -837,7 +822,6 @@ table {
     transform: rotate(90deg);
     top: 15%;
     left: -45%;
-    
   }
 
   .player6-cards {
@@ -858,10 +842,8 @@ table {
     left: 45%;
   }
 
-
   #current-player {
     display: none;
-
   }
 
   #game-rules {
@@ -877,7 +859,6 @@ table {
   }
   #rules-image {
     display: none;
-
   }
   #end-turn {
     position: absolute;
@@ -893,7 +874,6 @@ table {
     left: 40%;
   }
 }
-
 
 @media (max-width: 960px) and (orientation: landscape) {
   .player-cards img:hover {
@@ -980,17 +960,16 @@ table {
   }
   body {
     margin: 0;
-  font-family: 'Chilanka', cursive;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -moz-transform: scale(1); /* For Mozilla Firefox */
-  -webkit-transform: scale(1); /* For Safari and Chrome */
-  -ms-transform: scale(1); /* For IE 9 */
-  -o-transform: scale(1); /* For Opera */
-  transform: scale(1);
+    font-family: "Chilanka", cursive;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -moz-transform: scale(1); /* For Mozilla Firefox */
+    -webkit-transform: scale(1); /* For Safari and Chrome */
+    -ms-transform: scale(1); /* For IE 9 */
+    -o-transform: scale(1); /* For Opera */
+    transform: scale(1);
   }
 }
-
 
 @media screen and (min-width: 961px) and (max-width: 1900px) {
   #rules-image {
@@ -1015,58 +994,55 @@ table {
   }
   body {
     overflow: auto;
-    overflow-x:hidden ;
+    overflow-x: hidden;
     margin: 0;
-  font-family: 'Chilanka', cursive;
-  -moz-transform: scale(1); /* For Mozilla Firefox */
-  -webkit-transform: scale(1); /* For Safari and Chrome */
-  -ms-transform: scale(1); /* For IE 9 */
-  -o-transform: scale(1); /* For Opera */
-  transform: scale(1);
- 
+    font-family: "Chilanka", cursive;
+    -moz-transform: scale(1); /* For Mozilla Firefox */
+    -webkit-transform: scale(1); /* For Safari and Chrome */
+    -ms-transform: scale(1); /* For IE 9 */
+    -o-transform: scale(1); /* For Opera */
+    transform: scale(1);
+  }
 
-}
+  .sips-taken {
+    position: fixed;
+    top: 0;
+    right: 0px;
+    width: 150px; /* Adjust this value to change the width */
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-size: 1em;
+    display: block;
+    margin-bottom: 10px; /* Add this line */
+  }
 
- .sips-taken {
-  position: fixed;
-  top: 0;
-  right: 0px;
-  width: 150px; /* Adjust this value to change the width */
-  padding: 10px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 5px;
-  font-size: 1em;
-  display: block;
-  margin-bottom: 10px; /* Add this line */
-}
+  #turn-count {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 16px;
+    color: #000;
+    background-color: #f0f0f0; /* Gris clair */
+    color: #333; /* Couleur de texte pour le fond gris clair */
+    border-radius: 50%; /* Pour rendre le div circulaire */
+    width: 50px; /* Ajustez en fonction de vos besoins */
+    height: 50px; /* Ajustez en fonction de vos besoins */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .end-container {
+    top: 40%;
+  }
 
- #turn-count {
-  position: absolute;
-  top: 30px;
-  left: 10px;
-  font-size: 16px;
-  color: #000;
-  background-color: #f0f0f0; /* Gris clair */
-  color: #333; /* Couleur de texte pour le fond gris clair */
-  border-radius: 50%; /* Pour rendre le div circulaire */
-  width: 50px; /* Ajustez en fonction de vos besoins */
-  height: 50px; /* Ajustez en fonction de vos besoins */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.end-container {
-  top: 40%;
-}
- 
-#countdownDisplay {
-  top: 15%;
-}
+  #countdownDisplay {
+    top: 15%;
+  }
   /* Add more media query styles as needed */
 }
-
 
 @media screen and (min-width: 2201px) {
   /* Styles for screens greater than 2200px */
@@ -1076,14 +1052,13 @@ table {
 
   /* Autres styles pour cette résolution d'écran */
 }
-
 @media screen and (min-width: 1921px) and (min-height: 1081px) {
   /* Styles for screens greater than 1920x1080 */
   #game-board {
     height: 110vh; /* Ajustez la hauteur selon vos besoins */
   }
   body {
-    font-family: 'Chilanka', cursive;
+    font-family: "Chilanka", cursive;
     overflow: auto;
   }
   /* Autres styles pour cette résolution d'écran */

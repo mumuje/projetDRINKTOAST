@@ -1,9 +1,9 @@
 .left-image {
     left: 40px;
-    background-image: url('img/test.png');
+    background-image: url('../img/test.png');
   }
   
   .right-image {
     right: 40px;
-    background-image: url('img/test2.png');
+    background-image: url('../img/test2.png');
   }

@@ -7,37 +7,11 @@
   <link rel="icon" href="img/logo.png" type="image/png">
 
   <!-- Votre style CSS -->
-  <link rel="stylesheet" href="style.css">
+  <?php include 'include_css.php'; ?>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-  <style>
-    .color-gold {
-      color: gold;
-    }
 
-    .color-red {
-      color: red;
-    }
-
-    .color-blue {
-      color: blue;
-    }
-
-    .bg-gold {
-      background-color: gold;
-    }
-
-    .bg-red {
-      background-color: red;
-    }
-
-    .bg-blue {
-      background-color: blue;
-    }
-
-    /* Ajoutez ici vos styles personnalisés */
-  </style>
 </head>
 
 <body>
