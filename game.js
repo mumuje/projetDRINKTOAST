@@ -29,7 +29,6 @@ function openSocketConnection() {
   endTurnButton = document.getElementById('end-turn');
   endTurnButton.style.display = 'none';
   console.log('ouverture ws');
-  //socket = new WebSocket('ws://192.168.1.101:8080/websocket');
   socket = new WebSocket('ws://109.122.198.14:8080/websocket');
 
   

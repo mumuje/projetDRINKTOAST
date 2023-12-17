@@ -195,6 +195,8 @@ class GuessTheNumber
        // echo "\n\tBefore: choice = $choice, guess = $guess, rangeEnd = $this->rangeEnd\n";
         if ($choice === $guess) {
          //   echo ("AU LE WINNER DE FOU LA :" . $guesserPseudo . "\n");
+         $this->rangeStart = 1;
+         $this->rangeEnd = 10;
             return $guesserPseudo;
         } else {
             if ($choice !== $guess) {

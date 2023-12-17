@@ -98,8 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <footer>
-      <p>Copyright(pas du tout) © 2023 DrinkToast</p>
-    </footer>
+      <p>Copyright ©2023 DrinkToast</p>
+      <p style="position: relative; bottom: 1%; right: 1%; font-size: 50%;">Version 1.0.0</p>
+        </footer>
     <script src="app.js"></script>
     </div>
 
