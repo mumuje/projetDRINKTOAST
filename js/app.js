@@ -424,6 +424,11 @@ function updateLobbyList(lobbies) {
   }
 }
 
+/*************************************************************************/
+// Permet de mettre à jour le compteur de caractères restants
+// lorsque l'utilisateur saisit du texte dans le champ de saisie
+//
+
 function updateCounter() {
   var remaining = 1000 - document.getElementById("message").value.length;
   document.getElementById("counter").textContent =
