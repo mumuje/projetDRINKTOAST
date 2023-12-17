@@ -1770,6 +1770,7 @@ class Game
                     $this->isCardInPlay5 = 0;
                     $this->TicTacToeAlready = false;
                     $this->sippurple = 1; 
+                    $this->nbmove = 0;
                 }
             }
 
@@ -1887,7 +1888,7 @@ class Game
                     echo "[" . date('Y-m-d H:i:s') . "]"  . "erreur carte violette";
                 }
             }
-            if (get_class($this->miniGame) === 'TicTacToe' && $result  !== null) {
+            if (get_class($this->miniGame) === 'GuessTheNumber' && $result  !== null) {
             $this->miniGame = null;
             }
         }
