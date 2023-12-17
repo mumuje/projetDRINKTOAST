@@ -194,7 +194,7 @@ body {
 }
 
 .turn-count-class {
-  /* Vous pouvez ajouter d'autres styles ici si nécessaire */
+  top: 0px;  
 }
 .end-container {
   position: absolute;
