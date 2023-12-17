@@ -327,6 +327,7 @@ if (currentGame === 'RockPaperScissors') {
 
 if (currentGame === 'GuessTheNumber')
 {
+  endTurnButton.style.display = 'hidden';
   dropzone.style.visibility = 'hidden';
   player1 = data.player1; 
   player2 = data.player2; 
@@ -336,7 +337,8 @@ if (currentGame === 'GuessTheNumber')
 }
 
 if (pseudo === currentPlayerPURPLE) {
-  showMessage(data.content, 3000);  
+  showMessage(data.content, 3000); 
+  dropzone.style.visibility = 'hidden'; 
   // Créez un champ de saisie pour le choix du joueur
   for (var i = data.range.start; i <= data.range.end; i++) {
     var button = document.createElement('button');
@@ -443,6 +445,7 @@ localStorage.setItem('tableState', JSON.stringify(tableState));
 
 else if (currentGame === 'GuessTheNumber')
 {
+  endTurnButton.style.display = 'hidden';
   var moveSelection = document.getElementById('moveSelection');
   while (moveSelection.firstChild) {
     moveSelection.removeChild(moveSelection.firstChild);
@@ -452,6 +455,8 @@ else if (currentGame === 'GuessTheNumber')
   player1 = data.player1; 
   player2 = data.player2; 
   if (pseudo !== currentPlayerPURPLE && (pseudo === player1 || pseudo === player2)) {
+    showMessage(data.content, 3000);
+    dropzone.style.visibility = 'hidden';
     // showMessage(data.content, 3000);  
     console.log('Entered GuessTheNumber if block CREATION BUTTON');  // Log
     var playerMoveElement = document.getElementById(data.pseudo + 'Move');
@@ -563,7 +568,7 @@ else if (currentGame === 'GuessTheNumber')
 
 }
 dropzone.style.visibility = 'visible';
-
+endTurnButton.style.display = 'visible';
 } else if (data.type === 'ERROR2CARTESJOUE') 
 {
   showMessage(data.content, 2000);  

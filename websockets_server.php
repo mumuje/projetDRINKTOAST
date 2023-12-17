@@ -1693,13 +1693,14 @@ class Game
         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tVIOLET ETAPE 3\n";
         $this->isCardInPlay5 = 3;
 
-
+        if (get_class($this->miniGame) !== 'GuessTheNumber') {
         $moveMessage = [
             'type' => 'playerMove',
             'pseudo' => $pseudo,
             'game' => get_class($this->miniGame),
             'move' => $move
         ];
+    }
         if (get_class($this->miniGame) === 'GuessTheNumber') {
             $range = $this->miniGame->getRange();
 
@@ -1714,6 +1715,8 @@ class Game
                  'range' => $range,
                  'content' => "Trouve le bon numéro!",
                 ];
+
+
         }
         $this->broadcast(json_encode($moveMessage));
 
@@ -1733,6 +1736,8 @@ class Game
             if (get_class($this->miniGame) === 'GuessTheNumber') {
                 if ($result === null)
                 {
+                    $this->isCardInPlay5 = 2;
+                    echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\BACK TO  ETAPE 2\n";
                   //  echo "CONTINUE DE GUESSTHENUMBER" . $result . $this->lastPlayerMove .  "\n";
                     $this->sippurple += 2;
                 $this->isCardInPlay5 = 4;
@@ -1773,7 +1778,7 @@ class Game
         // Vérifier si les deux joueurs ont fait un mouvement
         if (count($this->playerMoves) === 2 && get_class($this->miniGame) !== 'GuessTheNumber') {
             // echo "[" . date('Y-m-d H:i:s') . "]"  . "VIOLET ETAPE 3";
-            //  $this->isCardInPlay5 = 4;
+          $this->isCardInPlay5 = 4;
             // Jouer le tour et obtenir le résultat
             if (get_class($this->miniGame) !== 'GuessTheNumber') {
             $result = $this->playRound();
@@ -1931,6 +1936,8 @@ class Game
             $this->handlePlayerMove($this->playdisconnect, $this->lastPlayerMove);
         } else if ($this->isCardInPlay5 == 4) {
 
+            if ($this->nbmove !== 0  && $this->nbmove !== 1 &&  $this->nbmove !== 2 )
+            {
             $data = [
                 'type' => 'miniGameSelected',
                 'game' => get_class($this->miniGame),
@@ -1942,8 +1949,29 @@ class Game
                 'content' => "C'est le tour de : " . $this->currentPlayerPURPLE->pseudo,
             ];
             $this->broadcastToMultipleViolet(json_encode($data), $this->selectedPlayers);
+        }
+        else {
+            $range = $this->miniGame->getRange();
+            $data = [
+                'type' => 'miniGameSelected',
+                'game' => get_class($this->miniGame),
+                'moves' => $this->moves,
+                'player1' => $this->player1->pseudo,
+                'player2' => $this->player2->pseudo,
+                'VIOLETJOUEUR' => $this->currentPlayerPURPLE->pseudo,
+                'TicTacToeAlready' => $this->TicTacToeAlready,
+                'range' => $range,
+                'content' => "C'est le tour de : " . $this->currentPlayerPURPLE->pseudo,
+            ];
+            $this->broadcastToMultipleViolet(json_encode($data), $this->selectedPlayers);
+        }
+       // } else if ($this->nbmove === 1)
+        //{
+            
+       // }
         } else if ($this->isCardInPlay5 == 5) {
         } else {
+            echo "HERE TEST";
             $this->isCardInPlay5 = 0;
         }
     }
