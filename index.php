@@ -1,109 +1,135 @@
-
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $pseudo = $_POST['pseudo'];
-    $message = $_POST['message'];
-
-    // Formatage du message
-    $formattedMessage = "Pseudo: " . $pseudo . "\nMessage: " . $message . "\n\n";
-
-    // Écriture du message dans le fichier
-    file_put_contents('messages.txt', $formattedMessage, FILE_APPEND);
-}
-?>
-
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> DrinkToast | Accueil</title>
-    <link rel="icon" href="img/logo.png" type="image/png"> 
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-  <div class="content">
-    <header>
-    <div class="left-section"> 
-    <a href="index.php">
-    <img src="img/logo.png" alt="Logo" class="logo"></a> 
-    <nav>
-        <ul>
-<li><button id="contactButton">Contact</button></li>
-        </ul>
-      </nav>
-</div>
-      <h1>DrinkToast : <br> Drink Duel</h1>
-      <div class="right-section"></div>
+  <title>DrinkToast | Accueil</title>
+  <link rel="icon" href="img/logo.png" type="image/png">
+
+  <!-- Votre style CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+  <style>
+    .color-gold {
+      color: gold;
+    }
+
+    .color-red {
+      color: red;
+    }
+
+    .color-blue {
+      color: blue;
+    }
+
+    .bg-gold {
+      background-color: gold;
+    }
+
+    .bg-red {
+      background-color: red;
+    }
+
+    .bg-blue {
+      background-color: blue;
+    }
+
+    /* Ajoutez ici vos styles personnalisés */
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-gold">
+
+    <a class="navbar-brand" href="index.php">
+      <img src="img/logo.png" alt="Logo" class="logo" width="100px">
+    </a>
+
+    <a class="navbar-brand" href="index.php">
+      <h1 class="color-red">DrinkToast</h1>
+    </a>
+  </nav>
+
+  <div class="container mt-4">
+    <header class="text-center mb-4">
+      <h1 class="color-red">Drink Duel</h1>
     </header>
     <main>
-    <div class="left-image"></div>
-<div class="right-image"></div>
-    <form id="pseudo-form" method="post">
-    <label for="pseudo">Pseudo :</label>
-    <input type="text" id="pseudo" name="pseudo" required maxlength="15">
-        <button type="submit">Enregistrer le pseudo!</button>
-    
-</form>
-
-<div id ="contact">
-<form method="post">
-    <label for="pseudo">Pseudo :</label>
-    <input type="text" id="pseudo" name="pseudo" required>
-    <label for="message">Message :</label>
-    <textarea id="message" name="message" rows="4" cols="50" maxlength="1000" required oninput="updateCounter()"></textarea>
-    <div id="counter" style="text-align: right;"></div>
-    <button type="submit">Envoyer</button>
-</form>
-</div>
-
-      <div id="lobby-creation">
-        <h2>Créer un nouveau lobby</h2>
-        <form id="create-lobby-form" method="post">
-    <label for="lobby-name">Nom du lobby :</label>
-    <input type="text" id="lobby-name" name="lobby-name" required autocomplete="off" maxlength="20">
-            <label for="lobby-password">Mot de passe du lobby (laisser vide pour un lobby public) :</label>
-    <input type="password" id="lobby-password" name="lobby-password">
-    <button type="submit">Créer le lobby</button>
-</form>
-        <h2>Rejoindre un lobby existant :</h2>
-        <ul id="lobby-list"></ul>
-      </div>
-
-      <div id="lobby-info" style="display: none;">
-        <h1>Lobby: <span id="lobby-name-display"></span></h1>
-        <h3 id="player-count">Joueurs:</h3>
-                <ul id="player-list">
-          <!-- La liste des joueurs sera ajoutée ici par le script JavaScript -->
-          
-        </ul>
-        <button type="button" id="start-game" class="start-game-button" onclick="startGame()">Lancer la partie</button>
-        <p id="error-message" style="color: red;"></p>        
-        <div id="game-rules">
-        <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image">
-    <h3>Règles du jeu :</h3>
-    <p><strong>CONCEPT DU JEU :</strong></p>
-    <p>6 cartes différentes</p>
-    <ul>
-    <li>Carte Bleue -> Devine le nombre</li>
-      <li>Carte Jaune -> Question général sinon X gorgée(s)</li>
-      <li>Carte Rouge -> Action physique sinon X gorgée(s)</li>
-      <li>Carte Verte -> Énigme sinon X gorgée(s)</li>
-      <li>Carte RARE Multicolore -> Tout le monde prend X gorgée(s)</li>
-      <li>Carte RARE Violette -> 2 joueurs dans un mini jeu (1v1)</li>
-  </ul>
-    <!-- Ajoutez plus de règles ici -->
-  </div>
+      <div class="container mt-4">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="left-image">Image gauche</div>
+          </div>
+          <div class="col-md-6">
+            <div class="right-image">Image droite</div>
+          </div>
         </div>
-        <p class="warning-text">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p><br>
+
+        <!-- Formulaire pour enregistrer le pseudo -->
+        <form id="pseudo-form" method="post" class="mb-4">
+          <div class="form-group">
+            <label for="pseudo">Pseudo :</label>
+            <input type="text" id="pseudo" name="pseudo" class="form-control" required maxlength="15">
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer le pseudo!</button>
+        </form>
+
+
+        <!-- Création et gestion de lobby -->
+        <div id="lobby-creation" class="mb-4">
+          <h2>Créer un nouveau lobby</h2>
+
+          <form id="create-lobby-form" method="post" class="mb-4">
+            <div class="form-group">
+              <label for="lobby-name">Nom du lobby :</label>
+              <input type="text" id="lobby-name" name="lobby-name" class="form-control" required autocomplete="off" maxlength="20">
+            </div>
+            <div class="form-group">
+              <label for="lobby-password">Mot de passe du lobby (laisser vide pour un lobby public) :</label>
+              <input type="password" id="lobby-password" name="lobby-password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Créer le lobby</button>
+          </form>
+
+          <h2>Rejoindre un lobby existant :</h2>
+          <ul id="lobby-list" class="list-group"></ul>
+        </div>
+
+        <!-- Informations sur le lobby -->
+        <div id="lobby-info" style="display: none;">
+          <h1>Lobby: <span id="lobby-name-display"></span></h1>
+          <h3 id="player-count">Joueurs:</h3>
+          <ul id="player-list" class="list-group">
+            <!-- La liste des joueurs sera ajoutée ici par le script JavaScript -->
+          </ul>
+          <button type="button" id="start-game" class="btn btn-success" onclick="startGame()">Lancer la partie</button>
+          <p id="error-message" class="text-danger"></p>
+          <div id="game-rules" class="mt-4">
+            <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image" class="img-fluid">
+            <h3>Règles du jeu :</h3>
+            <!-- Règles du jeu ici -->
+          </div>
+        </div>
+        <p class="warning-text">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p>
+      </div>
     </main>
 
-    <footer>
-      <p>Copyright ©2023 DrinkToast</p>
-      <p style="position: relative; bottom: 1%; right: 1%; font-size: 50%;">Version 1.0.0</p>
-        </footer>
-    <script src="app.js"></script>
-    </div>
 
-  </body>
+    <footer class="text-center mt-4">
+      <p class="color-blue">&copy; 2023 DrinkToast</p>
+      <p class="text-muted" style="font-size: small;">Version 1.0.0</p>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS et jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- Votre script JS -->
+  <script src="app.js"></script>
+</body>
 
 </html>
