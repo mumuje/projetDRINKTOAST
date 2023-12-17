@@ -806,7 +806,7 @@ class Game
         }
 
         // Add green cards
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 15; $i++) {
             $cards[] = array('id' => 'card-' . $cardId++, 'color' => 'verte', 'image' => 'img/verte.png');
         }
 
@@ -816,7 +816,7 @@ class Game
         }
 
         // Add violet cards
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $cards[] = array('id' => 'card-' . $cardId++, 'color' => 'violette', 'image' => 'img/violette.png');
         }
 
