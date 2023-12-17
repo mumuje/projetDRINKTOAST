@@ -2,5 +2,30 @@
 /*Main*/
 
 body {
+}
 
-  }
+
+
+.color-gold {
+  color: gold;
+}
+
+.color-red {
+  color: red;
+}
+
+.color-blue {
+  color: blue;
+}
+
+.bg-gold {
+  background-color: gold;
+}
+
+.bg-red {
+  background-color: red;
+}
+
+.bg-blue {
+  background-color: blue;
+}
