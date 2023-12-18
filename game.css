@@ -192,7 +192,10 @@ body {
   font-size: 20px;
   color: #000;
 }
-
+.button-image-rockpaperscissors {
+  width: 50px;  /* Remplacez par la largeur que vous voulez */
+  height: 50px; /* Remplacez par la hauteur que vous voulez */
+}
 .turn-count-class {
   top: 0px;  
 }

@@ -305,9 +305,6 @@ function openSocketConnection() {
                   var cell = document.createElement("td");
                   cell.className = "game-cell";
                   cell.addEventListener("click", handleCellClick);
-                  // cell.style.border = '1px solid black';
-                  //cell.style.width = '50px';
-                  //cell.style.height = '50px';
                   cell.setAttribute(
                     "data-played",
                     savedTableState[i][j].played
@@ -340,12 +337,21 @@ function openSocketConnection() {
         while (moveSelection.firstChild) {
           moveSelection.removeChild(moveSelection.firstChild);
         }
-        //  console.log("Un mini-jeu : " + currentGame);
+
+        var moveImages = {
+          "rock": "../img/rock.png",
+          "paper": "../img/paper.png",
+          "scissors": "../img/scissors.png"
+        };
         // Ajoutez un bouton pour chaque mouvement possible
         data.moves.forEach(function (move) {
           var button = document.createElement("button");
           button.className = "game-button-RockPaperScissors";
           button.textContent = move;
+          var img = document.createElement("img");
+          img.src = moveImages[move];
+          img.className = "button-image-rockpaperscissors"; // Ajoutez cette ligne
+          button.prepend(img);
           button.addEventListener("click", function () {
             //      console.log('Button clicked');
             socket.send(
