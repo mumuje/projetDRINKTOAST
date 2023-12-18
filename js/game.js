@@ -12,6 +12,10 @@ var currentGame;
 var player1;
 var player2;
 var currentPlayerPURPLE;
+let pseudo;
+let lobbyName;
+let endTurnButton;
+let startPartyButton;
 const questionElement = document.getElementById("JAUNECardDialog");
 const playerAnswerElement = document.getElementById("playerAnswerDisplay");
 const correctAnswerElement = document.getElementById("correctAnswerDisplay");
@@ -418,9 +422,6 @@ function openSocketConnection() {
                 var cell = document.createElement("td");
                 cell.className = "game-cell";
                 cell.addEventListener("click", handleCellClick);
-                // cell.style.border = '1px solid black';
-                //cell.style.width = '50px';
-                //cell.style.height = '50px';
                 cell.setAttribute(
                   "data-played",
                   savedTableState[i][j].played === "true" ? "true" : "false"
@@ -695,10 +696,9 @@ function updateGameState(gameState) {
     turnCountElement.textContent = turnCount + "/30";
   } else {
     turnCountElement.textContent = "Nombre de tours: " + turnCount + "/30";
-  }
-  let pseudoIndex = gameState.players.findIndex(
-    (player) => player.pseudo === pseudo
-  );
+  } 
+  let pseudoIndex = gameState.players.findIndex(player => player.pseudo === pseudo);
+
 
   for (let i = 0; i < gameState.players.length; i++) {
     const player = gameState.players[i];

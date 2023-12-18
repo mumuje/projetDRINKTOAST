@@ -1619,7 +1619,7 @@ class Game
 
     public function generateRandomMiniGame()
     {
-        $randomNumber = rand(1, 1);
+        $randomNumber = rand(1, 3);
         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tVIOLET GENRATE RANDOM MINIGAME WITH" . $randomNumber .  "\n";
         switch ($randomNumber) {
             case 1:

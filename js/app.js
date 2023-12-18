@@ -317,10 +317,8 @@ if (lobbyList) {
         playersInCurrentLobby.add(player.pseudo);
       }
       updatePlayerCount();
-    } else if (
-      data.type === "playerJoined" &&
-      !playersInCurrentLobby.has(data.pseudo)
-    ) {
+    } else if (data.type === "playerJoined" && !playersInCurrentLobby.has(data.pseudo))
+     {
       console.log("player joined");
       const pseudo = data.pseudo;
       const playerList = document.getElementById("player-list");
