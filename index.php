@@ -145,7 +145,7 @@
             <!-- Section Contact et réseaux sociaux -->
             <div class="col-md-4 mb-3">
                 <h5>Contactez-nous</h5>
-                <a href="mailto:drinktoastgame@gmail.com">Email : drinktoastgame@gmail.com</a>
+                <p>Email : <a class="link" href="mailto:drinktoastgame@gmail.com">drinktoastgame@gmail.com</a></p>
             </div>
         </div>
 
