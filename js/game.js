@@ -19,6 +19,7 @@ let startPartyButton;
 const questionElement = document.getElementById("JAUNECardDialog");
 const playerAnswerElement = document.getElementById("playerAnswerDisplay");
 const correctAnswerElement = document.getElementById("correctAnswerDisplay");
+let disconnectTimer = null;
 
 /*************************************************************************/
 // Connection websocket
@@ -47,6 +48,10 @@ function openSocketConnection() {
         })
       );
       startPartyButton.style.display = "none";
+      console.log(disconnectTimer);
+        console.log("Timer cleared");
+        socket.send(JSON.stringify({ type: "userReconnected", pseudo: pseudo, lobbyName: lobbyName}));
+
     } else {
       startPartyButton.style.display = "block";
       // console.log('Connection opened');
@@ -59,6 +64,7 @@ function openSocketConnection() {
       );
       //console.log(pseudo);
     }
+    
   };
   /*************************************************************************/
   // message du serveur
@@ -594,11 +600,32 @@ function openSocketConnection() {
       // message du serveur ERROR2CARTESJOUE
     } else if (data.type === "ERROR2CARTESJOUE") {
       showMessage(data.content, 2000);
-    } //else if (data.type === ')
-    //{
-
-    //}
+    } else if (data.type === 'userDisconnected')
+    {
+      console.log(data.pseudo + " s'est déconnecté");
+      disconnectTimer = setTimeout(() => {
+        // Le timer a expiré, considérer que l'utilisateur a quitté la partie
+        console.log(data.pseudo + " a quitté la partie");
+        document.getElementById("answerInput").style.display = "none";
+        document.getElementById("submitAnswer").style.display = "none";
+        stopCountdown();
+        socket.send(JSON.stringify({ type: "userLeft", pseudo: data.pseudo, lobbyName: lobbyName, }));
+       
+        showMessage(data.content, 3000);
+      }, 8 * 1000); // Remplacez X par le nombre de secondes à attendre
+    } else if (data.type === 'resetTimers' )
+    {
+      if (disconnectTimer) {
+        clearTimeout(disconnectTimer);
+        disconnectTimer = null;
+        console.log("Timer cleared");
+      }
+    }
   });
+
+
+
+
 
   socket.onclose = function (event) {
     console.error("Erreur WebSocket : ", event);
@@ -703,7 +730,18 @@ function updateGameState(gameState) {
   } else {
     turnCountElement.textContent = "Nombre de tours: " + turnCount + "/30";
   } 
-  let pseudoIndex = gameState.players.findIndex(player => player.pseudo === pseudo);
+  let pseudoIndex;
+  console.log(gameState.players); // Vérifiez que c'est un tableau
+  console.log(pseudo); // Vérifiez que pseudo est défini
+  if (Array.isArray(gameState.players)) {
+    console.log(gameState.players); // Vérifiez que c'est un tableau
+console.log(pseudo); // Vérifiez que pseudo est défini
+  pseudoIndex = gameState.players.findIndex(player => player.pseudo === pseudo);
+
+
+  } else {
+    console.error('gameState.players is not an array:', gameState.players);
+  }
 
 
   for (let i = 0; i < gameState.players.length; i++) {
@@ -1300,6 +1338,7 @@ function startCountdown(start, duration) {
 }
 function stopCountdown() {
   //  console.log('stopCountdown called');
+  const countdownElement = document.getElementById("countdownDisplay");
   clearInterval(intervalId);
   countdownElement.style.display = "none";
 }

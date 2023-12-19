@@ -298,21 +298,21 @@ class Game
     public $currentPlayerPURPLE;
     private $lobbyName;
     public $sippurple;
-    private $players;
+    public $players;
     public $gameStarted = false; // Add this line
     private $deck;
     public $playdisconnect;
     public $clients;
-    private $selectedPlayer;
+    public $selectedPlayer;
     public $activePlayer;
     public $gameetat = false;
     private $game;
     public $autoMove;
-    private $minigames;
+    public $minigames;
     public $countdownActive = false;
-    private $blueCardPlayer;
-    private $playedCards;
-    private $currentAnswer;
+    public $blueCardPlayer;
+    public $playedCards;
+    public $currentAnswer;
     private $chosenNumbers;
     public $countdownStart;
     public $countdownDuration;
@@ -324,7 +324,7 @@ class Game
     public $votesByPlayer = [];
     public $player1;
     public $player2;
-    private $votes;
+    public $votes;
     public $isCardInPlay = 0;
     public $isCardInPlay2 = 0;
     public $TicTacToeAlready = false;
@@ -335,15 +335,15 @@ class Game
     public $isCardInPlay5 = 0;
     public $selectedPlayers;
     private $lastPlayerMovePseudo;
-    private $lastPlayerMove;
+    public $lastPlayerMove;
     public $countdownPausedAt;
     public $turnCount = 0;
-    protected $player1Pseudo;
-    protected $player2Pseudo;
+    public $player1Pseudo;
+    public $player2Pseudo;
     public $gameId;
     public $moves;
-    protected $playerAnswer;
-    private $currentQuestion = null;
+    public $playerAnswer;
+    public $currentQuestion = null;
     public $dropzone = [];
 
     public $playerDisconnected;
@@ -2306,6 +2306,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             if (!is_object($lobby->game->activePlayer)) {
                                 echo "[" . date('Y-m-d H:i:s') . "]"  . "Error: activePlayer is not an object after startParty\n";
                             }
+                            $players = array_values($players);
 
                             $gameState = $gameStartResult;
                             $gameState['gameStarted'] = true;
@@ -2358,6 +2359,8 @@ class MyWebSocketServer implements MessageComponentInterface
                     $lobby->game->isCardInPlay3 = 0;
                     $lobby->game->isCardInPlay4 = 0;
                     // Envoyer l'état du jeu mis à jour au client
+                    $players = array_values($players);
+
                     $gameState = array(
                         'players' => $players,
                         'currentPlayerIndex' => $lobby->currentPlayerIndex,
@@ -2427,6 +2430,8 @@ class MyWebSocketServer implements MessageComponentInterface
                                 echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer " . $player->pseudo . " has isPlayerTurn set to false\n";
                             }
                         }
+                        $players = array_values($players);
+
                         // Récupérer l'état actuel du jeu
                         $gameState = array(
                             'players' => $players,
@@ -2483,6 +2488,7 @@ class MyWebSocketServer implements MessageComponentInterface
                             $lobby->game->playCard($player, $cardId);
                             // echo "$pseudo played card $cardId\n";
                             $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
+                            $players = array_values($players);
 
                             // Récupérer l'état du jeu mis à jour
                             $gameState = array(
@@ -2838,9 +2844,127 @@ class MyWebSocketServer implements MessageComponentInterface
 
 
 
-                // case 'RESET' :
-                //   $this->lobbies[$messageData['lobbyName']]->game->reset();
-                // break;
+                 case 'userLeft' :
+                    if (isset($data['pseudo']) && isset($data['lobbyName'])) {
+                        $pseudo = $data['pseudo'];
+                        $lobbyName = trim($data['lobbyName']);
+                        if (isset($this->lobbies[$lobbyName])) {
+                            $lobby = $this->lobbies[$lobbyName];
+                            $players = $lobby->game->getPlayers();
+                            echo "\n\tDECONNEXION D'UN JOUEUR : RESET DE LA CARTE ACTIVE\n";
+                            $lobby->game->activePlayer->cardsPlayedThisTurn = 0;
+                            $lobby->game->isCardInPlay = 0;
+                            $lobby->game->isCardInPlay2 = 0;
+                            $lobby->game->isCardInPlay3 = 0;
+                            $lobby->game->isCardInPlay4 = 0;
+                            $lobby->game->isCardInPlay5 = 0;
+                            $lobby->game->moves = [];
+                            $lobby->game->blueCardPlayer = null;
+                            $lobby->game->TicTacToeAlready = false;
+                            $lobby->game->sippurple = 1; 
+                            $lobby->game->nbmove = 0;
+                            $lobby->game->miniGame = null;
+                            $lobby->game->player1Pseudo = null;
+                            $lobby->game->player2Pseudo = null;
+                            $lobby->game->playerMoves = [];
+                            $lobby->game->selectedPlayers = [];
+                            $lobby->game->player1 = null; 
+                            $lobby->game->player2 = null; 
+                            $lobby->game->currentQuestion = null;
+                            $lobby->game->votes = [];
+                            $lobby->game->selectedPlayer = null;
+                            $lobby->game->votesByPlayer = [];
+                            $lobby->game->playerAnswer = null;
+                          //  $lobby->game->stopCountdown();
+                          $lobby->game->countdownStart = null;
+                          $lobby->game->countdownDuration = null;
+                          $lobby->game->countdownPausedAt = 0;
+                          $lobby->game->lastPlayerMove = null;
+                          $lobby->game->currentPlayerPURPLE = null;
+                          $lobby->game->autoMove = null;
+                          $lobby->game->minigames = null;
+                          $lobby->game->countdownActive = false;
+                          $lobby->game->currentAnswer = null;
+
+
+                            foreach ($players as $player) {
+                                if ($player->active) {
+                            while (!$lobby->game->activePlayer->active) {
+                                $lobby->game->updateActivePlayer();
+                            }
+                        }}
+
+                            $pseudo = $lobby->game->playerDisconnected->pseudo;
+                            echo "\t\nLE GRAND NAME" . $pseudo . "\n";
+                            foreach ($this->lobbies as $lobbyName => $lobby) {
+                                foreach ($lobby->game->getPlayers() as $index => $player) {
+                                    if ($player->pseudo == $pseudo) {
+                                      //  $lobby->game->startparty = false;
+                                        // Supprimer le joueur du jeu
+                                        unset($lobby->game->players[$index]);
+                                        $lobby->game->players = array_values($lobby->game->players);
+                                      //  $lobby->removePlayer($pseudo);
+                                        // Supprimer le joueur du lobby
+                            
+                                        // Arrêter la boucle une fois que le joueur a été trouvé et supprimé
+                                        break 2;
+                                    }
+                                }
+                            }
+                            foreach ($players as $player) {
+                                if ($player->active) {
+                                    echo $player->pseudo . " est actif.\n";
+                                }
+                            }
+                            while (!$lobby->game->activePlayer->active) {
+                                $lobby->game->updateActivePlayer();
+                            }
+                            $gameState['gameStarted'] = true; // Le jeu a déjà commencé si un tour se termine
+                            $players = array_values($players);
+
+                            // Récupérer l'état du jeu mis à jour
+                            $gameState = array(
+                                'players' => $players,
+                                'currentPlayerIndex' => $lobby->currentPlayerIndex,
+                                'cards' => $lobby->game->getCards(),
+                                'dropzone' => $lobby->game->dropzone,
+                                'turnCount' => $lobby->game->turnCount,
+                                'gameStarted' => true,
+                                'isPlayerTurn' => $lobby->game->activePlayer->isPlayerTurn,
+
+                            );
+                            echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tGame state updated\n";
+
+                            // Envoyer l'état du jeu à tous les joueurs
+                            foreach ($players as $player) {
+                                $gameState['playerId'] = $player->id;
+                                $gameState['isPlayerTurn'] = $lobby->game->activePlayer->pseudo == $player->pseudo;
+                                $message = json_encode(array('type' => 'gameStateUpdate', 'gameState' => $gameState));
+                                $lobby->game->broadcast2($message, $player);
+                            }
+                        
+                   
+
+                        }
+                    }
+                 break;
+                 case 'userReconnected' : 
+                    if (isset($data['pseudo']) && isset($data['lobbyName'])) {
+                        $pseudo = $data['pseudo'];
+                        $lobbyName = trim($data['lobbyName']);
+                        if (isset($this->lobbies[$lobbyName])) {
+                            $lobby = $this->lobbies[$lobbyName];
+                            $players = $lobby->game->getPlayers();
+
+
+                            foreach ($players as $player) {
+                                $message = json_encode(array('type' => 'resetTimers', 'content' => "Player reconnexion"));
+                                $lobby->game->broadcast2($message, $player);
+
+                            }
+                        }
+                    }
+                    break;
 
 
         }
@@ -2929,7 +3053,18 @@ class MyWebSocketServer implements MessageComponentInterface
                                                     $message = json_encode(array('type' => 'gameStateUpdate', 'gameState' => $gameState));
                                                     $lobby->game->broadcast2($message, $player);
                                                 }
+                                            } else {
+                                                foreach ($this->clients as $client) {
+                                                    if ($conn !== $client) { // Ne pas envoyer le message à l'utilisateur qui s'est déconnecté
+                                                        $client->send(json_encode(array(
+                                                            'type' => 'userDisconnected',
+                                                            'pseudo' => $player->pseudo,
+                                                            'content' => $player->pseudo . ' a quitté la partie'
+                                                        )));
+                                                    }
+                                                } 
                                             }
+
                                         }
 
                                         // Continue to update the active player until an active player is found
