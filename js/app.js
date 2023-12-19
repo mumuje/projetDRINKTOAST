@@ -130,8 +130,10 @@ if (lobbyList) {
       lobbies.forEach((lobby) => {
         const gameStarted2 = lobby.gameStarted;
 
-        const listItem = document.createElement("li");
+        const listItem = document.createElement("li"); 
+        listItem.classList.add("game-item");
         const link = document.createElement("a");
+        listItem.classList.add("game-item");
         link.href = `#`;
         link.dataset.lobbyName = lobby.name; // Ajoute un attribut de données personnalisé avec le nom du lobby
         link.textContent = `${lobby.name} (${lobby.playerCount}/8 joueurs)`; 
