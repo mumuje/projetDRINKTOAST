@@ -143,11 +143,11 @@ footer {
   height: 30px; /* Ajustez la taille de l'image de la couronne comme vous le souhaitez */
 }
 
-li {
+.game-item {
   margin-bottom: 10px;
 }
 
-li a {
+.game-item a {
   display: block;
   background-color: #b8b5b5;
   color: #333;
@@ -156,7 +156,7 @@ li a {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Ajoutez une ombre pour donner un effet de carte */
 }
 
-li a:hover {
+.game-item a:hover {
   background-color: #f44336; /* Utilisez une couleur plus vive */
   color: #fff;
 }
