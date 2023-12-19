@@ -31,7 +31,7 @@
 
   <div class="container mt-4">
     <header class="text-center mb-4">
-      <h1 class="color-red">Drink Duel</h1>
+      <h1 class="title-1">Drink Duel</h1>
     </header>
     <main>
 
