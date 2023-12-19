@@ -142,4 +142,27 @@ footer {
 .creator .crown-icon {
   height: 30px; /* Ajustez la taille de l'image de la couronne comme vous le souhaitez */
 }
+
+li {
+  margin-bottom: 10px;
+}
+
+li a {
+  display: block;
+  background-color: #b8b5b5;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Ajoutez une ombre pour donner un effet de carte */
+}
+
+li a:hover {
+  background-color: #f44336; /* Utilisez une couleur plus vive */
+  color: #fff;
+}
+
+a.disabled {
+  color: gray;
+  pointer-events: none;
+}
 /* ""ADD PAR ADRIEN LE 18/12"" */
