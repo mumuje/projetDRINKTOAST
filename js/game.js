@@ -721,7 +721,7 @@ function updateGameState(gameState) {
         '<img src="img/createur.png" width="30px"/>';
     } else {
       sipsTakenElement.textContent =
-        player.pseudo + ": Gorgées prises: " + player.sipsTaken;
+        player.pseudo + " : Gorgées prises : " + player.sipsTaken;
     }
     playerCardsElement.classList.add("player-cards"); // Ajoutez cette ligne
 

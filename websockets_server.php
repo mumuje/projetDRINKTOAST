@@ -1734,8 +1734,9 @@ class Game
                    // echo "FIN DE GUESSTHENUMBER" . $result . "\n";
                     $winnerPseudo = $result;
                     $winner = $result;
+                    $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
                     $number = $this->sippurple;
-                    $content = $winner . " A trouvé la bonne réponse l'autre joueur doit boire " . $number . " gorgée(s) !";
+                    $content = $winner->pseudo . " A trouvé la bonne réponse et " . $loser->pseudo . " doit boire " . $number . " gorgée(s) !";
                     $resultMessage = [
                         'type' => 'gameResult',
                         'game' => get_class($this->miniGame),
@@ -1760,6 +1761,9 @@ class Game
                     $this->player1Pseudo = null;
                     $this->player2Pseudo = null;
                     $this->playerMoves = [];
+                    $this->selectedPlayers = [];
+                    $this->player1 = null; 
+                    $this->player2 = null; 
 
                 }
             }
@@ -1859,6 +1863,10 @@ class Game
                     $this->player1Pseudo = null;
                     $this->player2Pseudo = null;
                     $this->playerMoves = [];
+                    $this->selectedPlayers = [];
+                    $this->player1 = null; 
+                    $this->player2 = null; 
+
                     echo "------------------------------------------------------------------------------------\n";
                 } else if ($result === 0) {
                     echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tEgalitée\n";
@@ -1878,6 +1886,10 @@ class Game
                         $this->player1Pseudo = null;
                         $this->player2Pseudo = null;
                         $this->playerMoves = [];
+                        $this->selectedPlayers = [];
+                        $this->player1 = null; 
+                        $this->player2 = null; 
+    
                     } else if (get_class($this->miniGame) === 'RockPaperScissors') {
                         $this->onPlayersSelectedForVioletCard($this->selectedPlayers);
                     }

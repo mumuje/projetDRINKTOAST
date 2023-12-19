@@ -53,19 +53,26 @@
 
 
       <!-- Formulaire pour enregistrer le pseudo -->
-      <form id="pseudo-form" method="post" class="mb-4">
-        <div class="form-group">
-          <label for="pseudo">Pseudo :</label>
-          <input type="text" id="pseudo" name="pseudo" class="form-control" required maxlength="15">
-        </div>
-        <button type="submit" class="btn btn-primary">Enregistrer le pseudo!</button>
-      </form>
+      <div class="d-flex justify-content-center mb-4"> <!-- ADD PAR ADRIEN LE 18/12 -->
+  <div class="col-12 col-md-8 col-lg-5">  <!-- """" ICI C'est POUR LE RESPOONSIVE -->
+      <div class="card-body"> <!-- ADD PAR ADRIEN LE 18/12  SA C DES TRUC BOOSTRAP -->
+        <form id="pseudo-form" method="post" class="mb-4">
+          <div class="form-group">
+            <label for="pseudo">Pseudo :</label>
+            <input type="text" id="pseudo" name="pseudo" class="form-control" required maxlength="15">
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer le pseudo!</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
 
       <!-- Création et gestion de lobby -->
       <div id="lobby-creation" class="mb-4">
+      <div class="d-flex justify-content-center"> <!-- Ajout de la classe d-flex et justify-content-center ADRIEN -->
+      <div class="col-12 col-md-8 col-lg-8">  <!-- """" ICI C'est POUR LE RESPOONSIVE  ADRIEN-->
         <h2>Créer un nouveau lobby</h2>
-
         <form id="create-lobby-form" method="post" class="mb-4">
           <div class="form-group">
             <label for="lobby-name">Nom du lobby :</label>
@@ -77,27 +84,39 @@
           </div>
           <button type="submit" class="btn btn-primary">Créer le lobby</button>
         </form>
+      </div>
+</div>
 
-        <h2>Rejoindre un lobby existant :</h2>
-        <ul id="lobby-list" class="list-group"></ul>
+        
+      <div class="d-flex justify-content-center">
+  <div class="col-12 col-md-8 col-lg-8">
+  <h2 class="h4 h2-md">Rejoindre un lobby existant :</h2>
+      <ul id="lobby-list" class="list-group"></ul>
+  </div>
+</div>
       </div>
 
       <!-- Informations sur le lobby -->
-      <div id="lobby-info" style="display: none;">
-        <h1>Lobby: <span id="lobby-name-display"></span></h1>
-        <h3 id="player-count">Joueurs:</h3>
-        <ul id="player-list" class="list-group">
-          <!-- La liste des joueurs sera ajoutée ici par le script JavaScript -->
-        </ul>
-        <button type="button" id="start-game" class="btn btn-success" onclick="startGame()">Lancer la partie</button>
-        <p id="error-message" class="text-danger"></p>
-        <div id="game-rules" class="mt-4">
-          <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image" class="img-fluid">
-          <h3>Règles du jeu :</h3>
-          <!-- Règles du jeu ici -->
-        </div>
+      <div id="lobby-info" class="container" style="display: none;">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <h1 class="text-center p-3 border rounded bg-light shadow">Lobby: <span id="lobby-name-display"></span></h1>
+      <h3 id="player-count" class="text-center">Joueurs:</h3>
+      <ul id="player-list" class="list-group">
+        <!-- La liste des joueurs sera ajoutée ici par le script JavaScript -->
+      </ul>
+      <button type="button" id="start-game" class="btn btn-success mt-3" onclick="startGame()">Lancer la partie</button>
+      <p id="error-message" class="text-danger"></p>
+      <div id="game-rules" class="mt-4 text-center">
+        <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image" class="img-fluid" width="100px">
+        <h3>Règles du jeu :</h3>
+        <!-- Règles du jeu ici -->
       </div>
-      <p class="warning-text">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p>
+    </div>
+  </div>
+</div>
+<div class="mb-4 text-center">
+    <p class="warning-text">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p>
   </div>
   </main>
 
