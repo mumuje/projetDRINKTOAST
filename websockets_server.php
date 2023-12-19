@@ -1746,7 +1746,8 @@ class Game
                         'content' => $content
                     ];
                     $this->broadcast(json_encode($resultMessage));
-
+                    $this->selectedPlayer = $loser;
+                    $this->selectedPlayer->sipsTaken += $number;
                     $this->selectedPlayer = null;
                     $this->moves = [];
                     $this->blueCardPlayer = null;
