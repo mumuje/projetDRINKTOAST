@@ -116,7 +116,7 @@
   </div>
 </div>
 <div class="mb-4 text-center">
-    <p class="warning-text">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p>
+    <p class="alert alert-danger">L'abus d'alcool est dangereux pour la santé, à consommer avec modération. <br> Vous pouvez jouer sans boire!!</p>
   </div>
   </main>
 

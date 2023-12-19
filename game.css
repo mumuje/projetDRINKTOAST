@@ -160,6 +160,7 @@ body {
   transform: rotate(-45deg);
   z-index: 3;
 }
+
 .player-cards img {
   width: 100px;
   height: 150px;
@@ -171,6 +172,7 @@ body {
 .player-cards img:hover {
   transform: rotateY(180deg); /* Rotation when mouse is over */
 }
+
 .sips-taken {
   position: fixed;
   top: 0;
