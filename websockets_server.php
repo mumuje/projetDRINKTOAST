@@ -2029,7 +2029,7 @@ class MyWebSocketServer implements MessageComponentInterface
     protected $resourceIds;
     protected $clientStates;
     protected $gameetat;
-    protected $startparty = false;
+    //protected $startparty = false;
 
     protected $entredeux = false;
     protected $pseudos;
@@ -3009,15 +3009,16 @@ class MyWebSocketServer implements MessageComponentInterface
 
             }
         }
-          //  $gameStarted = $lobby->getGame() ? $lobby->getGame()->isGameStarted() : false;
-          if (isset($lobby->game) && is_object($lobby->game) && $lobby->game->startparty) {
+          foreach ($this->lobbies as $lobby) {
+
+          if (isset($lobby->game->startparty)) {
             if ($lobby->game->startparty) {
                     echo " " . date('Y-m-d H:i:s') . " GAME STARTED " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
 
            
                     
                     $lobby->game->playdisconnect = null;
-                    foreach ($this->lobbies as $lobby) {
+                  //  foreach ($this->lobbies as $lobby) {
                         if (is_object($lobby->game) && $lobby->game->startparty) {
                             echo " " . date('Y-m-d H:i:s') . " GAME STARTED " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
@@ -3083,12 +3084,12 @@ class MyWebSocketServer implements MessageComponentInterface
                                 }
                             }
                         }
-                    }
+                   // }
                 }
 
 
 
-                    foreach ($this->lobbies as $lobby) {
+                  //  foreach ($this->lobbies as $lobby) {
                         echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tGame: " . $lobby->name . "\n";
                         if (is_object($lobby->game)) {  // AJOUTE LE 10/12
                             $players = $lobby->game->getPlayers();
@@ -3147,9 +3148,10 @@ class MyWebSocketServer implements MessageComponentInterface
                                 }
                             }
                         }
-                    }
+                   // }
                 }
             }
+        }
            // echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
         if (isset($lobby->game) && $lobby->game->gameetat === true && $lobby->game->startparty === false) {
             echo "gameetat: " . ($lobby->game->gameetat ? 'true' : 'false') . ", startparty: " . ($lobby->game->startparty ? 'true' : 'false') . "\n";
