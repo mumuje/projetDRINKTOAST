@@ -150,7 +150,10 @@ function openSocketConnection() {
     } else if (data.type === "VOTE") {
       dropzone.style.visibility = "hidden";
       // Demander aux joueurs de voter
-      startVoting();
+      console.log(data.pseudo);
+      if (data.pseudo !== pseudo) {
+      startVoting(data.pseudo);
+      }
       /*******************************************/
       // message du serveur scoreupdate
     } else if (data.type === "SCOREUPDATE") {
@@ -1247,7 +1250,8 @@ let voteCorrectButtonElement = document.getElementById(
   "voteCorrectButtonDisplay"
 );
 let voteFalseButtonElement = document.getElementById("voteFalseButtonDisplay");
-function startVoting() {
+function startVoting(pseudocurrent) {
+  currentPlayer2 = pseudocurrent;
   // Supprimer les écouteurs d'événements précédents
   let newVoteCorrectButton = voteCorrectButtonElement.cloneNode(true);
   voteCorrectButtonElement.parentNode.replaceChild(
@@ -1262,7 +1266,8 @@ function startVoting() {
     voteFalseButtonElement
   );
   voteFalseButtonElement = newVoteFalseButton;
-
+console.log("joueur en cours : " .  currentPlayer2);
+console.log("joueur en cours : " .  pseudo);
   if (currentPlayer2 !== pseudo) {
     voteCorrectButtonElement.style.display = "block";
     voteFalseButtonElement.style.display = "block";

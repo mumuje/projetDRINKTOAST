@@ -1124,12 +1124,14 @@ class Game
                 'pseudo' => $this->selectedPlayer->pseudo,
             );
             $this->broadcast(json_encode($message));
-        }
+        } 
         if ($this->isCardInPlay2 === 3 && $this->isCardInPlay3 === 3) {
             // Étape 4 : Demander à tous les joueurs de voter
             $message = array(
                 'type' => 'VOTE',
                 'content' => "Veuillez voter si la réponse est correcte.",
+                'pseudo' => $this->selectedPlayer->pseudo,
+                
             );
         }
         $this->broadcast(json_encode($message));
@@ -1554,7 +1556,7 @@ class Game
         // Générer un mini-jeu aléatoire
         foreach ($selectedPlayers as $player) {
             if (is_object($player)) {
-                echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer is an object\n";
+              //  echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tPlayer is an object\n";
             } else {
                 echo "[" . date('Y-m-d H:i:s') . "]"  . "Player is not an object\n";
             }
@@ -1659,8 +1661,8 @@ class Game
     public function playRound()
     {
         // Jouer le tour et obtenir le résultat
-        $this->player1Pseudo = $this->players[0]->pseudo;
-        $this->player2Pseudo = $this->players[1]->pseudo;
+        $this->player1Pseudo = $this->selectedPlayers[0]->pseudo;
+        $this->player2Pseudo = $this->selectedPlayers[1]->pseudo;
         if (get_class($this->miniGame) === 'TicTacToe') {
             // Pour le Morpion, jouer un tour pour chaque joueur
             $this->minigames->makeMove($this->player1Pseudo, $this->playerMoves[$this->player1Pseudo][0], $this->playerMoves[$this->player1Pseudo][1]);
@@ -1733,8 +1735,8 @@ class Game
                 } else if ($result !== null) {
                    // echo "FIN DE GUESSTHENUMBER" . $result . "\n";
                     $winnerPseudo = $result;
-                    $winner = $result;
-                    $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
+                    $winner = $this->selectedPlayers[0]->pseudo === $winnerPseudo ? $this->selectedPlayers[0] : $this->selectedPlayers[1];
+                    $loser = $this->selectedPlayers[0]->pseudo === $winner->pseudo ? $this->selectedPlayers[1] : $this->selectedPlayers[0];
                     $number = $this->sippurple;
                     $content = $winner->pseudo . " A trouvé la bonne réponse et " . $loser->pseudo . " doit boire " . $number . " gorgée(s) !";
                     $resultMessage = [
@@ -1765,6 +1767,7 @@ class Game
                     $this->selectedPlayers = [];
                     $this->player1 = null; 
                     $this->player2 = null; 
+
 
                 }
             }
@@ -1822,22 +1825,25 @@ class Game
                         }
                     }
                     if ($winner !== null && $winner !== 0) {
-                        $loser = $this->players[0]->pseudo === $winner->pseudo ? $this->players[1] : $this->players[0];
+                        $loser = $this->selectedPlayers[0]->pseudo === $winner->pseudo ? $this->selectedPlayers[1] : $this->selectedPlayers[0];
                         $this->selectedPlayer = $loser;
                         $this->selectedPlayer->sipsTaken += $number;
-                        $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !";
+                        $content = $winner !== null ? $winner->pseudo . " a gagné et " . $loser->pseudo  . " doit boire " . $number . " gorgée(s) !" : "Pas de gagnant tout le monde boit " . $number . " gorgée(s) !";
                     }
                     if ($winner === null) {
-                        $content = "Pas de gagnant tout le monde bois " . $number . " gorgée(s) !";
+                        $content = "Pas de gagnant " . $this->selectedPlayers[0]->pseudo . " et " . $this->selectedPlayers[1]->pseudo . " boivent " . $number . " gorgée(s) !";
                     }
                 } else if (get_class($this->miniGame) === 'RockPaperScissors') {
-                    $winner = $result === 1 ? $this->players[0] : ($result === 2 ? $this->players[1] : ($result === 0 ? 0 : null));
-                    $loser = $result === 1 ? $this->players[1] : ($result === 2 ? $this->players[0] : ($result === 0 ? 0 : null));
+                    $winner = $result === 1 ? $this->selectedPlayers[0] : ($result === 2 ? $this->selectedPlayers[1] : null);
+                    $loser = $this->selectedPlayers[0]->pseudo === $winner->pseudo ? $this->selectedPlayers[1] : $this->selectedPlayers[0];
                     $this->selectedPlayer = $loser;
                     if ($result !== 0) {
                     $this->selectedPlayer->sipsTaken += $number;
+                    $content = $winner->pseudo . " a eu la bonne réponse et " . $loser->pseudo . " doit boire " . $number . " gorgée(s) !";
+                    } else if ($result === 0 )
+                    {
+                        $content = "Il y a eu une égalité !";
                     }
-                    $content = $result === 1 ? $this->players[0]->pseudo . " a eu la bonne réponse et " . $this->players[1]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 2 ? $this->players[1]->pseudo . " a eu la bonne réponse et " . $this->players[0]->pseudo . " doit boire " . $number . " gorgée(s) !" : ($result === 0 ? "Il y a eu une égalité !" : null));
 
                     echo "[" . date('Y-m-d H:i:s') . "]"  . "\t\tLe gagnant est : " . ($winner !== null && $winner !== 0 ? $winner->pseudo . "\n": "\t\tPas de gagnant le pierre feille ciseaux recommence") . "\n";
                 }
