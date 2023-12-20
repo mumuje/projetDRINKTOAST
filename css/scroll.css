@@ -1,0 +1,17 @@
+/*scrollbar*/
+::-webkit-scrollbar {
+    width: 10px; /* Largeur de la scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--dark-color); /* Couleur du fond */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Couleur du curseur */
+    border-radius: 10px; /* Arrondissement des angles */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Couleur au survol */
+  }

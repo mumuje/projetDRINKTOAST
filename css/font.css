@@ -1,0 +1,73 @@
+@font-face {
+    font-family: 'Montserrat-Black';
+    src: url(../font/Montserrat-Black.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url(../font/Montserrat-Bold.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-ExtraBold';
+    src: url(../font/Montserrat-ExtraBold.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-ExtraLight';
+    src: url(../font/Montserrat-ExtraLight.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Light';
+    src: url(../font/Montserrat-Light.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url(../font/Montserrat-Medium.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url(../font/Montserrat-Regular.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-SemiBold';
+    src: url(../font/Montserrat-SemiBold.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Thin';
+    src: url(../font/Montserrat-Thin.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-ExtraBoldItalic';
+    src: url(../font/Montserrat-ExtraBoldItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-ExtraLightItalic';
+    src: url(../font/Montserrat-ExtraLightItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-Italic';
+    src: url(../font/Montserrat-Italic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-LightItalic';
+    src: url(../font/Montserrat-LightItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-MediumItalic';
+    src: url(../font/Montserrat-MediumItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-SemiBoldItalic';
+    src: url(../font/Montserrat-SemiBoldItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-ThinItalic';
+    src: url(../font/Montserrat-ThinItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-BlackItalic';
+    src: url(../font/Montserrat-BlackItalic.woff) format('woff');
+}
+@font-face {
+    font-family: 'Montserrat-BoldItalic';
+    src: url(../font/Montserrat-BoldItalic.woff) format('woff');
+}
+
