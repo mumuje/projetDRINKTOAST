@@ -34,8 +34,6 @@
 
       <div class="collapse navbar-collapse" id="navbarContent">
 
-
-
         <!-- Lien pour les règles -->
         <a class="navbar" href="regles.php">
           <h2 class="color-white">
