@@ -142,7 +142,7 @@
                             défi. Le compte à rebours s'enclenche, et le joueur B se précipite pour accomplir l'action
                             en face à face avec le groupe présent ou à travers les ondes pour le groupe en distancel.
                         </p>
-                        <p>Les 5 minutes s'écoulent, et voilà le dénouement ! La Carte Rouge réserve une surprise
+                        <p class="special-text2">Les 5 minutes s'écoulent, et voilà le dénouement ! La Carte Rouge réserve une surprise
                             supplémentaire : tous les participants vote sur la réussite ou non de
                             l'action du joueur B, chacune adaptée à son public respectif.</p>
                         <p class="special-text2"> Les rires fusent, les
