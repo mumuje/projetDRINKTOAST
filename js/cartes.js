@@ -51,3 +51,24 @@ document.addEventListener('DOMContentLoaded', function() {
         this.classList.toggle('active');
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function(){
+    $(".navbar-toggler").click(function(){
+      if ($("#navbarContent").hasClass("hidden")) {
+        $("#navbarContent").removeClass("hidden").addClass("slide-in");
+      } else {
+        $("#navbarContent").addClass("hidden").removeClass("slide-in");
+      }
+    });
+  });
+  

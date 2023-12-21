@@ -25,3 +25,35 @@ nav .title {
   text-align: center;
   color: #e9e9e9;
 }
+
+
+
+.navbar-collapse {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.navbar-collapse.show {
+  max-height: none;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  display: block;
+  animation: 1s ease-out 0s 1 slideInFromLeft;
+}
