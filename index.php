@@ -44,8 +44,9 @@
             </div>
             <div class="col-md-6">
               <div class="card-body">
-                <p class="card-text text-justify">Bienvenue sur DrinkToast, le jeu qui vous permet de vous amuser avec vos amis tout en buvant un coup !<br> Pour jouer, il vous suffit de créer un lobby et d'inviter vos amis à vous rejoindre. Une fois que tout le monde est prêt, vous pouvez lancer la partie et commencer à jouer !</p>
-              </div>
+                <p class="card-text text-justify">Bienvenue sur DrinkToast, le jeu qui vous permet de vous amuser avec vos amis tout en buvant un coup !<br> Pour jouer, il vous suffit de créer un lobby et d'inviter vos amis à vous rejoindre. Une fois que tout le monde est prêt, vous pouvez lancer la partie et commencer à jouer ! Pour voir le pouvoir de chaque carte cliquer <a href="cartes.php">ici</a></p>
+
+                            </div>
             </div>
           </div>
         </div>
