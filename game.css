@@ -268,6 +268,23 @@ body {
   align-items: center;
   z-index: 2;
 }
+
+@keyframes placeCard {
+  0% {
+    transform: perspective(600px) rotateX(-90deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(600px) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+
+
 .card-in-dropzone {
   position: absolute; /* Add this */
   width: 40%; /* Or any other size you want */
@@ -280,26 +297,38 @@ body {
   height: auto;
 }
 .card-in-dropzone.card-0 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(-10deg);
 }
 
 .card-in-dropzone.card-1 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(10deg);
 }
 
 .card-in-dropzone.card-2 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(-15deg);
 }
 
 .card-in-dropzone.card-3 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(15deg);
 }
 .card-in-dropzone.card-4 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(-5deg);
 }
 .card-in-dropzone.card-5 {
+  animation: placeCard 0.5s ease-out;
   transform: rotate(5deg);
 }
+
+
+
+
+
+
 
 #game-rules {
   position: absolute;
