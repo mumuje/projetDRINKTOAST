@@ -7,6 +7,7 @@ let playerList = document.getElementById("player-list");
 let Creator = false;
 var gameStarted3 = false;
 let socket;
+var pseudoform = document.querySelector('.d-flex.justify-content-center.mb-4.position-relative.w-100');
 
 /*************************************************************************/
 // =Connexion websocket
@@ -62,7 +63,8 @@ document.getElementById("create-lobby-form")
     console.log("Lobby créé : " + lobbyName + ", Pseudo : " + pseudo); // Affiche un message dans la console
     console.log("coucou" + lobbyName); // Affiche un autre message dans la console
     document.getElementById("pseudo-form").style.display = "none"; // Cache le formulaire de pseudo
-  });
+    pseudoform.style.setProperty("display", "none", "important");
+      });
 
 // Une fonction qui empêche l'action par défaut lors d'un clic
 const handleClick = (event) => {
@@ -172,8 +174,8 @@ if (lobbyList) {
           document.getElementById("lobby-creation").style.display = "none";
 
           document.getElementById("pseudo-form").style.display = "none";
-
-          // Affichez les informations sur le lobby
+          pseudoform.style.setProperty("display", "none", "important");
+                    // Affichez les informations sur le lobby
           document.getElementById("lobby-info").style.display = "block";
 
           // Mettez à jour le nom du lobby affiché
@@ -365,6 +367,7 @@ if (lobbyList) {
         // MESSAGE joinLobbyFailed DU SERVEUR
     else if (data.type === "joinLobbyFailed") {
       document.getElementById("pseudo-form").style.display = "block";
+      pseudoform.style.display = "block ";
 
       document.getElementById("lobby-creation").style.display = "block";
 
@@ -384,6 +387,7 @@ if (lobbyList) {
       window.location.href = `game.php?lobby=${encodeURIComponent(lobbyName)}`;
     } else if (data.type === "error") {
       document.getElementById("pseudo-form").style.display = "block";
+      pseudoform.style.display = "block";
 
       document.getElementById("lobby-creation").style.display = "block";
 

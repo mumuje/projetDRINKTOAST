@@ -16,6 +16,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: rgb(240, 240, 240) !important; /* Remplacez par la couleur RGB que vous voulez */
+
 
 }
 
@@ -24,6 +26,10 @@ footer {
   color: var(--light-color);
   margin-top: auto;
   width: 100%;
+}
+
+.custom-bg {
+  background-color: rgb(255, 255, 255); /* Remplacez par la couleur RGB que vous voulez pour le conteneur */
 }
 
 /********************************************************************************************************/
@@ -138,7 +144,7 @@ footer {
 }
 
 .creator .crown-icon {
-  height: 30px; /* Ajustez la taille de l'image de la couronne comme vous le souhaitez */
+  height: 30px; 
 }
 
 .game-item {
@@ -155,11 +161,11 @@ footer {
   text-decoration: none;
   border-radius: 5px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Ajoutez une ombre pour donner un effet de carte */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); 
 }
 
 .game-item a:hover {
-  background-color: #f44336; /* Utilisez une couleur plus vive */
+  background-color: #f44336; 
   color: #fff;
   font-size: 1.1em;
 }
@@ -168,3 +174,57 @@ a.disabled {
   color: gray;
   pointer-events: none;
 }
+
+
+#game-rules {
+  border: 3px solid rgb(131, 127, 119);
+  background-color: #f3efef;
+  z-index: 0;
+  color: rgb(143, 140, 135);
+  border-radius: 20px;
+  margin-bottom: 20px; 
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+#rules-image {
+  width: 120px; 
+  margin: 10px; 
+}
+
+
+
+
+
+
+
+
+/* ====================================================================================================== */
+  /* ====================================media queries================================================= */
+@media (max-width: 576px) {
+  .alert {
+    font-size: 1rem; /* Ajustez cette valeur en fonction de vos besoins */
+  }
+  #rules-image {
+    width: 60px; 
+  }
+  #game-rules ul {
+    margin-left: 5px;
+    padding-left: 5px;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

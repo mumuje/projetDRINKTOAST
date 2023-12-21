@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+<div class="container custom-bg pl-0 pr-0">
   <nav class="navbar navbar-expand-lg" style="background-color: var(--dark-color)">
 
     <a class="navbar-brand" href="index.php">
@@ -53,7 +53,8 @@
 
 
       <!-- Formulaire pour enregistrer le pseudo -->
-      <div class="d-flex justify-content-center mb-4"> <!-- ADD PAR ADRIEN LE 18/12 -->
+      <div class="d-flex justify-content-center mb-4 position-relative w-100"> <!-- ADD PAR ADRIEN LE 18/12 -->
+  <div class="left-image position-absolute d-none d-md-block"></div>
   <div class="col-12 col-md-8 col-lg-5">  <!-- """" ICI C'est POUR LE RESPOONSIVE -->
       <div class="card-body"> <!-- ADD PAR ADRIEN LE 18/12  SA C DES TRUC BOOSTRAP -->
         <form id="pseudo-form" method="post" class="mb-4">
@@ -65,7 +66,8 @@
         </form>
       </div>
     </div>
-  </div>
+  <div class="right-image position-absolute d-none d-md-block"></div>
+</div>
 
 
       <!-- Création et gestion de lobby -->
@@ -98,21 +100,43 @@
 
       <!-- Informations sur le lobby -->
       <div id="lobby-info" class="container" style="display: none;">
-  <div class="row justify-content-center">
+      <div class="row justify-content-center position-relative">
+  <div class="left-image2 position-absolute d-none d-md-block"></div>
+
     <div class="col-12 col-md-8 col-lg-6">
       <h1 class="text-center p-3 border rounded bg-light shadow">Lobby: <span id="lobby-name-display"></span></h1>
       <h3 id="player-count" class="text-center">Joueurs:</h3>
       <ul id="player-list" class="list-group">
         <!-- La liste des joueurs sera ajoutée ici par le script JavaScript -->
       </ul>
-      <button type="button" id="start-game" class="btn btn-success mt-3" onclick="startGame()">Lancer la partie</button>
+      <button type="button" id="start-game" class="btn btn-success mt-3 start-game-button" onclick="startGame()">Lancer la partie</button>
       <p id="error-message" class="text-danger"></p>
-      <div id="game-rules" class="mt-4 text-center">
-        <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image" class="img-fluid" width="100px">
-        <h3>Règles du jeu :</h3>
-        <!-- Règles du jeu ici -->
-      </div>
+
+      <div id="game-rules" class="card">
+  <div class="card-body position-relative">
+    <div class="col-12 col-sm-6">
+      <h3 class="card-title">Règles du jeu :</h3>
+      <p class="card-text"><strong>CONCEPT DU JEU :</strong></p>
     </div>
+    <img src="img/regle.png" alt="voici les petites régles d'amour" id="rules-image" class="card-img-top position-absolute" style="right: 0; top: 0;">
+    <div>
+      <p class="card-text">6 cartes différentes</p>
+      <ul class="card-text">
+        <li>Carte Bleue -> Devine le nombre</li>
+        <li>Carte Jaune -> Question général sinon X gorgée(s)</li>
+        <li>Carte Rouge -> Action physique sinon X gorgée(s)</li>
+        <li>Carte Verte -> Énigme sinon X gorgée(s)</li>
+        <li>Carte RARE Multicolore -> Tout le monde prend X gorgée(s)</li>
+        <li>Carte RARE Violette -> 2 joueurs dans un mini jeu (1v1)</li>
+      </ul>
+      <!-- Ajoutez plus de règles ici -->
+    </div>
+  </div>
+</div>
+
+    </div>
+    <div class="right-image2 position-absolute d-none d-md-block"></div>
+
   </div>
 </div>
 <div class="mb-4 text-center">
@@ -163,6 +187,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <!-- Votre script JS -->
   <script src="js/app.js"></script>
+</div>
 </body>
 
 </html>

@@ -1034,17 +1034,17 @@ class Game
     }
     public function playmulticolorCard($player)
     {
-        $numbers = array_fill(0, 150, 1) // 1 apparaît 15% du temps
+        $numbers = array_fill(0, 151, 1) // 1 apparaît 15.1% du temps
             + array_fill(150, 200, 2) // 2 apparaît 20% du temps
             + array_fill(350, 190, 3) // 3 apparaît 19% du temps
             + array_fill(540, 150, 4) // 4 apparaît 15% du temps
             + array_fill(690, 120, 5) // 5 apparaît 12% du temps
-            + array_fill(810, 75, 6) // 6 apparaît 7.5% du temps
-            + array_fill(885, 45, 7) // 7 apparaît 4.5% du temps
-            + array_fill(930, 35, 8) // 8 apparaît 3.5% du temps
-            + array_fill(965, 15, 9) // 9 apparaît 1.5% du temps
+            + array_fill(810, 79, 6) // 6 apparaît 7.9% du temps
+            + array_fill(885, 48, 7) // 7 apparaît 4.8% du temps
+            + array_fill(930, 37, 8) // 8 apparaît 3.7% du temps
+            + array_fill(965, 16, 9) // 9 apparaît 1.6% du temps
             + array_fill(980, 15, 10) // 10 apparaît 1.5% du temps
-            + array_fill(995, 5, 15); // 15 apparaît 0.5% du temps
+            + array_fill(995, 1, 15); // 15 apparaît 0.1% du temps
 
         $number = $numbers[array_rand($numbers)];
         $multicolorCardPlayer = $player;

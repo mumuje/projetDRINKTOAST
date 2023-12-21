@@ -1,9 +1,48 @@
 .left-image {
-    left: 40px;
-    background-image: url('../img/test.png');
-  }
-  
-  .right-image {
-    right: 40px;
-    background-image: url('../img/test2.png');
-  }
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 100%;
+  background-image: url('../img/test.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.right-image {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  height: 100%;
+  background-image: url('../img/test2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.left-image2 {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10vw; /* Utilisez vw pour une largeur responsive */
+  height: 50vh; /* Utilisez vh pour une hauteur responsive */
+  background-image: url('../img/test.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.right-image2 {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10vw; /* Utilisez vw pour une largeur responsive */
+  height: 50vh; /* Utilisez vh pour une hauteur responsive */
+  background-image: url('../img/test2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
