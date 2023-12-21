@@ -17,12 +17,12 @@ if (socket && socket.readyState === WebSocket.OPEN) {
 socket = new WebSocket("ws://109.122.198.14:8080/websocket");
 
 socket.addEventListener("open", (event) => {
-  console.log("Connexion WebSocket ouverte");
+ // console.log("Connexion WebSocket ouverte");
   socket.send(JSON.stringify({ type: "getLobbyList" }));
 });
 
 socket.addEventListener("message", (event) => {
-  console.log("Message reçu du serveur WebSocket:", event.data);
+ // console.log("Message reçu du serveur WebSocket:", event.data);
   const data = JSON.parse(event.data);
 
   if (data.type === "lobbyList") {
@@ -31,7 +31,7 @@ socket.addEventListener("message", (event) => {
 });
 
 socket.addEventListener("close", (event) => {
-  console.log("Connexion WebSocket fermée");
+ // console.log("Connexion WebSocket fermée");
 });
 
 socket.addEventListener("error", (event) => {
@@ -60,8 +60,7 @@ document.getElementById("create-lobby-form")
         password: lobbyPassword,
       })
     );
-    console.log("Lobby créé : " + lobbyName + ", Pseudo : " + pseudo); // Affiche un message dans la console
-    console.log("coucou" + lobbyName); // Affiche un autre message dans la console
+    //console.log("Lobby créé : " + lobbyName + ", Pseudo : " + pseudo); // Affiche un message dans la console
     document.getElementById("pseudo-form").style.display = "none"; // Cache le formulaire de pseudo
     pseudoform.style.setProperty("display", "none", "important");
       });
@@ -103,7 +102,7 @@ window.onload = function () {
       // Si aucun pseudo n'a été enregistré
       // Enregistrer le pseudo
       localStorage.setItem("pseudo", pseudo);
-      console.log("Pseudo enregistré : " + localStorage.getItem("pseudo")); // Affiche le pseudo dans la console
+    //  console.log("Pseudo enregistré : " + localStorage.getItem("pseudo")); // Affiche le pseudo dans la console
       // Remplacer le champ de saisie par le pseudo
       pseudoInput.type = "text";
       pseudoInput.value = pseudo;
@@ -121,7 +120,7 @@ window.onload = function () {
 const lobbyList = document.getElementById("lobby-list");
 if (lobbyList) {
   socket.addEventListener("message", (event) => {
-    console.log("Message reçu du serveur WebSocket:", event.data);
+  //  console.log("Message reçu du serveur WebSocket:", event.data);
     const data = JSON.parse(event.data);
 
     /***********************************************/
@@ -180,7 +179,7 @@ if (lobbyList) {
 
           // Mettez à jour le nom du lobby affiché
           if (lobby.requiresPassword) {
-            console.log("Le lobby nécessite un mot de passe");
+          //  console.log("Le lobby nécessite un mot de passe");
             document.getElementById(
               "lobby-name-display"
             ).innerHTML = `${lobby.name} <img src="img/cadena.png" alt="Cadenas" style="width: 30px; height: 30px;">`;
@@ -261,7 +260,7 @@ if (lobbyList) {
       /***********************************************/
       // MESSAGE LOBBYJOINED DU SERVEUR
     else if (data.type === "lobbyJoined") {
-      console.log("Joined lobby");
+    //  console.log("Joined lobby");
       currentLobby = data.lobbyName;
       const playerList = document.getElementById("player-list");
       playerList.innerHTML = "";
@@ -288,7 +287,7 @@ if (lobbyList) {
           /***********************************************/
           // MESSAGE LOBBYUPDATED DU SERVEUR
     else if (data.type === "lobbyUpdated") {
-      console.log("lobb updated");
+    //  console.log("lobb updated");
       const lobbyName = data.lobbyName;
       const playerCount =
         document.getElementById("player-list").children.length;
@@ -322,7 +321,7 @@ if (lobbyList) {
       updatePlayerCount();
     } else if (data.type === "playerJoined" && !playersInCurrentLobby.has(data.pseudo))
      {
-      console.log("player joined");
+    //  console.log("player joined");
       const pseudo = data.pseudo;
       const playerList = document.getElementById("player-list");
       const listItem = document.createElement("li");
@@ -381,7 +380,7 @@ if (lobbyList) {
         // MESSAGE joinLobbyFailed DU SERVEUR
     else if (data.type === "startGame") {
       gameStarted3 = data.gameStarted;
-      console.log(gameStarted3);
+    //  console.log(gameStarted3);
       const lobbyName =
         document.getElementById("lobby-name-display").textContent;
       window.location.href = `game.php?lobby=${encodeURIComponent(lobbyName)}`;
@@ -418,11 +417,11 @@ function startGame() {
       return;
     }
     errorMessageElement.textContent = ""; 
-    console.log("création de la partie!");
+   // console.log("création de la partie!");
     const lobbyName = document.getElementById("lobby-name-display").textContent;
     socket.send(JSON.stringify({ type: "startGame", lobbyName }));
   } else {
-    console.log("no createur");
+  //  console.error("vous n'etes pas le créateur");
     errorMessageElement.textContent =
       "Erreur : Seul le créateur de la partie peut lancer la partie.";
   }
@@ -465,9 +464,9 @@ function updateLobbyList(lobbies) {
 // lorsque l'utilisateur saisit du texte dans le champ de saisie
 //
 
-function updateCounter() {
+/*function updateCounter() {
   var remaining = 1000 - document.getElementById("message").value.length;
   document.getElementById("counter").textContent =
     remaining + " caractères restants";
 }
-updateCounter();
+updateCounter();*/
