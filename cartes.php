@@ -9,7 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <!-- Votre style CSS -->
     <?php include 'include_css.php'; ?>
 
@@ -17,54 +17,47 @@
 </head>
 
 <body>
-<div class="container custom-bg pl-0 pr-0">
     <nav class="navbar navbar-expand-lg" style="background-color: var(--dark-color)">
 
-            <a class="navbar-brand" href="index.php">
-                <img src="img/logo.png" alt="Logo" class="logo" width="100px">
+        <a class="navbar-brand" href="index.php">
+            <img src="img/logo.png" alt="Logo" class="logo" width="100px">
+        </a>
+
+        <a class="navbar" href="index.php">
+            <h1 class="title">DrinkToast</h1>
+        </a>
+
+        <button class="navbar-toggler light" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-list" style="color:white; font-size: 48px;"></i>
+        </button>
+
+        <div class="collapse navbar-collapse hidden" id="navbarContent">
+
+            <!-- Lien pour les règles -->
+            <a class="navbar" href="regles.php">
+                <h2 class="color-white">
+                    <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
+                    Règles
+                </h2>
             </a>
 
-            <a class="navbar-brand" href="index.php">
-                <h1 class="color-red title">DrinkToast</h1>
+            <!-- Lien pour la carte -->
+            <a class="navbar" href="cartes.php">
+                <h2 class="color-white">
+                    <i class="bi bi-joystick"></i> <!-- Icône de carte à jouer -->
+                    Carte
+                </h2>
             </a>
 
+        </div>
 
-            <button class="navbar-toggler light" type="button" data-toggle="collapse" data-target="#navbarContent"
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list" style="color:white; font-size: 48px;"></i>
-            </button>
+    </nav>
 
-            <div class="collapse navbar-collapse hidden" id="navbarContent">
-
-
-
-                <!-- Lien pour les règles -->
-                <a class="navbar" href="index.php">
-                    <h2 class="color-white">
-                        <i class="bi bi-house-door-fill"></i>
-                        Acceuil
-                    </h2>
-                </a>
-
-                <!-- Lien pour la carte -->
-                <a class="navbar" href="regles.php">
-                    <h2 class="color-white">
-                        <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
-                        regles
-                    </h2>
-                </a>
-
-            </div>
-
-
-
-        </nav>
-
-        <div class="container mt-4">
-            <header class="text-center mb-4">
-                <h1 class="title-1">Les cartes :</h1>
-            </header>
-            <main>
+    <div class="container container-wide mt-4">
+        <header class="text-center mb-4">
+            <h1 class="title-1">Les cartes :</h1>
+        </header>
+        <main>
             <div class="cards-container">
                 <!----------------------------------CARTE BLEU---------------------------------->
 
@@ -72,8 +65,7 @@
                     <div class="overlay">
                         <div class="overlay-content animate slide-left delay-2">
                             <h1 class="animate slide-left pop delay-4">Bleu</h1>
-                            <p class="animate slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animate slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Commune: <em>devine le nombre</em></p>
                         </div>
                         <div class="image-content animate slide delay-5"></div>
@@ -115,8 +107,7 @@
                     <div class="overlayJaune">
                         <div class="overlay-contentJaune animateJaune slide-left delay-2">
                             <h1 class="animateJaune slide-left pop delay-4">Jaune</h1>
-                            <p class="animateJaune slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animateJaune slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Commune: <em>Question General</em></p>
                         </div>
                         <div class="image-contentJaune animate slide delay-5"></div>
@@ -160,8 +151,7 @@
                     <div class="overlayRouge">
                         <div class="overlay-contentRouge animateRouge slide-left delay-2">
                             <h1 class="animateRouge slide-left pop delay-4">Rouge</h1>
-                            <p class="animateRouge slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animateRouge slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Commune: <em>Action</em></p>
                         </div>
                         <div class="image-contentRouge animate slide delay-5"></div>
@@ -207,8 +197,7 @@
                     <div class="overlayVerte">
                         <div class="overlay-contentVerte animateVerte slide-left delay-2">
                             <h1 class="animateVerte slide-left pop delay-4">Verte</h1>
-                            <p class="animateVerte slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animateVerte slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Commune: <em>Enigme</em></p>
                         </div>
                         <div class="image-contentVerte animate slide delay-5"></div>
@@ -251,8 +240,7 @@
                     <div class="overlayMulticolore">
                         <div class="overlay-contentMulticolore animateMulticolore slide-left delay-2">
                             <h1 class="animateMulticolore slide-left pop delay-4 custom-h1">Multicolore</h1>
-                            <p class="animateMulticolore slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animateMulticolore slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Rare: <em>Boisson en folie</em></p>
                         </div>
                         <div class="image-contentMulticolore animate slide delay-5"></div>
@@ -263,8 +251,7 @@
                         </div>
                     </div>
                     <div class="textMulticolore">
-                        <p class="special-text2"><img class="insetMulticolore" src="img/multicolor.png"
-                                alt="" />Bienvenue dans l'intriguant
+                        <p class="special-text2"><img class="insetMulticolore" src="img/multicolor.png" alt="" />Bienvenue dans l'intriguant
                             défi de la Carte Multicolore, un tourbillon mystérieux qui va teinter votre soirée d'une
                             aura magique !</p>
                         <p class="special-text2">Le joueur astucieux qui arbore fièrement la carte Multicolore détient
@@ -289,8 +276,7 @@
                     <div class="overlayViolette">
                         <div class="overlay-contentViolette animateViolette slide-left delay-2">
                             <h1 class="animateViolette slide-left pop delay-4">Violette</h1>
-                            <p class="animateViolette slide-left pop delay-5 special-text"
-                                style="color: white; margin-bottom: 2.5rem;">
+                            <p class="animateViolette slide-left pop delay-5 special-text" style="color: white; margin-bottom: 2.5rem;">
                                 Rare: <em>Grand duel de Gorgées</em></p>
                         </div>
                         <div class="image-contentViolette animate slide delay-5"></div>
@@ -340,55 +326,54 @@
                     <p class="alert alert-danger">L'abus d'alcool est dangereux pour la santé, à consommer avec
                         modération. <br> Vous pouvez jouer sans boire!!</p>
                 </div>
-</div>
-            </main>
+            </div>
+        </main>
 
 
 
-        </div>
+    </div>
 
-        <footer class="bg-dark text-white pt-4 pb-4 mt-5">
-            <div class="container">
-                <div class="row">
-                    <!-- Section À propos -->
-                    <div class="col-md-4 mb-3">
-                        <h5>À propos de DrinkToast</h5>
-                    </div>
-
-                    <!-- Section Liens utiles -->
-                    <div class="col-md-4 mb-3">
-                        <h5>Liens utiles</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-white">Politique de confidentialité</a></li>
-                            <li><a href="#" class="text-white">Termes et conditions</a></li>
-                            <li><a href="#" class="text-white">FAQ</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Section Contact et réseaux sociaux -->
-                    <div class="col-md-4 mb-3">
-                        <h5>Contactez-nous</h5>
-                        <p>Email : <a class="link" href="mailto:drinktoastgame@gmail.com">drinktoastgame@gmail.com</a>
-                        </p>
-                    </div>
+    <footer class="bg-dark text-white pt-4 pb-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Section À propos -->
+                <div class="col-md-4 mb-3">
+                    <h5>À propos de DrinkToast</h5>
                 </div>
 
-                <div class="border-top pt-3 mt-3">
-                    <p class="mb-0">&copy; 2023 DrinkToast</p>
-                    <p style="font-size: small;">Version 1.0.0</p>
+                <!-- Section Liens utiles -->
+                <div class="col-md-4 mb-3">
+                    <h5>Liens utiles</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Politique de confidentialité</a></li>
+                        <li><a href="#" class="text-white">Termes et conditions</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Section Contact et réseaux sociaux -->
+                <div class="col-md-4 mb-3">
+                    <h5>Contactez-nous</h5>
+                    <p>Email : <a class="link" href="mailto:drinktoastgame@gmail.com">drinktoastgame@gmail.com</a>
+                    </p>
                 </div>
             </div>
-        </footer>
+
+            <div class="border-top pt-3 mt-3">
+                <p class="mb-0">&copy; 2023 DrinkToast</p>
+                <p style="font-size: small;">Version 1.0.0</p>
+            </div>
+        </div>
+    </footer>
 
 
-        <!-- Bootstrap JS et jQuery -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <!-- Votre script JS -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="js/cartes.js"></script>
-    </div>
+    <!-- Bootstrap JS et jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Votre script JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/cartes.js"></script>
 </body>
 
 </html>

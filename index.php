@@ -17,7 +17,6 @@
 </head>
 
 <body>
-  <div class="container custom-bg pl-0 pr-0">
     <nav class="navbar navbar-expand-lg" style="background-color: var(--dark-color)">
 
       <a class="navbar-brand" href="index.php">
@@ -25,7 +24,7 @@
       </a>
 
       <a class="navbar" href="index.php">
-        <h1 class="color-red title">DrinkToast</h1>
+        <h1 class="title">DrinkToast</h1>
       </a>
 
       <button class="navbar-toggler light" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -209,7 +208,6 @@
           <p class="mb-0">&copy; 2023 DrinkToast</p>
           <p style="font-size: small;">Version 1.0.0</p>
         </div>
-      </div>
     </footer>
 
 

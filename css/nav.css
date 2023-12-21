@@ -31,7 +31,7 @@ nav .title {
 .navbar-collapse {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease-out;
+  transition: max-height 0.1s ease-out;
 }
 
 .navbar-collapse.show {
@@ -55,5 +55,5 @@ nav .title {
 
 .slide-in {
   display: block;
-  animation: 1s ease-out 0s 1 slideInFromLeft;
+  animation: 0.5s ease-out;
 }
