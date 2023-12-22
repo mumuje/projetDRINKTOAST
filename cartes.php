@@ -33,19 +33,20 @@
 
         <div class="collapse navbar-collapse hidden" id="navbarContent">
 
-            <!-- Lien pour les règles -->
-            <a class="navbar" href="regles.php">
+          
+
+            <!-- Lien pour la carte -->
+            <a class="navbar" href="index.php">
+                <h2 class="color-white">
+                <i class="bi bi-house-door-fill"></i>
+                 Acceuil
+                </h2>
+            </a>
+              <!-- Lien pour les règles -->
+              <a class="navbar" href="regles.php">
                 <h2 class="color-white">
                     <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
                     Règles
-                </h2>
-            </a>
-
-            <!-- Lien pour la carte -->
-            <a class="navbar" href="cartes.php">
-                <h2 class="color-white">
-                    <i class="bi bi-joystick"></i> <!-- Icône de carte à jouer -->
-                    Carte
                 </h2>
             </a>
 

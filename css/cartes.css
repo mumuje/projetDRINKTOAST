@@ -623,7 +623,7 @@ h1 {
       #008000
     )
     1;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
   position: relative;
   overflow: hidden;
 }
@@ -634,7 +634,7 @@ h1 {
   height: 100%;
   padding: 1rem 0.75rem;
   background: #008000; /* Code couleur pour le vert */
-  transition: 0.4s ease-in-out;
+  transition: 0.3s ease-in-out;
   z-index: 1;
 }
 .overlay-contentVerte {
@@ -652,7 +652,7 @@ h1 {
       /* Vert vif au milieu */ #006400 95% /* Vert foncé en bas */
     )
     0 0 0 100%;
-  transition: 0.3s ease-in-out 0.2s;
+  transition: 0.2s ease-in-out 0.2s;
   z-index: 1;
 }
 .image-contentVerte {
@@ -663,7 +663,7 @@ h1 {
   height: 100%;
   background-image: url("../img/vertecarte.jpg");
   background-size: cover;
-  transition: 0.3s ease-in-out;
+  transition: 0.2s ease-in-out;
   /* border: 1px solid green; */
 }
 .insetVerte {
@@ -683,7 +683,7 @@ h1 {
   align-items: center;
   width: 55px;
   height: 4vmin;
-  transition: 0.3s ease-in-out 0.3s;
+  transition: 0.2s ease-in-out 0.2s;
 }
 .dotVerte {
   width: 14px;
@@ -691,7 +691,7 @@ h1 {
   background: #008000; /* Code couleur pour le vert */
   border: 1px solid #006400; /* Bordure en vert foncé */
   border-radius: 50%;
-  transition: 0.3s ease-in-out 0.3s;
+  transition: 0.2s ease-in-out 0.2s;
 }
 
 .textVerte {
@@ -714,7 +714,7 @@ h1 {
 }
 .wrapVerte:hover .overlay-contentVerte {
   border: none;
-  transition-delay: 0.2s;
+  transition-delay: 0.1s;
   transform: translateX(60vmin);
   display: none !important;
 }

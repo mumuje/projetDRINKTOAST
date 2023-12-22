@@ -475,9 +475,12 @@ updateCounter();*/
 $(document).ready(function(){
   $(".navbar-toggler").click(function(){
     if ($("#navbarContent").hasClass("hidden")) {
-      $("#navbarContent").removeClass("hidden").addClass("slide-in");
+      $("#navbarContent").removeClass("hidden");
+      setTimeout(function() {
+        $("#navbarContent").addClass("slide-in");
+      }, 0.5);
     } else {
-      $("#navbarContent").addClass("hidden").removeClass("slide-in");
+      $("#navbarContent").removeClass("slide-in").addClass("hidden");
     }
   });
 });

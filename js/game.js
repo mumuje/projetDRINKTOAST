@@ -194,12 +194,17 @@ function openSocketConnection() {
       /*******************************************/
       // message du serveur endGame
     } else if (data.type === "endGame") {
+      const gameScene = document.getElementById("game-scene");
       var endTurnElement = document.getElementById("end-turn");
+      endTurnElement.remove();
       endTurnElement.classList.add("hidden");
       // console.log('data.message:', data.message);
       endTurnButton = document.getElementById("end-turn");
       endTurnButton.style.display = "none";
       gameStarted = false;
+      localStorage.setItem("gameStarted", gameStarted);
+      gameScene.innerHTML = ""; // Clear the game scene
+      endTurnElement.innerHTML = ""; // Clear the game scene
       //console.log('Game ended, gameStarted:', gameStarted);
       updateButtonDisplay();
       endTurnButton.style.display = "none";
@@ -684,6 +689,9 @@ dropzone.addEventListener("drop", function (event) {
       pseudo: pseudo,
     })
   );
+  setTimeout(function() {
+    cardElement.style.animation = "";
+  }, 500);
 });
 let activeCardId = null;
 
@@ -703,8 +711,39 @@ dropzone.addEventListener("touchend", function (event) {
       })
     );
     activeCardId = null;
+    setTimeout(function() {
+      cardElement.style.animation = "";
+    }, 500);
   }
 });
+
+if (!isMobileDevice()) {
+
+dropzone.addEventListener("mouseup", function (event) {
+  console.log("mouseup");
+  if (activeCardId) {
+    //  console.log('Dropped card ID:', activeCardId);
+    const cardElement = document.getElementById(activeCardId);
+    cardElement.classList.add("card-selected");
+    cardElement.classList.add("card-in-dropzone");
+    dropzone.appendChild(cardElement);
+    socket.send(
+      JSON.stringify({
+        type: "playCard",
+        cardId: activeCardId,
+        lobbyName: lobbyName,
+        pseudo: pseudo,
+      })
+    );
+    activeCardId = null;
+    setTimeout(function() {
+      cardElement.style.animation = "";
+    }, 500);
+  }
+});
+
+}
+
 
 function updateGameState(gameState) {
   const gameScene = document.getElementById("game-scene");
@@ -838,6 +877,9 @@ console.log(pseudo); // Vérifiez que pseudo est défini
           //  console.log('Card ID:', cardElement.id); // Log the card ID
           event.dataTransfer.setData("text/plain", cardElement.id);
         });
+
+
+
         cardElement.addEventListener("touchstart", function (event) {
           // Obtenir toutes les cartes
           var cards = document.querySelectorAll(".card");
@@ -860,9 +902,50 @@ console.log(pseudo); // Vérifiez que pseudo est défini
             activeCardId = currentCard.id;
           }
         });
+
+
+        if (!isMobileDevice()) {
+
+        cardElement.addEventListener("click", function (event) {
+          console.log("click");
+        
+          // Obtenir toutes les cartes
+          var cards = document.querySelectorAll(".card");
+
+          // Utiliser event.currentTarget à la place de cardElement
+          var currentCard = event.currentTarget;
+
+          // Si la carte cliquée était déjà sélectionnée, la désélectionner
+          if (currentCard.classList.contains("card-selected")) {
+            currentCard.classList.remove("card-selected");
+            activeCardId = null;
+          } else {
+            // Parcourir toutes les cartes et les désélectionner
+            for (var i = 0; i < cards.length; i++) {
+              cards[i].classList.remove("card-selected");
+            }
+
+            // Si la carte cliquée n'était pas sélectionnée, la sélectionner
+            currentCard.classList.add("card-selected");
+            activeCardId = currentCard.id;
+          }
+        });
+
+
+        cardElement.addEventListener("mousemove", function (event) {
+          console.log("mousemove");
+            event.preventDefault(); // Empêcher le comportement par défaut
+          
+        });
+      }
+
         cardElement.addEventListener("touchmove", function (event) {
           event.preventDefault(); // Prevent scrolling on touch devices
         });
+
+
+
+
 
         const cardImage = document.createElement("img");
         cardImage.src = card.image;
@@ -1472,6 +1555,8 @@ game.updateMove = function (pseudo, move) {
     })
   );
 };
-
+function isMobileDevice() {
+  return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+};
 // Appeler la fonction pour ouvrir la connexion WebSocket
 openSocketConnection();
