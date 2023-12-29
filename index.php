@@ -32,24 +32,30 @@
       </button>
 
       <div class="collapse navbar-collapse hidden" id="navbarContent">
+  <div class="row">
 
-        <!-- Lien pour les règles -->
-        <a class="navbar" href="regles.php">
-          <h2 class="color-white">
-            <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
-            Règles
-          </h2>
-        </a>
+    <!-- Lien pour les règles -->
+    <div class="col-lg-2">
+      <a class="navbar" href="regles.php">
+        <h2 class="color-white">
+          <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
+          Règles
+        </h2>
+      </a>
+    </div> 
 
-        <!-- Lien pour la carte -->
-        <a class="navbar" href="cartes.php">
-          <h2 class="color-white">
-            <i class="bi bi-joystick"></i> <!-- Icône de carte à jouer -->
-            Carte
-          </h2>
-        </a>
+    <!-- Lien pour la carte -->
+    <div class="col-lg-2"> 
+      <a class="navbar" href="cartes.php">
+        <h2 class="color-white">
+          <i class="bi bi-joystick"></i> <!-- Icône de carte à jouer -->
+          Carte
+        </h2>
+      </a>
+    </div> 
 
-      </div>
+  </div> 
+</div>
 
     </nav>
 

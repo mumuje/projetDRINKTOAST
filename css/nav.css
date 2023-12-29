@@ -26,20 +26,29 @@ nav .title {
   color: #e9e9e9;
 }
 
-
-
 .navbar-collapse {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.1s ease-out;
+  max-height: none;
+  overflow: visible;
+}
+
+.navbar-collapse.hidden {
+  display: block !important;
 }
 
 .navbar-collapse.show {
   max-height: none;
 }
+@media (max-width: 992px) {
+  .navbar-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.1s ease-out;
+  }
+  .hidden {
+    display: none;
+  }
+  
 
-.hidden {
-  display: none;
 }
 
 @keyframes slideInFromLeft {
