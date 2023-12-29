@@ -37,7 +37,7 @@
           
 
             <!-- Lien pour la carte -->
-            <div class="col-lg-2"> <!-- Ajoutez cette ligne -->
+            <div class="col-lg-2"> 
             <a class="navbar" href="index.php">
                 <h2 class="color-white">
                 <i class="bi bi-house-door-fill"></i>
@@ -46,13 +46,13 @@
             </a>
             </div>
               <!-- Lien pour les règles -->
-              <div class="col-lg-2"> <!-- Ajoutez cette ligne -->
+            <!--  <div class="col-lg-2"> 
               <a class="navbar" href="regles.php">
                 <h2 class="color-white">
-                    <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
+                    <i class="bi bi-list-nested"></i>  Icône de règles 
                     Règles
                 </h2>
-            </a>
+            </a>-->
 
 </div> 
 </div> 

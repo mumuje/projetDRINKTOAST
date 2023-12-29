@@ -35,14 +35,14 @@
   <div class="row">
 
     <!-- Lien pour les règles -->
-    <div class="col-lg-2">
+   <!-- <div class="col-lg-2">
       <a class="navbar" href="regles.php">
         <h2 class="color-white">
-          <i class="bi bi-list-nested"></i> <!-- Icône de règles -->
+          <i class="bi bi-list-nested"></i>  Icône de règles 
           Règles
         </h2>
       </a>
-    </div> 
+    </div> -->
 
     <!-- Lien pour la carte -->
     <div class="col-lg-2"> 
